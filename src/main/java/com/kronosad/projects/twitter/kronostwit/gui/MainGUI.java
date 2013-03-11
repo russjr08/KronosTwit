@@ -20,6 +20,7 @@ public class MainGUI extends JFrame{
     private JList dataList;
     private JPanel panel1;
     public static DefaultListModel list = new DefaultListModel();
+    private Timer tm;
 
 
     public MainGUI() {
@@ -46,21 +47,30 @@ public class MainGUI extends JFrame{
         frame.add(scrollPane);
         frame.show();
 
-        final Timer tm = new Timer(100000, new ActionListener() {
+        tm = new Timer(100000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Status Update Performed.");
+
 
 
                 list.clear();
 
                 try {
                     for(Status status : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
-                        list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
+
+                            list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
 
                     }
                 } catch (TwitterException exception) {
                     exception.printStackTrace();
+                    if(exception.getStatusCode() == 429){
+                        System.out.println("ERROR: Twitter limit reached. Shutting down auto update!");
+                        if(tm != null){
+                            tm.stop();
+
+                        }
+                    }
                 }
             }
         });
