@@ -1,5 +1,6 @@
 package com.kronosad.projects.twitter.kronostwit.console;
 
+import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
@@ -22,18 +23,29 @@ public class ConsoleMain {
     public static Scanner scanner;
     public static String pin;
     public static Properties prop;
+    public static String consumerKey, consumerSecret;
 
 
     public static void main(String[] args){
         scanner = new Scanner(System.in);
         prop = new Properties();
 
+        try {
+            initSecrets();
+        } catch (Exception e) {
+            System.out.println("ERROR: Could not get consumer API data from server!");
+            System.out.println("Exception hidden.");
+        }
         twitter = TwitterFactory.getSingleton();
         File twitter4JFile = new File("twitter4j.properties");
+        twitter.setOAuthConsumer(consumerKey, consumerSecret);
+
         if(!twitter4JFile.exists()){
             System.out.println("No previous token found! Executing new user setup!");
-            twitter.setOAuthConsumer("6WbMFNhhP9hOBBqrcWfT8g", "hzQNEWw46AKgCypV7XkrZ2pWISrwtINh1Pv0Jc");
             getNewUserToken();
+            System.out.println("All other authentication data for this app has been invalidated, in case you're running this " +
+                    "app from another folder, you will need to delete the twitter4j.properties file in those other" +
+                    "folders.");
         }else{
             System.out.println("Authorization Details located! Using those!");
         }
@@ -92,8 +104,8 @@ public class ConsoleMain {
         prop.setProperty("oauth.accessToken", token.getToken());
         prop.setProperty("oauth.accessTokenSecret", token.getTokenSecret());
         //prop.setProperty("debug", "true");
-        prop.setProperty("oauth.consumerKey", "6WbMFNhhP9hOBBqrcWfT8g");
-        prop.setProperty("oauth.consumerSecret", "hzQNEWw46AKgCypV7XkrZ2pWISrwtINh1Pv0Jc");
+        //prop.setProperty("oauth.consumerKey", "6WbMFNhhP9hOBBqrcWfT8g");
+        //prop.setProperty("oauth.consumerSecret", "hzQNEWw46AKgCypV7XkrZ2pWISrwtINh1Pv0Jc");
         try {
             prop.store(new FileOutputStream("twitter4j.properties"), null);
         } catch (FileNotFoundException e) {
@@ -161,6 +173,15 @@ public class ConsoleMain {
             }
         }
         mainMenu();
+    }
+
+    public static void initSecrets() throws Exception{
+        String baseURL = "http://api.kronosad.com/KronosTwit/twitData/secrets/";
+        ReadURL conKey = new ReadURL(baseURL + "consumerKey.txt");
+        consumerKey = conKey.read();
+        ReadURL conSecret = new ReadURL(baseURL + "consumerSecret.txt");
+        consumerSecret = conSecret.read();
+
     }
 
     public static void mainMenu(){
