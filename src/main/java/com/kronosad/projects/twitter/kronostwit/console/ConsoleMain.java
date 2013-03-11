@@ -1,5 +1,6 @@
 package com.kronosad.projects.twitter.kronostwit.console;
 
+import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -7,18 +8,20 @@ import twitter4j.auth.RequestToken;
 import java.awt.*;
 import java.io.*;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
 public class ConsoleMain {
 
-    private static Twitter twitter;
-    private static RequestToken requestToken;
-    private static AccessToken accessToken;
-    private static Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-    private static Scanner scanner;
-    private static String pin;
-    private static Properties prop;
+    public static Twitter twitter;
+    public static RequestToken requestToken;
+    public static AccessToken accessToken;
+    public static Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+    public static Scanner scanner;
+    public static String pin;
+    public static Properties prop;
 
 
     public static void main(String[] args){
@@ -42,12 +45,14 @@ public class ConsoleMain {
 //
 //        }
 
-        mainMenu();
+        //mainMenu(); Trying GUI
+        MainGUI gui = new MainGUI();
+
 
 
     }
 
-    private static void getNewUserToken(){
+    public static void getNewUserToken(){
         try {
             requestToken = twitter.getOAuthRequestToken();
             desktop.browse(URI.create(requestToken.getAuthenticationURL()));
@@ -73,7 +78,7 @@ public class ConsoleMain {
 
     }
 
-//    private static AccessToken getPreviousUserToken(){
+//    public static AccessToken getPreviousUserToken(){
 //        try {
 //            prop.load(new FileInputStream("config.properties"));
 //        } catch (IOException e) {
@@ -83,7 +88,7 @@ public class ConsoleMain {
 //
 //    }
 
-    private static void saveAccessToken(AccessToken token){
+    public static void saveAccessToken(AccessToken token){
         prop.setProperty("oauth.accessToken", token.getToken());
         prop.setProperty("oauth.accessTokenSecret", token.getTokenSecret());
         //prop.setProperty("debug", "true");
@@ -100,7 +105,7 @@ public class ConsoleMain {
 
     }
 
-    private static void printHomeTimeline(){
+    public static void printHomeTimeline(){
         try {
             for(Status status : twitter.getHomeTimeline()){
                 System.out.println(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
@@ -111,7 +116,7 @@ public class ConsoleMain {
         mainMenu();
     }
 
-    private static void printMentions(){
+    public static void printMentions(){
         try {
             for(Status status : twitter.getMentionsTimeline()){
                 System.out.println(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
@@ -122,7 +127,7 @@ public class ConsoleMain {
         mainMenu();
     }
 
-    private static void printDirectMessages(){
+    public static void printDirectMessages(){
         try {
             for(DirectMessage message : twitter.getDirectMessages()){
                 System.out.println(String.format("[%s]%s: %s", message.getCreatedAt(), message.getSenderScreenName(), message.getText()));
@@ -133,7 +138,7 @@ public class ConsoleMain {
         mainMenu();
     }
 
-    private static void tweet(){
+    public static void tweet(){
         String newTweet = null;
         System.out.print("What would you like to tweet: ");
         while(newTweet == null){
@@ -148,7 +153,7 @@ public class ConsoleMain {
         if(newTweet != null){
             try {
                 twitter.updateStatus(newTweet);
-
+                //TODO: Fix this..
                 System.out.println("Tweeted: " + twitter.getUserTimeline().get(1).getText());
             } catch (TwitterException e) {
                 System.out.println("ERROR!");
