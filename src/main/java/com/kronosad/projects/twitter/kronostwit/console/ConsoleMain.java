@@ -31,10 +31,16 @@ public class ConsoleMain {
         prop = new Properties();
 
         try {
+            System.out.println("Connecting to server for secret consumer data...");
             initSecrets();
         } catch (Exception e) {
             System.out.println("ERROR: Could not get consumer API data from server!");
             System.out.println("Exception hidden.");
+            System.out.println("Without the consumer data, we cannot continue! Please verify your internet connectivity" +
+                    " and restart this application. The KronosAD server may also be down...");
+            System.exit(1);
+        }finally {
+            System.out.println("Connection successful! We are now ready to talk to Twitter's servers!");
         }
         twitter = TwitterFactory.getSingleton();
         File twitter4JFile = new File("twitter4j.properties");
