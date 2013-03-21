@@ -7,10 +7,11 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -55,15 +56,8 @@ public class ConsoleMain {
         }else{
             System.out.println("Authorization Details located! Using those!");
         }
-//        try{
-//            accessToken = getPreviousUserToken();
-//        }catch(NullPointerException exception){
-//            System.out.println("No previous token found! Executing new user setup!");
-//            getNewUserToken();
-//
-//        }
 
-        //mainMenu(); Trying GUI
+        //mainMenu(); Use this if you want to use the console based version of the app.
         MainGUI gui = new MainGUI();
 
 
@@ -96,22 +90,11 @@ public class ConsoleMain {
 
     }
 
-//    public static AccessToken getPreviousUserToken(){
-//        try {
-//            prop.load(new FileInputStream("config.properties"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return new AccessToken(prop.getProperty("token"), prop.getProperty("tokenSecret"));
-//
-//    }
 
     public static void saveAccessToken(AccessToken token){
         prop.setProperty("oauth.accessToken", token.getToken());
         prop.setProperty("oauth.accessTokenSecret", token.getTokenSecret());
-        //prop.setProperty("debug", "true");
-        //prop.setProperty("oauth.consumerKey", "6WbMFNhhP9hOBBqrcWfT8g");
-        //prop.setProperty("oauth.consumerSecret", "hzQNEWw46AKgCypV7XkrZ2pWISrwtINh1Pv0Jc");
+        //prop.setProperty("debug", "true"); Do you want debug data?
         try {
             prop.store(new FileOutputStream("twitter4j.properties"), null);
         } catch (FileNotFoundException e) {
@@ -182,6 +165,10 @@ public class ConsoleMain {
     }
 
     public static void initSecrets() throws Exception{
+        // This was added for obscurity. Obviously we cannot completely hide this without any kind of obfuscation
+        // and encryption, but this works fine :)
+        // If someone has our Consumer Key / Secret, they could pretend to be us...
+
         String baseURL = "http://api.kronosad.com/KronosTwit/twitData/secrets/";
         ReadURL conKey = new ReadURL(baseURL + "consumerKey.txt");
         consumerKey = conKey.read();

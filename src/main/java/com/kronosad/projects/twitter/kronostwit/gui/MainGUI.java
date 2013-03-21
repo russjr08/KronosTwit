@@ -1,16 +1,13 @@
 package com.kronosad.projects.twitter.kronostwit.gui;
 
-import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.FavoriteMenuItemListner;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.ListMouseAdapter;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.RTMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.RefreshMenuItemListener;
-import twitter4j.Paging;
 import twitter4j.Status;
-import twitter4j.TwitterException;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -25,6 +22,7 @@ public class MainGUI extends JFrame{
     public static JPopupMenu popUp = new JPopupMenu();
     private static JMenuItem retweetMenuItem = new JMenuItem("RT");
     private static JMenuItem refreshMenuItem = new JMenuItem("Refresh");
+    private static JMenuItem favoriteMenuItem = new JMenuItem("Favorite");
     public static ArrayList<Status> statuses = new ArrayList<Status>();
 
 
@@ -32,14 +30,11 @@ public class MainGUI extends JFrame{
 
 
         frame = new JFrame();
-        frame.setName("Window");
+        frame.setTitle("KronosTwit");
         frame.setBounds(0, 500, 500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Paging paging = new Paging(1, 80);
-        try {
-            /*for(Status status : ConsoleMain.twitter.getHomeTimeline(paging)){
-                list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
-            }*/
+        /*try {
+
 
             for(Status status : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
 
@@ -51,8 +46,11 @@ public class MainGUI extends JFrame{
 
             }
         } catch (TwitterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+            e.printStackTrace();
+        }*/
+
+        HelperRefreshTimeline.refresh();
+
         dataList = new JList(list);
         dataList.addMouseListener(new ListMouseAdapter());
 
@@ -63,9 +61,11 @@ public class MainGUI extends JFrame{
 
         retweetMenuItem.addMouseListener(new RTMenuItemListener());
         refreshMenuItem.addMouseListener(new RefreshMenuItemListener());
+        favoriteMenuItem.addMouseListener(new FavoriteMenuItemListner());
 
         popUp.add(retweetMenuItem);
         popUp.add(refreshMenuItem);
+        popUp.add(favoriteMenuItem);
 
         frame.add(scrollPane);
         frame.show();

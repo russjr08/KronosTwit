@@ -19,6 +19,8 @@ public class ListMouseAdapter extends MouseAdapter{
             MainGUI.dataList.setSelectedIndex(MainGUI.dataList.locationToIndex(mouseEvent.getPoint()));
             MainGUI.popUp.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
 
+            MainGUI.popUp.setToolTipText(MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getText());
+
         }
 
 
