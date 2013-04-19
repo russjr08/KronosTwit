@@ -1,6 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.console;
 
 import com.kronosad.api.internet.ReadURL;
+import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
@@ -36,10 +37,12 @@ public class ConsoleMain {
             System.out.println("Connecting to server for secret consumer data...");
             initSecrets();
         } catch (Exception e) {
-            System.out.println("ERROR: Could not get consumer API data from server!");
+            JOptionPane.showMessageDialog(null, "ERROR: Could not get consumer API data from server!\n Without the consumer" +
+                    " data, we cannot continue!\n Please verify your internet connectivity and restart this application. \n" +
+                    "The KronosAD server may also be down...", "Could not connect to KronosAD"
+                    , JOptionPane.ERROR_MESSAGE);
             System.out.println("Exception hidden.");
-            System.out.println("Without the consumer data, we cannot continue! Please verify your internet connectivity" +
-                    " and restart this application. The KronosAD server may also be down...");
+
             System.exit(1);
         }finally {
             System.out.println("Connection successful! We are now ready to talk to Twitter's servers!");
@@ -58,8 +61,27 @@ public class ConsoleMain {
             System.out.println("Authorization Details located! Using those!");
         }
 
-        //mainMenu(); Use this if you want to use the console based version of the app.
-        MainGUI gui = new MainGUI();
+        String betaKey = CheckerBetaUser.getBetaKeyProperties();
+
+        if(betaKey == null){
+            betaKey = JOptionPane.showInputDialog("A previous Beta Key was not found. Please enter your Beta Key.");
+
+        }else{
+            System.out.println("Previous Beta Key found! Using those!");
+        }
+
+
+        try {
+            if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
+                //mainMenu(); Use this if you want to use the console based version of the app.
+                MainGUI gui = new MainGUI();
+                CheckerBetaUser.setBetaKeyProperties(betaKey);
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
 
 
 
