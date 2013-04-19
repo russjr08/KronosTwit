@@ -1,10 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui;
 
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.FavoriteMenuItemListner;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.ListMouseAdapter;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.RTMenuItemListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.RefreshMenuItemListener;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.*;
 import twitter4j.Status;
 
 import javax.swing.*;
@@ -16,10 +13,13 @@ import java.util.TimerTask;
 
 public class MainGUI extends JFrame{
     private static JFrame frame;
+    private static JTextField tweetField = new JTextField();
+    private static JButton submitTweet = new JButton("Tweet!");
     public static JList dataList;
     public static DefaultListModel list = new DefaultListModel();
     public static Timer tm;
     public static JPopupMenu popUp = new JPopupMenu();
+    private static JMenuItem newTweetMenuItem = new JMenuItem("New Tweet");
     private static JMenuItem retweetMenuItem = new JMenuItem("RT");
     private static JMenuItem refreshMenuItem = new JMenuItem("Refresh");
     private static JMenuItem favoriteMenuItem = new JMenuItem("Favorite");
@@ -33,6 +33,7 @@ public class MainGUI extends JFrame{
         frame.setTitle("KronosTwit");
         frame.setBounds(0, 500, 500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         /*try {
 
 
@@ -59,15 +60,20 @@ public class MainGUI extends JFrame{
 
         scrollPane.setVisible(true);
 
+
         retweetMenuItem.addMouseListener(new RTMenuItemListener());
         refreshMenuItem.addMouseListener(new RefreshMenuItemListener());
         favoriteMenuItem.addMouseListener(new FavoriteMenuItemListner());
+        newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener());
 
+        popUp.add(newTweetMenuItem);
         popUp.add(retweetMenuItem);
         popUp.add(refreshMenuItem);
         popUp.add(favoriteMenuItem);
 
+        frame.add(tweetField);
         frame.add(scrollPane);
+
         frame.show();
 
         tm = new Timer(200000, new ActionListener() {

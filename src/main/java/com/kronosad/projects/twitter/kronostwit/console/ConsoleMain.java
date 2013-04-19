@@ -6,6 +6,7 @@ import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,7 +50,7 @@ public class ConsoleMain {
 
         if(!twitter4JFile.exists()){
             System.out.println("No previous token found! Executing new user setup!");
-            getNewUserToken();
+            getNewUserTokenGUI();
             System.out.println("All other authentication data for this app has been invalidated, in case you're running this " +
                     "app from another folder, you will need to delete the twitter4j.properties file in those other" +
                     "folders.");
@@ -69,6 +70,7 @@ public class ConsoleMain {
             requestToken = twitter.getOAuthRequestToken();
             desktop.browse(URI.create(requestToken.getAuthenticationURL()));
 
+
         } catch (TwitterException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -77,7 +79,38 @@ public class ConsoleMain {
 
         System.out.println("Enter the pin that was given to you after authentication: ");
 
-        pin = scanner.nextLine();
+        pin = JOptionPane.showInputDialog("Please Input the PIN after you have authenticated with Twitter.");
+
+
+
+        try {
+            accessToken = twitter.getOAuthAccessToken(requestToken, pin);
+            saveAccessToken(accessToken);
+
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static void getNewUserTokenGUI(){
+        try {
+            requestToken = twitter.getOAuthRequestToken();
+            desktop.browse(URI.create(requestToken.getAuthenticationURL()));
+
+
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Enter the pin that was given to you after authentication: ");
+
+        pin = JOptionPane.showInputDialog("Please Input the PIN after you have authenticated with Twitter.");
+
+
 
         try {
             accessToken = twitter.getOAuthAccessToken(requestToken, pin);
