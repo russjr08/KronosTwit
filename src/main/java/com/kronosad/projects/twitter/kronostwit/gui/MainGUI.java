@@ -23,6 +23,8 @@ public class MainGUI extends JFrame{
     private static JMenuItem retweetMenuItem = new JMenuItem("RT");
     private static JMenuItem refreshMenuItem = new JMenuItem("Refresh");
     private static JMenuItem favoriteMenuItem = new JMenuItem("Favorite");
+    public static JMenuItem replyMenuItem = new JMenuItem("Reply to %u");
+    private static JSeparator separator = new JSeparator();
     public static ArrayList<Status> statuses = new ArrayList<Status>();
 
 
@@ -65,10 +67,13 @@ public class MainGUI extends JFrame{
         refreshMenuItem.addMouseListener(new RefreshMenuItemListener());
         favoriteMenuItem.addMouseListener(new FavoriteMenuItemListner());
         newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener());
+        replyMenuItem.addMouseListener(new ReplyMenuItemListener());
 
-        popUp.add(newTweetMenuItem);
-        popUp.add(retweetMenuItem);
         popUp.add(refreshMenuItem);
+        popUp.add(newTweetMenuItem);
+        popUp.add(separator);
+        popUp.add(replyMenuItem);
+        popUp.add(retweetMenuItem);
         popUp.add(favoriteMenuItem);
 
         frame.add(tweetField);

@@ -17,9 +17,16 @@ public class ListMouseAdapter extends MouseAdapter{
         if(SwingUtilities.isRightMouseButton(mouseEvent)){
 //            System.out.println("Mouse clicked!");
             MainGUI.dataList.setSelectedIndex(MainGUI.dataList.locationToIndex(mouseEvent.getPoint()));
+
+
+
+
             MainGUI.popUp.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
 
             MainGUI.popUp.setToolTipText(MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getText());
+
+            MainGUI.replyMenuItem.setText("Reply to %u".replaceAll("%u", MainGUI.statuses.get
+                    (MainGUI.dataList.getSelectedIndex()).getUser().getScreenName()));
 
         }
 
