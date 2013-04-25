@@ -2,6 +2,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -22,6 +23,7 @@ public class RTMenuItemListener extends MouseAdapter {
         if(!status.isRetweetedByMe()){
             try {
                 ConsoleMain.twitter.retweetStatus(MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getId());
+                HelperRefreshTimeline.refresh();
             } catch (TwitterException e) {
                 JOptionPane.showMessageDialog(null, "Could not RT!", "Error", JOptionPane.WARNING_MESSAGE);
                 e.printStackTrace();
@@ -30,6 +32,7 @@ public class RTMenuItemListener extends MouseAdapter {
 
             try{
                 ConsoleMain.twitter.destroyStatus(status.getId());
+                HelperRefreshTimeline.refresh();
             }catch(TwitterException e){
                 JOptionPane.showMessageDialog(null, "Could not Undo RT!", "Error", JOptionPane.WARNING_MESSAGE);
                 e.printStackTrace();

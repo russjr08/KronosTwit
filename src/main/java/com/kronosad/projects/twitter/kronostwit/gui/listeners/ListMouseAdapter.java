@@ -31,10 +31,14 @@ public class ListMouseAdapter extends MouseAdapter{
 
             if(status.isFavorited()){
                 MainGUI.favoriteMenuItem.setText("Unfavorite");
+            }else{
+                MainGUI.favoriteMenuItem.setText("Favorite");
             }
 
             if(status.isRetweetedByMe()){
                 MainGUI.retweetMenuItem.setText("Undo RT");
+            }else{
+                MainGUI.retweetMenuItem.setText("RT");
             }
 
             MainGUI.replyMenuItem.setText("Reply to %u".replaceAll("%u", MainGUI.statuses.get
