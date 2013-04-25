@@ -29,9 +29,14 @@ public class ConsoleMain {
     public static String consumerKey, consumerSecret;
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         scanner = new Scanner(System.in);
         prop = new Properties();
+
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KronosTwit - Beta");
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
 
         try {
             System.out.println("Connecting to server for secret consumer data...");

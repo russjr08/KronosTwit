@@ -20,9 +20,9 @@ public class MainGUI extends JFrame{
     public static Timer tm;
     public static JPopupMenu popUp = new JPopupMenu();
     private static JMenuItem newTweetMenuItem = new JMenuItem("New Tweet");
-    private static JMenuItem retweetMenuItem = new JMenuItem("RT");
+    public static JMenuItem retweetMenuItem = new JMenuItem("RT");
     private static JMenuItem refreshMenuItem = new JMenuItem("Refresh");
-    private static JMenuItem favoriteMenuItem = new JMenuItem("Favorite");
+    public static JMenuItem favoriteMenuItem = new JMenuItem("Favorite");
     public static JMenuItem replyMenuItem = new JMenuItem("Reply to %u");
     private static JSeparator separator = new JSeparator();
     public static ArrayList<Status> statuses = new ArrayList<Status>();
@@ -32,7 +32,7 @@ public class MainGUI extends JFrame{
 
 
         frame = new JFrame();
-        frame.setTitle("KronosTwit");
+        frame.setTitle("KronosTwit - Beta");
         frame.setBounds(0, 500, 500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -69,12 +69,13 @@ public class MainGUI extends JFrame{
         newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener());
         replyMenuItem.addMouseListener(new ReplyMenuItemListener());
 
-        popUp.add(refreshMenuItem);
         popUp.add(newTweetMenuItem);
+        popUp.add(refreshMenuItem);
         popUp.add(separator);
+        popUp.add(favoriteMenuItem);
         popUp.add(replyMenuItem);
         popUp.add(retweetMenuItem);
-        popUp.add(favoriteMenuItem);
+
 
         frame.add(tweetField);
         frame.add(scrollPane);
@@ -108,6 +109,7 @@ public class MainGUI extends JFrame{
         @Override
         public void run() {
             HelperRefreshTimeline.autoUpdate();
+            System.out.println("Auto Refresh!");
         }
     }
 
