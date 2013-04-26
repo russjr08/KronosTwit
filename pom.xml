@@ -73,16 +73,16 @@
             </exclusion> 
             </exclusions> 
         </dependency> 
-        <!--dependency> 
+        <dependency> 
             <groupId>org.swinglabs</groupId> 
             <artifactId>swing-worker</artifactId> 
             <version>1.1</version> 
-            </dependency--> 
-            <!--dependency> 
+        </dependency> 
+        <dependency> 
             <groupId>org.swinglabs</groupId> 
             <artifactId>swing-layout</artifactId> 
             <version>1.0.3</version> 
-        </dependency--> 
+        </dependency> 
     </dependencies>
 
 
