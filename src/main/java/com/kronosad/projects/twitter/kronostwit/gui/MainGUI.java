@@ -14,11 +14,11 @@ import java.util.TimerTask;
 public class MainGUI extends JFrame{
     private static JFrame frame;
     private static JTextField tweetField = new JTextField();
-    private static JButton submitTweet = new JButton("Tweet!");
     public static JList dataList;
     public static DefaultListModel list = new DefaultListModel();
     public static Timer tm;
     public static JPopupMenu popUp = new JPopupMenu();
+    public static JMenuItem viewProfileMenuItem = new JMenuItem("View %u's Profile");
     private static JMenuItem newTweetMenuItem = new JMenuItem("New Tweet");
     public static JMenuItem retweetMenuItem = new JMenuItem("RT");
     private static JMenuItem refreshMenuItem = new JMenuItem("Refresh");
@@ -26,8 +26,7 @@ public class MainGUI extends JFrame{
     public static JMenuItem replyMenuItem = new JMenuItem("Reply to %u");
     private static JSeparator separator = new JSeparator();
     public static ArrayList<Status> statuses = new ArrayList<Status>();
-
-
+    
     public MainGUI() {
 
 
@@ -62,13 +61,14 @@ public class MainGUI extends JFrame{
 
         scrollPane.setVisible(true);
 
-
+        viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener());
         retweetMenuItem.addMouseListener(new RTMenuItemListener());
         refreshMenuItem.addMouseListener(new RefreshMenuItemListener());
         favoriteMenuItem.addMouseListener(new FavoriteMenuItemListner());
         newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener());
         replyMenuItem.addMouseListener(new ReplyMenuItemListener());
-
+        
+        popUp.add(viewProfileMenuItem);
         popUp.add(newTweetMenuItem);
         popUp.add(refreshMenuItem);
         popUp.add(separator);
@@ -80,7 +80,7 @@ public class MainGUI extends JFrame{
         frame.add(tweetField);
         frame.add(scrollPane);
 
-        frame.show();
+        frame.setVisible(true);
 
         tm = new Timer(200000, new ActionListener() {
             @Override
@@ -97,12 +97,6 @@ public class MainGUI extends JFrame{
     }
 
 
-
-    public static void main(String[] args){
-
-
-
-    }
 
     class updateTask extends TimerTask{
 
