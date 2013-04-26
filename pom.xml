@@ -56,10 +56,37 @@
             <artifactId>twitter4j-core</artifactId>
             <version>[3.0,)</version>
         </dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swing-layout</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency> 
+            <groupId>net.java.dev.appframework</groupId> 
+            <artifactId>appframework</artifactId> 
+            <version>1.03</version> 
+            <scope>compile</scope> 
+            <exclusions> 
+            <exclusion> 
+            <groupId>org.swinglabs</groupId> 
+            <artifactId>swing-worker</artifactId> 
+            </exclusion> 
+            </exclusions> 
+        </dependency> 
+        <!--dependency> 
+            <groupId>org.swinglabs</groupId> 
+            <artifactId>swing-worker</artifactId> 
+            <version>1.1</version> 
+            </dependency--> 
+            <!--dependency> 
+            <groupId>org.swinglabs</groupId> 
+            <artifactId>swing-layout</artifactId> 
+            <version>1.0.3</version> 
+        </dependency--> 
     </dependencies>
 
 
 
 
-    
+
 </project>
