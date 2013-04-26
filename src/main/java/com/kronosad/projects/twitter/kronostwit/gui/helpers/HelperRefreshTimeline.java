@@ -27,7 +27,7 @@ public class HelperRefreshTimeline {
                 }
 
                 for(Status status : MainGUI.statuses){
-                    MainGUI.list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
+                    MainGUI.list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
 
                 }
             } catch (TwitterException e) {
