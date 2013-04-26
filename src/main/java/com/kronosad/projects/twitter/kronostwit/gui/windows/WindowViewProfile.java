@@ -4,10 +4,8 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
-import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
-import static com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline.canRefresh;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import twitter4j.Paging;
+import javax.swing.JFrame;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -28,7 +26,7 @@ import twitter4j.User;
  *
  * @author russjr08
  */
-public class WindowViewProfile extends Window {
+public class WindowViewProfile extends JFrame {
     private User user;
     private Twitter twitter;
     public Image profileImage;
@@ -40,7 +38,6 @@ public class WindowViewProfile extends Window {
      * Creates new form WindowViewProfile
      */
     public WindowViewProfile(String title, int SizeX, int SizeY, User user, Twitter twitter) {
-        super(title, SizeX, SizeY);
         this.user = user;
         this.twitter = twitter;               
         initComponents();
@@ -185,7 +182,7 @@ public class WindowViewProfile extends Window {
     private javax.swing.JPanel tweetsPanel;
     // End of variables declaration//GEN-END:variables
 
-    @Override
+    
     public void init() {
         URL profileImageURL = null;
         try {
@@ -216,7 +213,6 @@ public class WindowViewProfile extends Window {
 
     }
 
-    @Override
     public void close() {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
