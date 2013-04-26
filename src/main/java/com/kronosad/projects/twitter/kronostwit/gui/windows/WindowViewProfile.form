@@ -28,24 +28,29 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="tbdPaneTweets" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="profilePictureLabel" min="-2" pref="50" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jProgressBar1" alignment="0" min="-2" pref="402" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
+                              <Component id="profilePictureLabel" min="-2" pref="50" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblUsername" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblWebsite" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblLocation" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblBio" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblWebsiteTxt" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblUsernameField" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblLocationText" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblUsername" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblWebsite" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblLocation" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblBio" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblWebsiteTxt" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblUsernameField" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblLocationText" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="bioLblTxt" min="-2" pref="304" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="bioLblTxt" min="-2" pref="304" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -57,9 +62,10 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="jProgressBar1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblUsername" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblUsernameField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -70,10 +76,7 @@
                           <Component id="lblWebsiteTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="profilePictureLabel" min="-2" pref="50" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="profilePictureLabel" min="-2" pref="50" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -146,7 +149,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane2" pref="349" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="375" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -154,7 +157,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane2" pref="256" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="248" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -183,11 +186,12 @@
     </Container>
     <Component class="javax.swing.JLabel" name="bioLblTxt">
       <Properties>
-        <Property name="autoscrolls" type="boolean" value="true"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Default Cursor"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JProgressBar" name="jProgressBar1">
     </Component>
   </SubComponents>
 </Form>

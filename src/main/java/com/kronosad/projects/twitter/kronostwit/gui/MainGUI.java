@@ -2,6 +2,7 @@ package com.kronosad.projects.twitter.kronostwit.gui;
 
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.*;
+import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import twitter4j.Status;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.TimerTask;
 
 
-public class MainGUI extends JFrame{
+public class MainGUI extends JFrame implements IStatus{
     private static JFrame frame;
     private static JTextField tweetField = new JTextField();
     public static JList dataList;
@@ -35,23 +36,9 @@ public class MainGUI extends JFrame{
         frame.setBounds(0, 500, 500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        /*try {
-
-
-            for(Status status : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
-
-                statuses.add(status);
-            }
-
-            for(Status status : statuses){
-                list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
-
-            }
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }*/
-
-        HelperRefreshTimeline.refresh();
+        
+        HelperRefreshTimeline refreshTL = new HelperRefreshTimeline(this);
+        refreshTL.refreshTimeline();
 
         dataList = new JList(list);
         dataList.addMouseListener(new ListMouseAdapter());
@@ -61,11 +48,11 @@ public class MainGUI extends JFrame{
 
         scrollPane.setVisible(true);
 
-        retweetMenuItem.addMouseListener(new RTMenuItemListener());
-        refreshMenuItem.addMouseListener(new RefreshMenuItemListener());
-        favoriteMenuItem.addMouseListener(new FavoriteMenuItemListner());
-        newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener());
-        replyMenuItem.addMouseListener(new ReplyMenuItemListener());
+        retweetMenuItem.addMouseListener(new RTMenuItemListener(this));
+        refreshMenuItem.addMouseListener(new RefreshMenuItemListener(this));
+        favoriteMenuItem.addMouseListener(new FavoriteMenuItemListner(this));
+        newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener(this));
+        replyMenuItem.addMouseListener(new ReplyMenuItemListener(this));
         viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener());
         
         popUp.add(viewProfileMenuItem);
@@ -94,6 +81,22 @@ public class MainGUI extends JFrame{
 
 
 
+    }
+    
+    @Override
+    public ArrayList<Status> getStatuses(){
+        return statuses;
+    }
+    
+    @Override
+    public int getSelectedStatus(){
+        
+        return dataList.getSelectedIndex();
+    }
+    
+    @Override
+    public DefaultListModel getTweetList() {
+        return list;
     }
 
 

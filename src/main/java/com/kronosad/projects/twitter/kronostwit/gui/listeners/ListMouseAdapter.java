@@ -3,7 +3,9 @@ package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewProfile;
 import twitter4j.Status;
+import twitter4j.User;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -19,7 +21,7 @@ public class ListMouseAdapter extends MouseAdapter{
         if(SwingUtilities.isRightMouseButton(mouseEvent)){
 //            System.out.println("Mouse clicked!");
             Status status = MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex());
-
+            User user = MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getUser();
             MainGUI.dataList.setSelectedIndex(MainGUI.dataList.locationToIndex(mouseEvent.getPoint()));
 
 
@@ -28,7 +30,9 @@ public class ListMouseAdapter extends MouseAdapter{
             MainGUI.popUp.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
 
             MainGUI.popUp.setToolTipText(MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getText());
-
+                
+            MainGUI.viewProfileMenuItem.setText("View %u's Profile".replaceAll("%u", user.getScreenName()));
+            
             if(status.isFavorited()){
                 MainGUI.favoriteMenuItem.setText("Unfavorite");
             }else{
@@ -43,7 +47,6 @@ public class ListMouseAdapter extends MouseAdapter{
 
             MainGUI.replyMenuItem.setText("Reply to %u".replaceAll("%u", MainGUI.statuses.get
                     (MainGUI.dataList.getSelectedIndex()).getUser().getScreenName()));
-
 
         }
 

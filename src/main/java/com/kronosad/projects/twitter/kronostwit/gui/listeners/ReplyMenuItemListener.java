@@ -2,6 +2,8 @@ package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
+import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -11,7 +13,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ReplyMenuItemListener extends MouseAdapter {
-
+    private IStatus statuses;
+    private HelperRefreshTimeline refreshTL;
+    
+    public ReplyMenuItemListener(IStatus status){
+        statuses = status;
+        refreshTL = new HelperRefreshTimeline(statuses);
+        
+    }
+    
     @Override
     public void mousePressed(MouseEvent event){
         String reply, replyMsg, failedMsg;
@@ -20,11 +30,11 @@ public class ReplyMenuItemListener extends MouseAdapter {
 
         failedMsg = null;
 
-        User user = MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getUser();
+        User user = statuses.getStatuses().get(statuses.getSelectedStatus()).getUser();
         boolean isValid = false;
 
 
-        replyMsg = "Reply to " + "@" + user.getScreenName() + " : " + MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getText();
+        replyMsg = "Reply to " + "@" + user.getScreenName() + " : " + statuses.getStatuses().get(statuses.getSelectedStatus()).getText();
 
 
 
@@ -60,9 +70,11 @@ public class ReplyMenuItemListener extends MouseAdapter {
                 try{
                     update = new StatusUpdate(reply);
 
-                    update.setInReplyToStatusId(MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getId());
+                    update.setInReplyToStatusId(statuses.getStatuses().get(statuses.getSelectedStatus()).getId());
 
                     ConsoleMain.twitter.updateStatus(update);
+                    
+                    refreshTL.refreshTimeline();
                 }catch (TwitterException e){
                     JOptionPane.showMessageDialog(null, "There was an error replying to status, check console!", "Error!", JOptionPane.WARNING_MESSAGE);
                     e.printStackTrace();

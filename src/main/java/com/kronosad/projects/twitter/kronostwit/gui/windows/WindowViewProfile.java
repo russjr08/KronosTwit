@@ -6,6 +6,8 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshUserTimeline;
+import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -26,7 +28,7 @@ import twitter4j.User;
  *
  * @author russjr08
  */
-public class WindowViewProfile extends JFrame {
+public class WindowViewProfile extends JFrame implements IStatus{
     private User user;
     private Twitter twitter;
     public Image profileImage;
@@ -66,6 +68,7 @@ public class WindowViewProfile extends JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tweetsList = new javax.swing.JList();
         bioLblTxt = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -90,19 +93,18 @@ public class WindowViewProfile extends JFrame {
         tweetsPanelLayout.setHorizontalGroup(
             tweetsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tweetsPanelLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
                 .addContainerGap())
         );
         tweetsPanelLayout.setVerticalGroup(
             tweetsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tweetsPanelLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         tbdPaneTweets.addTab("Tweets", tweetsPanel);
 
-        bioLblTxt.setAutoscrolls(true);
         bioLblTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -114,30 +116,34 @@ public class WindowViewProfile extends JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(tbdPaneTweets)
                     .add(layout.createSequentialGroup()
-                        .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jProgressBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 402, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(layout.createSequentialGroup()
+                                .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(lblUsername)
-                                    .add(lblWebsite)
-                                    .add(lblLocation)
-                                    .add(lblBio))
-                                .add(18, 18, 18)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(lblWebsiteTxt)
-                                    .add(lblUsernameField)
-                                    .add(lblLocationText)))
-                            .add(bioLblTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 304, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(layout.createSequentialGroup()
+                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(lblUsername)
+                                            .add(lblWebsite)
+                                            .add(lblLocation)
+                                            .add(lblBio))
+                                        .add(18, 18, 18)
+                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(lblWebsiteTxt)
+                                            .add(lblUsernameField)
+                                            .add(lblLocationText)))
+                                    .add(bioLblTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 304, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                         .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jProgressBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(layout.createSequentialGroup()
-                        .add(18, 18, 18)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(lblUsername)
                             .add(lblUsernameField))
@@ -145,9 +151,7 @@ public class WindowViewProfile extends JFrame {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(lblWebsite)
                             .add(lblWebsiteTxt)))
-                    .add(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(lblLocation)
@@ -168,6 +172,7 @@ public class WindowViewProfile extends JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bioLblTxt;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBio;
     private javax.swing.JLabel lblLocation;
@@ -181,7 +186,7 @@ public class WindowViewProfile extends JFrame {
     private javax.swing.JList tweetsList;
     private javax.swing.JPanel tweetsPanel;
     // End of variables declaration//GEN-END:variables
-
+    private HelperRefreshUserTimeline refreshTL = new HelperRefreshUserTimeline(this);
     
     public void init() {
         URL profileImageURL = null;
@@ -205,18 +210,21 @@ public class WindowViewProfile extends JFrame {
         lblUsernameField.setText(user.getScreenName());
         lblWebsiteTxt.setText(user.getURL());
         lblLocationText.setText(user.getLocation());
-        bioLblTxt.setText(user.getDescription());
+        bioLblTxt.setText("<html><p>" + user.getDescription() + "</p></html>");
         tweetsList.setModel(tweetModel);
-        populateTweets();
+        //populateTweets();
+        refreshTL.refreshUserTimeline(user);
         
         this.setVisible(true);
+        
+        jProgressBar1.setIndeterminate(true);
 
     }
 
     public void close() {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
-    
+    @Deprecated
     public void populateTweets(){
         if(HelperRefreshTimeline.canRefresh){
             try {
@@ -252,5 +260,17 @@ public class WindowViewProfile extends JFrame {
         }else{
             System.out.println("We can not refresh at the time! (Twitter status refresh limit reached!)");
         }
+    }
+
+    public ArrayList<Status> getStatuses() {
+        return statuses;
+    }
+
+    public int getSelectedStatus() {
+        return tweetsList.getSelectedIndex();
+    }
+
+    public DefaultListModel getTweetList() {
+        return tweetModel;
     }
 }

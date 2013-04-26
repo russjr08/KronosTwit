@@ -3,6 +3,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
+import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -10,24 +11,31 @@ import twitter4j.TwitterException;
 public class HelperRefreshTimeline {
 
     public static boolean canRefresh = true;
-
-    public static void refresh(){
+    private static IStatus statuses;
+    
+    public HelperRefreshTimeline(IStatus status){
+        this.statuses = status;
+    }
+    
+    
+    
+    public void refreshTimeline(){
         if(canRefresh){
             try {
 
                 System.out.println("Status update, REFRESH!");
-                MainGUI.statuses.clear();
-                MainGUI.list.clear();
+                statuses.getStatuses().clear();
+                statuses.getTweetList().clear();
 
 
 
 
                 for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
-                    MainGUI.statuses.add(timelineStatuses);
+                    statuses.getStatuses().add(timelineStatuses);
                 }
 
                 for(Status status : MainGUI.statuses){
-                    MainGUI.list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+                    statuses.getTweetList().addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
 
                 }
             } catch (TwitterException e) {
@@ -52,19 +60,19 @@ public class HelperRefreshTimeline {
     public static void autoUpdate(){
         System.out.println("Status Update Performed.");
 
-        MainGUI.statuses.clear();
-        MainGUI.list.clear();
+        statuses.getStatuses().clear();
+        statuses.getTweetList().clear();
 
 
         try {
             for(Status status : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
 
                 //list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
-                MainGUI.statuses.add(status);
+                statuses.getStatuses().add(status);
             }
 
             for(Status status : MainGUI.statuses){
-                MainGUI.list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
+                statuses.getTweetList().addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
 
             }
         } catch (TwitterException exception) {
