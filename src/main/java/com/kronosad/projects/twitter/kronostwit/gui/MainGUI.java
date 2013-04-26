@@ -61,12 +61,12 @@ public class MainGUI extends JFrame{
 
         scrollPane.setVisible(true);
 
-        viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener());
         retweetMenuItem.addMouseListener(new RTMenuItemListener());
         refreshMenuItem.addMouseListener(new RefreshMenuItemListener());
         favoriteMenuItem.addMouseListener(new FavoriteMenuItemListner());
         newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener());
         replyMenuItem.addMouseListener(new ReplyMenuItemListener());
+        viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener());
         
         popUp.add(viewProfileMenuItem);
         popUp.add(newTweetMenuItem);
