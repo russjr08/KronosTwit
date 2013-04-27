@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
@@ -28,7 +24,7 @@ import twitter4j.User;
  *
  * @author russjr08
  */
-public class WindowViewProfile extends JFrame implements IStatus{
+public class WindowViewProfile extends Window implements IStatus{
     private User user;
     private Twitter twitter;
     public Image profileImage;
@@ -40,8 +36,10 @@ public class WindowViewProfile extends JFrame implements IStatus{
      * Creates new form WindowViewProfile
      */
     public WindowViewProfile(String title, int SizeX, int SizeY, User user, Twitter twitter) {
+        super(title, SizeX, SizeY);
         this.user = user;
-        this.twitter = twitter;               
+        this.twitter = twitter; 
+        
         initComponents();
         init();
     }

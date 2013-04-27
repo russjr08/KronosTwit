@@ -14,11 +14,13 @@ public class RefreshMenuItemListener extends MouseAdapter {
     
     public RefreshMenuItemListener(IStatus status){
         statuses = status;
+        
         refreshTL = new HelperRefreshTimeline(statuses);
     }
     
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
+        
         refreshTL.refreshTimeline();
     }
 }
