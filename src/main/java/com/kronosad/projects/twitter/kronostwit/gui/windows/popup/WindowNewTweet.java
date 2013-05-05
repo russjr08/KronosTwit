@@ -167,6 +167,8 @@ public class WindowNewTweet extends Window {
     
             }else if(type == type.SUCCESS){
                 this.dispose();
+            }else if(type == type.DUPLICATE){
+                JOptionPane.showMessageDialog(this, "You cannot post a duplicate status!", "Duplicate Detected!", JOptionPane.WARNING_MESSAGE);
             }
         }else if(isReply){
             HelperNewTweet newTweet = new HelperNewTweet(statuses, txtAreaTweet.getText(), replyID);

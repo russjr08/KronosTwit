@@ -1,7 +1,6 @@
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import twitter4j.Status;
@@ -12,20 +11,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
-public class FavoriteMenuItemListner extends MouseAdapter {
+public class FavoriteMenuItemListener extends MouseAdapter {
     
     private IStatus statuses;
     private HelperRefreshTimeline refreshTL;
     
-    public FavoriteMenuItemListner(IStatus stauses){
-        this.statuses = statuses;
+    public FavoriteMenuItemListener(IStatus status){
+        this.statuses = status;
         refreshTL = new HelperRefreshTimeline(this.statuses);
     }
     
     @Override
     public void mousePressed(MouseEvent mouseEvent){
 //        System.out.println(MainGUI.dataList.getSelectedIndex());
-        Status status = statuses.getStatuses().get(statuses.getSelectedStatus());
+        Status status = statuses.getStatuses().get(
+                statuses.getSelectedStatus());
         System.out.println(status.getText());
         System.out.println("Already Favorited: " + status.isFavorited() );
         if(!status.isFavorited()){

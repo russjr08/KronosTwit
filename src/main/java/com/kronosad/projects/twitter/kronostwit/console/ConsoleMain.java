@@ -3,6 +3,7 @@ package com.kronosad.projects.twitter.kronostwit.console;
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -79,15 +80,16 @@ public class ConsoleMain {
         try {
             if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
                 //mainMenu(); Use this if you want to use the console based version of the app.
-                MainGUI gui = new MainGUI();
+                //MainGUI gui = new MainGUI();
                 CheckerBetaUser.setBetaKeyProperties(betaKey);
+                WindowViewTimeline viewTimeline = new WindowViewTimeline("View Timeline", 500, 600);
             }
         } catch (TwitterException e) {
             e.printStackTrace();
             System.exit(1);
         }
 
-
+        
 
 
     }

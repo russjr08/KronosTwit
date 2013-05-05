@@ -10,6 +10,7 @@ import twitter4j.TwitterException;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import twitter4j.User;
 
 
 public class RTMenuItemListener extends MouseAdapter {
@@ -26,26 +27,27 @@ public class RTMenuItemListener extends MouseAdapter {
     public void mousePressed(MouseEvent mouseEvent){
 //        System.out.println(MainGUI.dataList.getSelectedIndex());
         Status status = statuses.getStatuses().get(statuses.getSelectedStatus());
-        
+        User user = status.getUser();
+        if(!user.isProtected()){
+            if(!status.isRetweetedByMe()){
+                try {
+                    ConsoleMain.twitter.retweetStatus(MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getId());
+                    refreshTL.refreshTimeline();
+                } catch (TwitterException e) {
+                    JOptionPane.showMessageDialog(null, "Could not RT!", "Error", JOptionPane.WARNING_MESSAGE);
+                    e.printStackTrace();
+                }
+            }else{
 
-        if(!status.isRetweetedByMe()){
-            try {
-                ConsoleMain.twitter.retweetStatus(MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getId());
-                refreshTL.refreshTimeline();
-            } catch (TwitterException e) {
-                JOptionPane.showMessageDialog(null, "Could not RT!", "Error", JOptionPane.WARNING_MESSAGE);
-                e.printStackTrace();
+                try{
+                    ConsoleMain.twitter.destroyStatus(status.getId());
+                    refreshTL.refreshTimeline();
+                }catch(TwitterException e){
+                    JOptionPane.showMessageDialog(null, "Could not Undo RT!", "Error", JOptionPane.WARNING_MESSAGE);
+                    e.printStackTrace();
+                }
+
             }
-        }else{
-
-            try{
-                ConsoleMain.twitter.destroyStatus(status.getId());
-                refreshTL.refreshTimeline();
-            }catch(TwitterException e){
-                JOptionPane.showMessageDialog(null, "Could not Undo RT!", "Error", JOptionPane.WARNING_MESSAGE);
-                e.printStackTrace();
-            }
-
         }
     }
 }

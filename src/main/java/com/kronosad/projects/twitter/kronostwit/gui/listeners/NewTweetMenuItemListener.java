@@ -17,7 +17,7 @@ public class NewTweetMenuItemListener extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent event){
         
-        
+        System.out.println("Calling new Tweet window");
         WindowNewTweet newTweet = new WindowNewTweet("New Tweet", 500, 500, statuses);
         
 

@@ -50,10 +50,10 @@ public class MainGUI extends JFrame implements IStatus{
 
         retweetMenuItem.addMouseListener(new RTMenuItemListener(this));
         refreshMenuItem.addMouseListener(new RefreshMenuItemListener(this));
-        favoriteMenuItem.addMouseListener(new FavoriteMenuItemListner(this));
+        favoriteMenuItem.addMouseListener(new FavoriteMenuItemListener(this));
         newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener(this));
         replyMenuItem.addMouseListener(new ReplyMenuItemListener(this));
-        viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener());
+        viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener(this));
         
         popUp.add(viewProfileMenuItem);
         popUp.add(newTweetMenuItem);
@@ -72,7 +72,7 @@ public class MainGUI extends JFrame implements IStatus{
         tm = new Timer(200000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                
             }
         });
         tm.setRepeats(true);

@@ -9,5 +9,5 @@ package com.kronosad.projects.twitter.kronostwit.enums;
  * @author Russell
  */
 public enum FinishedWork {
-    SUCCESS, NOTWEET, OUTOFBOUNDS, TWITTERERROR, UNKNOWN;
+    SUCCESS, NOTWEET, OUTOFBOUNDS, TWITTERERROR, DUPLICATE, UNKNOWN;
 }

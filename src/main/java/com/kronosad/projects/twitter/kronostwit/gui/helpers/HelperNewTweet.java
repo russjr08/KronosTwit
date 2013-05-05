@@ -3,6 +3,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.enums.FinishedWork;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import javax.swing.JOptionPane;
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -43,6 +44,9 @@ public class HelperNewTweet {
             } catch (TwitterException ex) {
                 System.out.println("Error Posting Tweet!");
                 ex.printStackTrace();
+                if(ex.getErrorCode() == 187){
+                    return FinishedWork.DUPLICATE;
+                }
                 return FinishedWork.TWITTERERROR;
             }finally{
                 return FinishedWork.SUCCESS;

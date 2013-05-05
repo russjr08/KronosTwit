@@ -34,8 +34,8 @@ public class HelperRefreshTimeline {
                     statuses.getStatuses().add(timelineStatuses);
                 }
 
-                for(Status status : MainGUI.statuses){
-                    statuses.getTweetList().addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+                for(Status status : statuses.getStatuses()){
+                    statuses.getTweetList().addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
 
                 }
             } catch (TwitterException e) {
@@ -43,11 +43,7 @@ public class HelperRefreshTimeline {
                 if(e.getStatusCode() == 429){
                     System.out.println("ERROR: Twitter limit reached. Shutting down auto update! You will need to" +
                             " restart this application to reuse refresh!");
-                    if(MainGUI.tm != null){
-                        MainGUI.tm.stop();
-                        canRefresh = false;
-
-                    }
+                    canRefresh = false;
                 }
             }
 
@@ -56,7 +52,8 @@ public class HelperRefreshTimeline {
         }
 
     }
-
+    
+    @Deprecated
     public static void autoUpdate(){
         System.out.println("Status Update Performed.");
 
@@ -71,7 +68,7 @@ public class HelperRefreshTimeline {
                 statuses.getStatuses().add(status);
             }
 
-            for(Status status : MainGUI.statuses){
+            for(Status status : statuses.getStatuses()){
                 statuses.getTweetList().addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
 
             }

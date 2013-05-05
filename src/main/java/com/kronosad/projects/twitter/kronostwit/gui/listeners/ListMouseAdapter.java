@@ -20,9 +20,10 @@ public class ListMouseAdapter extends MouseAdapter{
     public void mouseClicked(MouseEvent mouseEvent) {
         if(SwingUtilities.isRightMouseButton(mouseEvent)){
 //            System.out.println("Mouse clicked!");
+            MainGUI.dataList.setSelectedIndex(MainGUI.dataList.locationToIndex(mouseEvent.getPoint()));
+
             Status status = MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex());
             User user = MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getUser();
-            MainGUI.dataList.setSelectedIndex(MainGUI.dataList.locationToIndex(mouseEvent.getPoint()));
 
 
 
@@ -38,12 +39,24 @@ public class ListMouseAdapter extends MouseAdapter{
             }else{
                 MainGUI.favoriteMenuItem.setText("Favorite");
             }
-
+            
+            if(user.isProtected()){
+                MainGUI.retweetMenuItem.setEnabled(false);
+            }else{
+                MainGUI.retweetMenuItem.setEnabled(true);
+            }
+            
             if(status.isRetweetedByMe()){
                 MainGUI.retweetMenuItem.setText("Undo RT");
             }else{
                 MainGUI.retweetMenuItem.setText("RT");
             }
+            
+            if(user.isProtected()){
+                MainGUI.retweetMenuItem.setText("RT - Private Account");
+            }
+            
+            
 
             MainGUI.replyMenuItem.setText("Reply to %u".replaceAll("%u", MainGUI.statuses.get
                     (MainGUI.dataList.getSelectedIndex()).getUser().getScreenName()));
