@@ -35,12 +35,7 @@ public class DeleteMenuItemListener extends MouseAdapter {
         try{
             if(user.getId() == ConsoleMain.twitter.getId()){
                 ConsoleMain.twitter.destroyStatus(status.getId());
-                new Timer().schedule(new TimerTask() {          
-                    @Override
-                    public void run() {
-                        refreshTL.refreshTimeline();
-                    }
-                }, 5000);
+                refreshTL.refreshTimeline();
             }else{
                 throw new IllegalArgumentException("This is not your tweet!");
             }

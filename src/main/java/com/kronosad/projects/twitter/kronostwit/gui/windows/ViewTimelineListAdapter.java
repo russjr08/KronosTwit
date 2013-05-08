@@ -4,6 +4,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -23,6 +24,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent event){
         if(SwingUtilities.isRightMouseButton(event)){
+            JPopupMenu.setDefaultLightWeightPopupEnabled(true);
             timelineView.tweetsView.setSelectedIndex(timelineView.tweetsView.locationToIndex(event.getPoint()));
             
             Status status = timelineView.getStatuses().get(timelineView.tweetsView.getSelectedIndex());
