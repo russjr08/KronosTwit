@@ -6,6 +6,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.DeleteMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.FavoriteMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.NewTweetMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.RTMenuItemListener;
@@ -52,6 +53,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     protected static JMenuItem refreshMenuItem = new JMenuItem("Refresh");
     protected static JMenuItem favoriteMenuItem = new JMenuItem("Favorite");
     protected static JMenuItem replyMenuItem = new JMenuItem("Reply to %u");
+    protected static JMenuItem deleteMenuItem = new JMenuItem("Delete");
     private static JSeparator separator = new JSeparator();
 
     
@@ -242,14 +244,17 @@ public class WindowViewTimeline extends Window implements IStatus {
         favoriteMenuItem.addMouseListener(new FavoriteMenuItemListener(this));
         replyMenuItem.addMouseListener(new ReplyMenuItemListener(this));
         newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener(this));
+        deleteMenuItem.addMouseListener(new DeleteMenuItemListener(this));
         
         popUp.add(viewProfileMenuItem);
         popUp.add(newTweetMenuItem);
         popUp.add(refreshMenuItem);
         popUp.add(separator);
+        popUp.add(deleteMenuItem);
         popUp.add(favoriteMenuItem);
         popUp.add(replyMenuItem);
         popUp.add(retweetMenuItem);
+        
         
 
         

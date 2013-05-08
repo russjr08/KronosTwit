@@ -31,7 +31,7 @@ public class RTMenuItemListener extends MouseAdapter {
         if(!user.isProtected()){
             if(!status.isRetweetedByMe()){
                 try {
-                    ConsoleMain.twitter.retweetStatus(MainGUI.statuses.get(MainGUI.dataList.getSelectedIndex()).getId());
+                    ConsoleMain.twitter.retweetStatus(status.getId());
                     refreshTL.refreshTimeline();
                 } catch (TwitterException e) {
                     JOptionPane.showMessageDialog(null, "Could not RT!", "Error", JOptionPane.WARNING_MESSAGE);
