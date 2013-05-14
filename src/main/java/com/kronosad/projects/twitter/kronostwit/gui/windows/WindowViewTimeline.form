@@ -32,11 +32,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="userPictureLbl" min="-2" pref="51" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                      <Component id="refreshBtn" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnNewTweet" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Component id="lblBanner" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -62,10 +60,7 @@
                           <Group type="102" attributes="0">
                               <Component id="lblQuickActions" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="refreshBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnNewTweet" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="btnNewTweet" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
@@ -142,14 +137,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Quick Actions"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="refreshBtn">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Refresh"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refreshBtnActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnNewTweet">
       <Properties>

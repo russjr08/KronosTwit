@@ -12,6 +12,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.listeners.NewTweetMenuItemLi
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.RTMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.RefreshMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.ReplyMenuItemListener;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.StreamStatusListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.ViewProfileMenuListener;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
@@ -37,6 +38,8 @@ import twitter4j.TwitterException;
 import org.apache.commons.io.*;
 import twitter4j.Status;
 import twitter4j.User;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 
 /**
  *
@@ -94,7 +97,6 @@ public class WindowViewTimeline extends Window implements IStatus {
         tweetsView = new javax.swing.JList();
         lblBanner = new javax.swing.JLabel();
         lblQuickActions = new javax.swing.JLabel();
-        refreshBtn = new javax.swing.JButton();
         btnNewTweet = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -121,13 +123,6 @@ public class WindowViewTimeline extends Window implements IStatus {
 
         lblQuickActions.setText("Quick Actions");
 
-        refreshBtn.setText("Refresh");
-        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshBtnActionPerformed(evt);
-            }
-        });
-
         btnNewTweet.setText("New Tweet");
         btnNewTweet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,11 +139,9 @@ public class WindowViewTimeline extends Window implements IStatus {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(userPictureLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79)
-                        .addComponent(refreshBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNewTweet)
-                        .addGap(39, 39, 39)
+                        .addGap(46, 46, 46)
                         .addComponent(lblBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addComponent(jTabbedPane1)
@@ -169,9 +162,7 @@ public class WindowViewTimeline extends Window implements IStatus {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblQuickActions)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(refreshBtn)
-                                    .addComponent(btnNewTweet))))
+                                .addComponent(btnNewTweet)))
                         .addGap(0, 2, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,13 +171,6 @@ public class WindowViewTimeline extends Window implements IStatus {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        
-        HelperRefreshTimeline refreshTL = new HelperRefreshTimeline(this);
-        refreshTL.refreshTimeline();
-        
-    }//GEN-LAST:event_refreshBtnActionPerformed
 
     private void btnNewTweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewTweetActionPerformed
 
@@ -204,7 +188,6 @@ public class WindowViewTimeline extends Window implements IStatus {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblBanner;
     private javax.swing.JLabel lblQuickActions;
-    private javax.swing.JButton refreshBtn;
     private javax.swing.JPanel timelinePanel;
     protected javax.swing.JList tweetsView;
     private javax.swing.JLabel userPictureLbl;
@@ -233,6 +216,10 @@ public class WindowViewTimeline extends Window implements IStatus {
         setupAdapters();
         
         this.setVisible(true);
+        TwitterStream stream = new TwitterStreamFactory().getInstance();
+        stream.addListener(new StreamStatusListener(this));
+        stream.setOAuthConsumer(ConsoleMain.consumerKey, ConsoleMain.consumerSecret);
+        stream.user();
     }
 
     @Override
@@ -284,7 +271,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     public void loadTimeline(){
         
         System.out.println("Load Timeline Method called!");
-        refresh.refreshTimeline();
+        refresh.refreshTimelineFirstTime();
     }
     
     public void setupAdapters(){

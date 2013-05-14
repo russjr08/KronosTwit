@@ -16,10 +16,12 @@ public class HelperRefreshTimeline {
     public HelperRefreshTimeline(IStatus status){
         this.statuses = status;
     }
-    
-    
-    
+    @Deprecated
     public void refreshTimeline(){
+        
+    }
+    
+    public void refreshTimelineFirstTime(){
         if(canRefresh){
             try {
 
