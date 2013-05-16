@@ -4,11 +4,16 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.NotificationHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import twitter4j.DirectMessage;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
+import twitter4j.TwitterException;
 import twitter4j.User;
 import twitter4j.UserList;
 import twitter4j.UserStreamListener;
@@ -19,16 +24,24 @@ import twitter4j.UserStreamListener;
  */
 public class StreamStatusListener implements UserStreamListener{
     private IStatus statuses;
+    private WindowViewTimeline timelineView;
     
     public StreamStatusListener(IStatus status){
         statuses = status;
+        if(status instanceof WindowViewTimeline){
+            timelineView = (WindowViewTimeline)status;
+        }
         
     }
     
     public void onStatus(Status status) {
         statuses.getStatuses().add(0, status);
         statuses.getTweetList().add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
-        
+        try {
+            NotificationHelper.notifyMention(status, timelineView);
+        } catch (TwitterException ex) {
+            Logger.getLogger(StreamStatusListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }
