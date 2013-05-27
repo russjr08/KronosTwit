@@ -2,8 +2,8 @@ package com.kronosad.projects.twitter.kronostwit.console;
 
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
-import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingScreen;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -37,11 +37,13 @@ public class ConsoleMain {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KronosTwit - Beta");
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
+        WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
+        loading.initialCode();
 
         try {
             System.out.println("Connecting to server for secret consumer data...");
             initSecrets();
+            loading.grabbingData();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR: Could not get consumer API data from server!\n Without the consumer" +
                     " data, we cannot continue!\n Please verify your internet connectivity and restart this application. \n" +
@@ -68,6 +70,7 @@ public class ConsoleMain {
         }
 
         String betaKey = CheckerBetaUser.getBetaKeyProperties();
+        loading.checkUser();
 
         if(betaKey == null){
             betaKey = JOptionPane.showInputDialog("A previous Beta Key was not found. Please enter your Beta Key.");
@@ -82,6 +85,7 @@ public class ConsoleMain {
                 //mainMenu(); Use this if you want to use the console based version of the app.
                 //MainGUI gui = new MainGUI();
                 CheckerBetaUser.setBetaKeyProperties(betaKey);
+                loading.done();
                 WindowViewTimeline viewTimeline = new WindowViewTimeline("View Timeline", 500, 600);
             }
         } catch (TwitterException e) {

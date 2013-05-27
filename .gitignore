@@ -1,0 +1,8 @@
+*.DS_Store
+/out
+/Beta.properties
+/twitter4j.properties
+
+.DS_Store
+
+KronosTwit-1.0*
