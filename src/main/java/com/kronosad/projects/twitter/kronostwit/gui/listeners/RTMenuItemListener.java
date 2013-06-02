@@ -50,6 +50,7 @@ public class RTMenuItemListener extends MouseAdapter {
                 try{
                     ConsoleMain.twitter.destroyStatus(status.getCurrentUserRetweetId());
                     
+                    
                     refreshTL.refreshTimeline();
                 }catch(TwitterException e){
                     JOptionPane.showMessageDialog(null, "Could not Undo RT!", "Error", JOptionPane.WARNING_MESSAGE);
