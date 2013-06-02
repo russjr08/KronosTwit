@@ -40,8 +40,10 @@ public class ConsoleMain {
         WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
         loading.initialCode();
 
+
         try {
             System.out.println("Connecting to server for secret consumer data...");
+            loading.grabbingData();
             initSecrets();
             loading.grabbingData();
         } catch (Exception e) {

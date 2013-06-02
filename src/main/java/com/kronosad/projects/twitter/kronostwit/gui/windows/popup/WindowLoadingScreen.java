@@ -10,7 +10,8 @@ import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
  *
  * @author Russell
  */
-public class WindowLoadingScreen extends Window  {
+
+public class WindowLoadingScreen extends Window {
     
     
     

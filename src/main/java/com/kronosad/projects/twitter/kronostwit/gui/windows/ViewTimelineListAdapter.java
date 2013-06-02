@@ -51,7 +51,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 timelineView.favoriteMenuItem.setText("Favorite");
             }
             
-            if(user.isProtected()){
+            if(user.isProtected() && !status.isRetweet()){
                 timelineView.retweetMenuItem.setEnabled(false);
             }else{
                 timelineView.retweetMenuItem.setEnabled(true);
@@ -63,7 +63,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 timelineView.retweetMenuItem.setText("RT");
             }
             
-            if(user.isProtected()){
+            if(user.isProtected() && !status.isRetweet()){
                 timelineView.retweetMenuItem.setText("RT - Private Account");
             }
             
