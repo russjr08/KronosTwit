@@ -22,7 +22,15 @@ public class ViewProfileMenuListener extends MouseAdapter {
     
     @Override
     public void mousePressed(MouseEvent event){
-        Status status = statuses.getStatuses().get(statuses.getSelectedStatus());
+        Status status;
+        if(statuses.getStatuses().get(statuses.getSelectedStatus()).isRetweet()){
+            status = statuses.getStatuses().get(statuses.getSelectedStatus()).getRetweetedStatus();
+
+        }else{
+            status = statuses.getStatuses().get(statuses.getSelectedStatus());
+
+        }
+        
         User user = status.getUser();
         
         WindowViewProfile profile = new WindowViewProfile(user.getScreenName(), 500, 600, user, ConsoleMain.twitter);

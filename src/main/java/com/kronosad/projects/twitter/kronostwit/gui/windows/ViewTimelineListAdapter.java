@@ -31,13 +31,18 @@ public class ViewTimelineListAdapter extends MouseAdapter {
             
             Status status = null;
             try {
-                status = ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId());
+                if(ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId()).isRetweet()){
+                    status = ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId()).getRetweetedStatus();
+                }else{
+                    status = ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId());
+                }
             } catch (TwitterException ex) {
                 Logger.getLogger(ViewTimelineListAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
             //System.out.println(timelineView.getSelectedStatus());
             System.out.println(timelineView.tweetsView.getMaxSelectionIndex());
             System.out.println(timelineView.getStatuses().size());
+            
             User user = status.getUser();
             System.out.println(status.getText());
             timelineView.popUp.show(event.getComponent(), event.getX(), event.getY());
