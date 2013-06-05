@@ -2,10 +2,15 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.GenericClickListener;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import twitter4j.Status;
@@ -84,8 +89,50 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 System.out.println("Error determining if we can delete this Tweet!");
                 e.printStackTrace();
             }
+         
+            ArrayList<String> links = TweetHelper.getLinksFromTweet(status.getText());
+            
+            
+            for(String link : links){
+                JMenuItem linkItem = new JMenuItem("Navigate To: " + link);
+                timelineView.popUp.add(linkItem);
+            }
+            
+            for(int i = 0; i < timelineView.popUp.getComponents().length; i++){
+                Component popUpItem = timelineView.popUp.getComponent(i);
+                if(popUpItem instanceof JMenuItem){
+                    JMenuItem item = (JMenuItem) popUpItem;
+                    for(String link : links){
+                        if(item.getText().startsWith("Navigate")){
+                            System.out.println("Adding Listener");
+                            popUpItem.addMouseListener(new GenericClickListener());
+                            if(!item.getText().equalsIgnoreCase("Navigate To: " + link)){
+                                timelineView.popUp.remove(timelineView.popUp.getComponent(i));
+                            }
+                        }else{
+                            System.out.println("Doesn't start with Navigate!");
+                        }
+                    }
+                    if(links.isEmpty()){
+                        if(item.getText().startsWith("Navigate")){
+                            timelineView.popUp.remove(i);
+                        }
+                    }
+                }
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+
             
         }
+        
+        
     }
     
     
