@@ -17,6 +17,8 @@ import com.kronosad.projects.twitter.kronostwit.gui.listeners.ViewProfileMenuLis
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.awt.Image;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -79,6 +81,8 @@ public class WindowViewTimeline extends Window implements IStatus {
         
         
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -216,10 +220,42 @@ public class WindowViewTimeline extends Window implements IStatus {
         setupAdapters();
         
         this.setVisible(true);
-        TwitterStream stream = new TwitterStreamFactory().getInstance();
+        final TwitterStream stream = new TwitterStreamFactory().getInstance();
         stream.addListener(new StreamStatusListener(this));
         stream.setOAuthConsumer(ConsoleMain.consumerKey, ConsoleMain.consumerSecret);
         stream.user();
+        
+        this.addWindowListener(new WindowListener(){
+            
+            @Override
+            public void windowDeactivated(WindowEvent e){
+                
+            }
+
+            public void windowOpened(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            public void windowClosing(WindowEvent e) {
+                stream.shutdown();
+            }
+
+            public void windowClosed(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            public void windowIconified(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            public void windowDeiconified(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            public void windowActivated(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
     }
 
     @Override
