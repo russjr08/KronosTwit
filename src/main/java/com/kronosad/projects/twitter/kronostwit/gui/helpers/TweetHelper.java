@@ -17,7 +17,7 @@ public class TweetHelper {
         String[] composition = tweet.split(" ");
         
         for(String words : composition){
-            if(words.contains("http://")){
+            if(words.contains("http://") || words.contains("https://")){
                 links.add(words);
             }
         }

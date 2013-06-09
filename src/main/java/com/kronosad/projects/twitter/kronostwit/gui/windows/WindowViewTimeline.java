@@ -225,35 +225,12 @@ public class WindowViewTimeline extends Window implements IStatus {
         stream.setOAuthConsumer(ConsoleMain.consumerKey, ConsoleMain.consumerSecret);
         stream.user();
         
-        this.addWindowListener(new WindowListener(){
-            
+        Runtime.getRuntime().addShutdownHook(new Thread()
+{
             @Override
-            public void windowDeactivated(WindowEvent e){
-                
-            }
-
-            public void windowOpened(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            public void windowClosing(WindowEvent e) {
+            public void run()
+            {
                 stream.shutdown();
-            }
-
-            public void windowClosed(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            public void windowIconified(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            public void windowDeiconified(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            public void windowActivated(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
     }
