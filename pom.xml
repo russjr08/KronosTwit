@@ -26,7 +26,7 @@
                             <archive>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
-                                    <mainClass>com.kronosad.projects.twitter.kronostwit.console.ConsoleMain</mainClass>
+                                    <mainClass>com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>

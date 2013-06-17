@@ -237,7 +237,7 @@ public class WindowViewTimeline extends Window implements IStatus {
 
     @Override
     public void close() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
     
     public void loadGreetings() throws IOException, TwitterException{

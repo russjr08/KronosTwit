@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConsoleMain {
 
@@ -30,69 +32,95 @@ public class ConsoleMain {
     public static String consumerKey, consumerSecret;
 
 
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        scanner = new Scanner(System.in);
-        prop = new Properties();
-
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KronosTwit - Beta");
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
-        loading.initialCode();
+    public static void load(){
 
 
         try {
-            System.out.println("Connecting to server for secret consumer data...");
-            loading.grabbingData();
-            initSecrets();
-            loading.grabbingData();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERROR: Could not get consumer API data from server!\n Without the consumer" +
-                    " data, we cannot continue!\n Please verify your internet connectivity and restart this application. \n" +
-                    "The KronosAD server may also be down...", "Could not connect to KronosAD"
-                    , JOptionPane.ERROR_MESSAGE);
-            System.out.println("Exception hidden.");
+            
+            scanner = new Scanner(System.in);
+            prop = new Properties();
 
-            System.exit(1);
-        }finally {
-            System.out.println("Connection successful! We are now ready to talk to Twitter's servers!");
-        }
-        twitter = TwitterFactory.getSingleton();
-        File twitter4JFile = new File("twitter4j.properties");
-        twitter.setOAuthConsumer(consumerKey, consumerSecret);
-
-        if(!twitter4JFile.exists()){
-            System.out.println("No previous token found! Executing new user setup!");
-            getNewUserTokenGUI();
-            System.out.println("All other authentication data for this app has been invalidated, in case you're running this " +
-                    "app from another folder, you will need to delete the twitter4j.properties file in those other" +
-                    "folders.");
-        }else{
-            System.out.println("Authorization Details located! Using those!");
-        }
-
-        String betaKey = CheckerBetaUser.getBetaKeyProperties();
-        loading.checkUser();
-
-        if(betaKey == null){
-            betaKey = JOptionPane.showInputDialog("A previous Beta Key was not found. Please enter your Beta Key.");
-
-        }else{
-            System.out.println("Previous Beta Key found! Using those!");
-        }
+            
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
+            loading.initialCode();
 
 
-        try {
-            if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
-                //mainMenu(); Use this if you want to use the console based version of the app.
-                //MainGUI gui = new MainGUI();
-                CheckerBetaUser.setBetaKeyProperties(betaKey);
-                loading.done();
-                WindowViewTimeline viewTimeline = new WindowViewTimeline("View Timeline", 500, 600);
+            try {
+                System.out.println("Connecting to server for secret consumer data...");
+                loading.grabbingData();
+                initSecrets();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "ERROR: Could not get consumer API data from server!\n Without the consumer" +
+                        " data, we cannot continue!\n Please verify your internet connectivity and restart this application. \n" +
+                        "The KronosAD server may also be down...", "Could not connect to KronosAD"
+                        , JOptionPane.ERROR_MESSAGE);
+                System.out.println("Exception hidden.");
+
+                System.exit(1);
+            }finally {
+                System.out.println("Connection successful! We are now ready to talk to Twitter's servers!");
             }
-        } catch (TwitterException e) {
-            e.printStackTrace();
-            System.exit(1);
+            twitter = TwitterFactory.getSingleton();
+            File twitter4JFile = new File("twitter4j.properties");
+            twitter.setOAuthConsumer(consumerKey, consumerSecret);
+
+            if(!twitter4JFile.exists()){
+                System.out.println("No previous token found! Executing new user setup!");
+                getNewUserTokenGUI();
+                System.out.println("All other authentication data for this app has been invalidated, in case you're running this " +
+                        "app from another folder, you will need to delete the twitter4j.properties file in those other" +
+                        "folders.");
+            }else{
+                System.out.println("Authorization Details located! Using those!");
+            }
+
+            String betaKey = CheckerBetaUser.getBetaKeyProperties();
+            loading.checkUser();
+
+            if(betaKey == null){
+                betaKey = JOptionPane.showInputDialog("A previous Beta Key was not found. Please enter your Beta Key.");
+
+            }else{
+                System.out.println("Previous Beta Key found! Using those!");
+                
+            }
+
+
+            try {
+                if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
+                    //mainMenu(); Use this if you want to use the console based version of the app.
+                    //MainGUI gui = new MainGUI();
+                    CheckerBetaUser.setBetaKeyProperties(betaKey);
+                    
+                }
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }finally{
+                loading.done();
+                javax.swing.SwingUtilities.invokeLater(new Runnable(){
+                    @Override
+                    public void run(){
+                        WindowViewTimeline viewTimeline = new WindowViewTimeline("View Timeline", 500, 600);
+
+                    }
+                    
+                });
+            }
+            
+
+            
+
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
         }
         
 
