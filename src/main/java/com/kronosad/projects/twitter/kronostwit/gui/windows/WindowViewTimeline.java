@@ -6,6 +6,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.MenuBarHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.DeleteMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.FavoriteMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.NewTweetMenuItemListener;
@@ -17,8 +18,6 @@ import com.kronosad.projects.twitter.kronostwit.gui.listeners.ViewProfileMenuLis
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.awt.Image;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -33,6 +32,7 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.util.Timer;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
@@ -61,6 +61,8 @@ public class WindowViewTimeline extends Window implements IStatus {
     protected static JMenuItem replyMenuItem = new JMenuItem("Reply to %u");
     protected static JMenuItem deleteMenuItem = new JMenuItem("Delete");
     private static JSeparator separator = new JSeparator();
+    
+    public static JMenuBar menuBar = new JMenuBar();
 
     
     /**
@@ -68,6 +70,8 @@ public class WindowViewTimeline extends Window implements IStatus {
      */
     public WindowViewTimeline(String title, int sizeX, int sizeY) {
         super(title, sizeX, sizeY);
+        MenuBarHelper.initMenu();
+        this.setJMenuBar(menuBar);
         try {
             this.user = ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId());
             initComponents();

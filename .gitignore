@@ -6,3 +6,7 @@
 .DS_Store
 
 KronosTwit-1.0*
+target/classes
+pom.properties
+nb-configuration.xml
+nbactions.xml
