@@ -234,7 +234,7 @@ public class WindowViewTimeline extends Window implements IStatus {
             @Override
             public void run()
             {
-                stream.shutdown();
+                //stream.shutdown();
             }
         });
     }

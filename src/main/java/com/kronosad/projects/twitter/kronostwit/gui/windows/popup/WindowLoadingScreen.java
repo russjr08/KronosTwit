@@ -119,4 +119,10 @@ public class WindowLoadingScreen extends Window {
         lblStatus.setText("Opening Main Window...");
         this.dispose();
     }
+    
+    public void loadingResources(){
+        progressStatus.setValue(5);
+        lblStatus.setText("Checking / Download Resources");
+        
+    }
 }

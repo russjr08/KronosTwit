@@ -30,6 +30,7 @@ public class ConsoleMain {
     public static String pin;
     public static Properties prop;
     public static String consumerKey, consumerSecret;
+    public static WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
 
 
     public static void load(){
@@ -42,7 +43,6 @@ public class ConsoleMain {
 
             
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
             loading.initialCode();
 
 
