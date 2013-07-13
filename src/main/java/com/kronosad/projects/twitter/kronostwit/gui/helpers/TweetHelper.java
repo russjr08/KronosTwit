@@ -18,7 +18,10 @@ public class TweetHelper {
         
         for(String words : composition){
             if(words.contains("http://") || words.contains("https://")){
-                links.add(words);
+                if(!links.contains(words)){
+                    links.add(words);
+
+                }
             }
         }
         

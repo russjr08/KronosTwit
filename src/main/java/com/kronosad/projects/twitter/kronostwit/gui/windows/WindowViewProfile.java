@@ -6,6 +6,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimelin
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshUserTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,6 +33,7 @@ public class WindowViewProfile extends Window implements IStatus{
     private User user;
     private Twitter twitter;
     public Image profileImage;
+    public Image betaImage;
     
     private static Relationship following;
 
@@ -81,6 +83,7 @@ public class WindowViewProfile extends Window implements IStatus{
         bioLblTxt = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
         btnFollow = new javax.swing.JButton();
+        betaUserStar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -105,7 +108,7 @@ public class WindowViewProfile extends Window implements IStatus{
         tweetsPanelLayout.setHorizontalGroup(
             tweetsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tweetsPanelLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
                 .addContainerGap())
         );
         tweetsPanelLayout.setVerticalGroup(
@@ -126,16 +129,22 @@ public class WindowViewProfile extends Window implements IStatus{
             }
         });
 
+        betaUserStar.setToolTipText("Beta User");
+        betaUserStar.setSize(new java.awt.Dimension(64, 64));
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(tbdPaneTweets, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(tbdPaneTweets, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .add(layout.createSequentialGroup()
                         .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -162,32 +171,36 @@ public class WindowViewProfile extends Window implements IStatus{
                                             .add(layout.createSequentialGroup()
                                                 .add(lblLocationText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .add(6, 6, 6)))
-                                        .add(251, 251, 251))
+                                        .add(193, 193, 193)
+                                        .add(betaUserStar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap())
                                     .add(layout.createSequentialGroup()
                                         .add(59, 59, 59)
                                         .add(btnFollow)
                                         .add(0, 0, Short.MAX_VALUE))))
                             .add(layout.createSequentialGroup()
                                 .add(bioLblTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 304, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(54, 54, 54)))))
-                .addContainerGap())
+                                .add(54, 54, 54))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(lblUsername)
-                            .add(lblUsernameField))
-                        .add(18, 18, 18)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(lblWebsite)
-                            .add(lblWebsiteTxt)))
-                    .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                        .add(layout.createSequentialGroup()
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(lblUsername)
+                                .add(lblUsernameField))
+                            .add(18, 18, 18)
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(lblWebsite)
+                                .add(lblWebsiteTxt))
+                            .add(56, 56, 56))
+                        .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(betaUserStar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(lblLocation)
                     .add(lblLocationText))
@@ -233,6 +246,7 @@ public class WindowViewProfile extends Window implements IStatus{
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel betaUserStar;
     private javax.swing.JLabel bioLblTxt;
     private javax.swing.JButton btnFollow;
     private javax.swing.JProgressBar jProgressBar1;
@@ -253,6 +267,7 @@ public class WindowViewProfile extends Window implements IStatus{
     
     public void init() {
         URL profileImageURL = null;
+        File betaPicture = new File("beta_user.png");
         try {
             profileImageURL = new URL(user.getProfileImageURL());
             
@@ -263,6 +278,13 @@ public class WindowViewProfile extends Window implements IStatus{
 
         try {
             profileImage = ImageIO.read(profileImageURL);
+            betaImage = ImageIO.read(betaPicture);
+            for(String userName : ConsoleMain.BETA_USERS){
+                if(userName.equalsIgnoreCase(user.getScreenName())){
+                    betaUserStar.setIcon(new ImageIcon(betaImage));
+                    System.out.println("BETA USER!");
+                }
+            }
             profilePictureLabel.setIcon(new ImageIcon(profileImage));
 
         } catch (IOException e) {

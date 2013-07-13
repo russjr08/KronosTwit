@@ -31,7 +31,8 @@ public class ConsoleMain {
     public static Properties prop;
     public static String consumerKey, consumerSecret;
     public static WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
-
+    
+    public static final String[] BETA_USERS = {"russjr08", "trisam889"};
 
     public static void load(){
 

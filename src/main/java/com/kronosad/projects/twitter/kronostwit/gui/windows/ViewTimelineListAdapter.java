@@ -102,6 +102,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 Component popUpItem = timelineView.popUp.getComponent(i);
                 if(popUpItem instanceof JMenuItem){
                     JMenuItem item = (JMenuItem) popUpItem;
+                    
                     for(String link : links){
                         if(item.getText().startsWith("Navigate")){
                             System.out.println("Adding Listener");

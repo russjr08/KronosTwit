@@ -234,7 +234,7 @@ public class WindowViewTimeline extends Window implements IStatus {
             @Override
             public void run()
             {
-                //stream.shutdown();
+                stream.shutdown();
             }
         });
     }
@@ -315,7 +315,7 @@ public class WindowViewTimeline extends Window implements IStatus {
 
         
     }
-    
+    @Deprecated
     public void initTimer(){
 
         Timer timer = new Timer("Auto update Timer");
@@ -344,7 +344,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     
     
 }
-
+@Deprecated
 class updateTask extends TimerTask{
         WindowViewTimeline timeline;
         public updateTask(WindowViewTimeline timeline){

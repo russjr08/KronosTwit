@@ -39,4 +39,26 @@ public class NotificationHelper {
         
     }
     
+    public static void notifyDeletion(Status status, final WindowViewTimeline viewTimeline) throws TwitterException{
+        
+            System.setProperty("swing.aatext", "true");
+            INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
+            
+            new NotificationBuilder().withStyle(style).withTitle("KronosTwit - Status Deletion!")
+                    .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
+                    .withListener(new NotificationEventAdapter() {
+                        public void clicked(NotificationEvent event){
+                             if(viewTimeline != null){
+                                 viewTimeline.toFront();
+                             }
+                        } 
+                    
+                    })
+                    .showNotification();
+            
+            
+        
+        
+    }
+    
 }

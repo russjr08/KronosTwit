@@ -52,7 +52,7 @@ public class StreamStatusListener implements UserStreamListener{
             if(statuses.getStatuses().get(i).getId() == sdn.getStatusId()){
                 statuses.getStatuses().remove(i);
                 statuses.getTweetList().removeElementAt(i);
-                statuses.getTweetList().remove(i);
+                //statuses.getTweetList().remove(i);
 
             }
         }

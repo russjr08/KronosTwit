@@ -25,10 +25,15 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="tbdPaneTweets" pref="0" max="32767" attributes="0"/>
-                  <Component id="jProgressBar1" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="tbdPaneTweets" pref="0" max="32767" attributes="0"/>
+                          <Component id="jProgressBar1" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
                       <Component id="profilePictureLabel" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -62,7 +67,9 @@
                                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="-2" pref="251" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
+                                      <Component id="betaUserStar" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
@@ -78,7 +85,6 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -87,21 +93,25 @@
           <Group type="102" attributes="0">
               <Component id="jProgressBar1" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblUsername" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblUsernameField" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblUsernameField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblWebsite" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblWebsiteTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblWebsite" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblWebsiteTxt" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="profilePictureLabel" min="-2" pref="50" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="profilePictureLabel" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="betaUserStar" min="-2" pref="64" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblLocation" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblLocationText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -175,7 +185,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane2" pref="387" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="393" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -226,6 +236,14 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFollowActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="betaUserStar">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Beta User"/>
+        <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[64, 64]"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
