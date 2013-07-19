@@ -44,8 +44,8 @@ public class StreamStatusListener implements UserStreamListener{
     }
     
     public void onStatus(Status status) {
-        statuses.getStatuses().add(0, status);
-        statuses.getTweetList().add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+        timelineView.statuses.add(0, status);
+        timelineView.tweetsList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
         if(status.getText().contains(authedUser.getScreenName())){
             timelineView.mentions.add(0, status);
             timelineView.mentionsList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));

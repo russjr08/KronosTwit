@@ -50,9 +50,9 @@ import twitter4j.TwitterStreamFactory;
  * @author Russell
  */
 public class WindowViewTimeline extends Window implements IStatus {
-    private DefaultListModel tweetsList = new DefaultListModel();
+    public DefaultListModel tweetsList = new DefaultListModel();
     public DefaultListModel mentionsList = new DefaultListModel();
-    private ArrayList<Status> statuses = new ArrayList<Status>();
+    public ArrayList<Status> statuses = new ArrayList<Status>();
     public ArrayList<Status> mentions = new ArrayList<Status>();
     private User user;
     protected HelperRefreshTimeline refresh = new HelperRefreshTimeline(this);
