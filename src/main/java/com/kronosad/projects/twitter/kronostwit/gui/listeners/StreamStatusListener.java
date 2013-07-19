@@ -69,6 +69,29 @@ public class StreamStatusListener implements UserStreamListener{
 
             }
         }
+        try {
+            if(ConsoleMain.twitter.showStatus(sdn.getStatusId()).getText().contains(ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId()).getScreenName())){
+                if(statuses instanceof WindowViewTimeline){
+                    WindowViewTimeline timelineView = (WindowViewTimeline)statuses;
+                    
+                    for(int i = 0; i < timelineView.mentions.size(); i++){
+                        if(timelineView.mentions.get(i).getId() == sdn.getStatusId()){
+                            timelineView.mentions.remove(i);
+                            timelineView.mentionsList.removeElementAt(i);
+
+                        }
+                    }
+                }
+
+                    
+                
+            }
+        } catch (TwitterException ex) {                
+            
+            Logger.getLogger(StreamStatusListener.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(StreamStatusListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //statuses.getTweetList().clear();
         /*for(Status status : statuses.getStatuses()){
