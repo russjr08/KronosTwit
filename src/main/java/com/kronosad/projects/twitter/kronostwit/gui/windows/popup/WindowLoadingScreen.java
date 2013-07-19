@@ -108,6 +108,11 @@ public class WindowLoadingScreen extends Window {
         
     }
     
+    public void checkUpdate(){
+        progressStatus.setValue(30);
+        lblStatus.setText("Checking for Updates...");
+    }
+    
     public void checkUser(){
         progressStatus.setValue(50);
         lblStatus.setText("Checking if you're authorized to use this app...");

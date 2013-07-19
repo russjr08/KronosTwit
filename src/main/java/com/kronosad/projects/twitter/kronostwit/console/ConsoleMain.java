@@ -2,6 +2,7 @@ package com.kronosad.projects.twitter.kronostwit.console;
 
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
+import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingScreen;
 import twitter4j.*;
@@ -19,6 +20,8 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 public class ConsoleMain {
 
@@ -62,6 +65,24 @@ public class ConsoleMain {
             }finally {
                 System.out.println("Connection successful! We are now ready to talk to Twitter's servers!");
             }
+            
+            loading.checkUpdate();
+            
+            CheckerUpdate updater = new CheckerUpdate();
+            try {
+                updater.check();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Failed to check for updates!", "Update Check Failed", JOptionPane.WARNING_MESSAGE);
+            }finally{
+                System.out.println("Final Versions: ");
+                System.out.println("Client: " + updater.version);
+                System.out.println("Server: " + updater.serverVersion);
+                if(updater.serverVersion > updater.version){
+                    JOptionPane.showMessageDialog(null, "Your Version of KronosTwit is out of date! Please update!", "Out of Date!", JOptionPane.ERROR_MESSAGE);
+                    System.exit(1);
+                }
+            }
+            
             twitter = TwitterFactory.getSingleton();
             File twitter4JFile = new File("twitter4j.properties");
             twitter.setOAuthConsumer(consumerKey, consumerSecret);

@@ -115,7 +115,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         lblQuickActions = new javax.swing.JLabel();
         btnNewTweet = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tweetsTabbedPane.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -283,6 +283,7 @@ public class WindowViewTimeline extends Window implements IStatus {
             public void run()
             {
                 stream.shutdown();
+                System.out.println("Closing App!");
             }
         });
         
