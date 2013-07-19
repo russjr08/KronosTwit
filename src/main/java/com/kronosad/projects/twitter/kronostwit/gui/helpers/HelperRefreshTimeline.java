@@ -43,24 +43,28 @@ public class HelperRefreshTimeline {
 
 
                 for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
+                    
                     statuses.getStatuses().add(timelineStatuses);
-                    if(timelineStatuses.getText().contains(authedUser.getScreenName())){
-                        if(statuses instanceof WindowViewTimeline){
-                            WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
-                            timelineWindow.mentions.add(timelineStatuses);
-                        }
-                    }
+
                     
                 }
 
                 for(Status status : statuses.getStatuses()){
                     statuses.getTweetList().addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
-                    if(status.getText().contains(authedUser.getScreenName())){
-                        if(statuses instanceof WindowViewTimeline){
-                            WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
-                            timelineWindow.mentionsList.addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
-                        }
-                    }
+
+                }
+                WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
+
+                for(Status timelineStatuses : ConsoleMain.twitter.getMentionsTimeline(new Paging(1, 80))){
+
+                    timelineWindow.mentions.add(timelineStatuses);
+                    
+                    
+                }
+
+                for(Status status : timelineWindow.mentions){
+                    timelineWindow.mentionsList.addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+                    
                 }
             } catch (TwitterException e) {
                 e.printStackTrace();
