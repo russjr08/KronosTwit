@@ -9,6 +9,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.helpers.DocumentLimitedInput
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperNewTweet;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 
@@ -79,6 +80,11 @@ public class WindowNewTweet extends Window {
         txtAreaTweet = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
         lblCharsLeft.setText("Characters Left:");
 
@@ -146,6 +152,10 @@ public class WindowNewTweet extends Window {
         
         if(left <= 0){
         }
+        
+        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE){
+            this.dispose();
+        }
     }//GEN-LAST:event_txtAreaTweetKeyReleased
 
     private void btnTweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTweetActionPerformed
@@ -191,6 +201,12 @@ public class WindowNewTweet extends Window {
             System.out.println("No Context!");
         }
     }//GEN-LAST:event_btnTweetActionPerformed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE){
+            this.dispose();
+        }
+    }//GEN-LAST:event_formKeyReleased
     
     
    
