@@ -351,6 +351,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     
     public void setupAdapters(){
         tweetsView.addMouseListener(new ViewTimelineListAdapter(this));
+        mentionsView.addMouseListener(new ViewTimelineListAdapter(this));
         
         viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener(this));
         retweetMenuItem.addMouseListener(new RTMenuItemListener(this));
