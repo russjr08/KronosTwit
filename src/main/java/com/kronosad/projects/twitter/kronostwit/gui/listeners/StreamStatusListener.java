@@ -4,6 +4,8 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
+import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.NotificationHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
@@ -25,11 +27,18 @@ import twitter4j.UserStreamListener;
 public class StreamStatusListener implements UserStreamListener{
     private IStatus statuses;
     private WindowViewTimeline timelineView;
+    private User authedUser = null;
+
     
     public StreamStatusListener(IStatus status){
         statuses = status;
         if(status instanceof WindowViewTimeline){
             timelineView = (WindowViewTimeline)status;
+        }
+        try {
+            authedUser = ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId());
+        } catch (TwitterException ex) {
+            Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -37,6 +46,10 @@ public class StreamStatusListener implements UserStreamListener{
     public void onStatus(Status status) {
         statuses.getStatuses().add(0, status);
         statuses.getTweetList().add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+        if(status.getText().contains(authedUser.getScreenName())){
+            timelineView.mentions.add(0, status);
+            timelineView.mentionsList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+        }
         try {
             NotificationHelper.notifyMention(status, timelineView);
         } catch (TwitterException ex) {

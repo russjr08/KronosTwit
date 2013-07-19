@@ -18,6 +18,8 @@ import com.kronosad.projects.twitter.kronostwit.gui.listeners.ViewProfileMenuLis
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -49,7 +51,9 @@ import twitter4j.TwitterStreamFactory;
  */
 public class WindowViewTimeline extends Window implements IStatus {
     private DefaultListModel tweetsList = new DefaultListModel();
+    public DefaultListModel mentionsList = new DefaultListModel();
     private ArrayList<Status> statuses = new ArrayList<Status>();
+    public ArrayList<Status> mentions = new ArrayList<Status>();
     private User user;
     protected HelperRefreshTimeline refresh = new HelperRefreshTimeline(this);
     protected JPopupMenu popUp = new JPopupMenu();
@@ -61,6 +65,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     protected static JMenuItem replyMenuItem = new JMenuItem("Reply to %u");
     protected static JMenuItem deleteMenuItem = new JMenuItem("Delete");
     private static JSeparator separator = new JSeparator();
+    private static boolean isMentionsSelected = false;
     
     public static JMenuBar menuBar = new JMenuBar();
 
@@ -99,15 +104,24 @@ public class WindowViewTimeline extends Window implements IStatus {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         userPictureLbl = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tweetsTabbedPane = new javax.swing.JTabbedPane();
         timelinePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tweetsView = new javax.swing.JList();
+        mentionsPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        mentionsView = new javax.swing.JList();
         lblBanner = new javax.swing.JLabel();
         lblQuickActions = new javax.swing.JLabel();
         btnNewTweet = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        tweetsTabbedPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tweetsTabbedPaneMouseClicked(evt);
+            }
+        });
 
         tweetsView.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -124,10 +138,30 @@ public class WindowViewTimeline extends Window implements IStatus {
         );
         timelinePanelLayout.setVerticalGroup(
             timelinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Timeline", timelinePanel);
+        tweetsTabbedPane.addTab("Timeline", timelinePanel);
+
+        mentionsView.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(mentionsView);
+
+        javax.swing.GroupLayout mentionsPanelLayout = new javax.swing.GroupLayout(mentionsPanel);
+        mentionsPanel.setLayout(mentionsPanelLayout);
+        mentionsPanelLayout.setHorizontalGroup(
+            mentionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+        );
+        mentionsPanelLayout.setVerticalGroup(
+            mentionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+        );
+
+        tweetsTabbedPane.addTab("Mentions", mentionsPanel);
 
         lblQuickActions.setText("Quick Actions");
 
@@ -152,7 +186,7 @@ public class WindowViewTimeline extends Window implements IStatus {
                         .addGap(46, 46, 46)
                         .addComponent(lblBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addComponent(jTabbedPane1)
+                    .addComponent(tweetsTabbedPane)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(217, 217, 217)
                         .addComponent(lblQuickActions)
@@ -173,7 +207,7 @@ public class WindowViewTimeline extends Window implements IStatus {
                                 .addComponent(btnNewTweet)))
                         .addGap(0, 2, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tweetsTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -187,16 +221,29 @@ public class WindowViewTimeline extends Window implements IStatus {
 
     }//GEN-LAST:event_btnNewTweetActionPerformed
 
+    private void tweetsTabbedPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tweetsTabbedPaneMouseClicked
+        if(tweetsTabbedPane.getSelectedIndex() == 1){
+            isMentionsSelected = true;
+            System.out.println("Mentions Tab Selected...");
+        }else{
+            isMentionsSelected = false;
+        }
+
+    }//GEN-LAST:event_tweetsTabbedPaneMouseClicked
+
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNewTweet;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBanner;
     private javax.swing.JLabel lblQuickActions;
+    private javax.swing.JPanel mentionsPanel;
+    public javax.swing.JList mentionsView;
     private javax.swing.JPanel timelinePanel;
+    private javax.swing.JTabbedPane tweetsTabbedPane;
     protected javax.swing.JList tweetsView;
     private javax.swing.JLabel userPictureLbl;
     // End of variables declaration//GEN-END:variables
@@ -215,6 +262,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         }
         
         tweetsView.setModel(tweetsList);
+        mentionsView.setModel(mentionsList);
         
         System.out.println("Attempting to load timeline...");
         
@@ -237,6 +285,10 @@ public class WindowViewTimeline extends Window implements IStatus {
                 stream.shutdown();
             }
         });
+        
+        
+        
+        
     }
 
     @Override
@@ -290,6 +342,12 @@ public class WindowViewTimeline extends Window implements IStatus {
         System.out.println("Load Timeline Method called!");
         refresh.refreshTimelineFirstTime();
     }
+
+    public static boolean isIsMentionsSelected() {
+        return isMentionsSelected;
+    }
+    
+    
     
     public void setupAdapters(){
         tweetsView.addMouseListener(new ViewTimelineListAdapter(this));
@@ -331,15 +389,29 @@ public class WindowViewTimeline extends Window implements IStatus {
     
     
     public ArrayList<Status> getStatuses() {
-        return statuses;
+        
+        if(isMentionsSelected){
+            return mentions;
+        }else{
+            return statuses;
+        }
+        
     }
 
     public int getSelectedStatus() {
-        return tweetsView.getSelectedIndex();
+        if(isMentionsSelected){
+            return mentionsView.getSelectedIndex();
+        }else{
+            return tweetsView.getSelectedIndex();
+        }
     }
 
     public DefaultListModel getTweetList() {
-        return tweetsList; 
+        if(isMentionsSelected){
+            return mentionsList;
+        }else{
+            return tweetsList; 
+        }
     }
     
     

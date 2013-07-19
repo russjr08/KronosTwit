@@ -3,10 +3,14 @@ package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 public class HelperRefreshTimeline {
 
@@ -22,6 +26,12 @@ public class HelperRefreshTimeline {
     }
     
     public void refreshTimelineFirstTime(){
+        User authedUser = null;
+        try {
+            authedUser = ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId());
+        } catch (TwitterException ex) {
+            Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if(canRefresh){
             try {
 
@@ -34,11 +44,23 @@ public class HelperRefreshTimeline {
 
                 for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
                     statuses.getStatuses().add(timelineStatuses);
+                    if(timelineStatuses.getText().contains(authedUser.getScreenName())){
+                        if(statuses instanceof WindowViewTimeline){
+                            WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
+                            timelineWindow.mentions.add(timelineStatuses);
+                        }
+                    }
+                    
                 }
 
                 for(Status status : statuses.getStatuses()){
                     statuses.getTweetList().addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
-
+                    if(status.getText().contains(authedUser.getScreenName())){
+                        if(statuses instanceof WindowViewTimeline){
+                            WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
+                            timelineWindow.mentionsList.addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+                        }
+                    }
                 }
             } catch (TwitterException e) {
                 e.printStackTrace();
