@@ -80,6 +80,10 @@ public class ConsoleMain {
                 if(updater.serverVersion > updater.version){
                     JOptionPane.showMessageDialog(null, "Your Version of KronosTwit is out of date! Please update!", "Out of Date!", JOptionPane.ERROR_MESSAGE);
                     System.exit(1);
+                }else if(updater.serverVersion < updater.version){
+                    JOptionPane.showMessageDialog(null, "Your Version of KronosTwit has a higher version than the one detected on the server, \n"
+                            + "this probably means you are running a BETA copy. Please proceed with caution!", "Version Mismatch Detected!", JOptionPane.INFORMATION_MESSAGE);
+                    
                 }
             }
             

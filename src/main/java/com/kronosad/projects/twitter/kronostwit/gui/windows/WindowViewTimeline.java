@@ -18,8 +18,6 @@ import com.kronosad.projects.twitter.kronostwit.gui.listeners.ViewProfileMenuLis
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -36,10 +34,13 @@ import javax.swing.ImageIcon;
 import java.util.Timer;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import twitter4j.TwitterException;
 import org.apache.commons.io.*;
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.User;
 import twitter4j.TwitterStream;
@@ -52,8 +53,10 @@ import twitter4j.TwitterStreamFactory;
 public class WindowViewTimeline extends Window implements IStatus {
     public DefaultListModel tweetsList = new DefaultListModel();
     public DefaultListModel mentionsList = new DefaultListModel();
+    public DefaultListModel searchList = new DefaultListModel();
     public ArrayList<Status> statuses = new ArrayList<Status>();
     public ArrayList<Status> mentions = new ArrayList<Status>();
+    public ArrayList<Status> searches = new ArrayList<Status>();
     private User user;
     protected HelperRefreshTimeline refresh = new HelperRefreshTimeline(this);
     protected JPopupMenu popUp = new JPopupMenu();
@@ -111,6 +114,9 @@ public class WindowViewTimeline extends Window implements IStatus {
         mentionsPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         mentionsView = new javax.swing.JList();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        searchView = new javax.swing.JList();
         lblBanner = new javax.swing.JLabel();
         lblQuickActions = new javax.swing.JLabel();
         btnNewTweet = new javax.swing.JButton();
@@ -138,7 +144,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         );
         timelinePanelLayout.setVerticalGroup(
             timelinePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
         );
 
         tweetsTabbedPane.addTab("Timeline", timelinePanel);
@@ -158,10 +164,25 @@ public class WindowViewTimeline extends Window implements IStatus {
         );
         mentionsPanelLayout.setVerticalGroup(
             mentionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
         );
 
         tweetsTabbedPane.addTab("Mentions", mentionsPanel);
+
+        jScrollPane3.setViewportView(searchView);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+        );
+
+        tweetsTabbedPane.addTab("Search", jPanel1);
 
         lblQuickActions.setText("Quick Actions");
 
@@ -205,7 +226,7 @@ public class WindowViewTimeline extends Window implements IStatus {
                                 .addComponent(lblQuickActions)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnNewTweet)))
-                        .addGap(0, 2, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tweetsTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -225,8 +246,28 @@ public class WindowViewTimeline extends Window implements IStatus {
         if(tweetsTabbedPane.getSelectedIndex() == 1){
             isMentionsSelected = true;
             System.out.println("Mentions Tab Selected...");
-        }else{
+        }else if(tweetsTabbedPane.getSelectedIndex() == 2){
             isMentionsSelected = false;
+            searchList.removeAllElements();
+            searches.clear();
+            String query = JOptionPane.showInputDialog(null, "What would you like to search for?", "Enter your Query", JOptionPane.QUESTION_MESSAGE);
+            QueryResult queryResult = null;
+            try {
+                Query searchQuery = new Query(query);
+                searchQuery.setCount(100);
+                queryResult = ConsoleMain.twitter.search(searchQuery);
+            } catch (TwitterException ex) {
+                Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                for(Status status : queryResult.getTweets()){
+                    searches.add(0,status);
+                    searchList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+                    
+                }
+                
+            }
+            
+            
         }
 
     }//GEN-LAST:event_tweetsTabbedPaneMouseClicked
@@ -236,12 +277,15 @@ public class WindowViewTimeline extends Window implements IStatus {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNewTweet;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBanner;
     private javax.swing.JLabel lblQuickActions;
     private javax.swing.JPanel mentionsPanel;
     public javax.swing.JList mentionsView;
+    private javax.swing.JList searchView;
     private javax.swing.JPanel timelinePanel;
     private javax.swing.JTabbedPane tweetsTabbedPane;
     protected javax.swing.JList tweetsView;
@@ -263,6 +307,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         
         tweetsView.setModel(tweetsList);
         mentionsView.setModel(mentionsList);
+        searchView.setModel(searchList);
         
         System.out.println("Attempting to load timeline...");
         
@@ -353,6 +398,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     public void setupAdapters(){
         tweetsView.addMouseListener(new ViewTimelineListAdapter(this));
         mentionsView.addMouseListener(new ViewTimelineListAdapter(this));
+        searchView.addMouseListener(new ViewTimelineListAdapter(this));
         
         viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener(this));
         retweetMenuItem.addMouseListener(new RTMenuItemListener(this));
@@ -392,27 +438,62 @@ public class WindowViewTimeline extends Window implements IStatus {
     
     public ArrayList<Status> getStatuses() {
         
-        if(isMentionsSelected){
-            return mentions;
-        }else{
-            return statuses;
+//        if(isMentionsSelected){
+//            return mentions;
+//        }else{
+//            return statuses;
+//        }
+        
+        switch(tweetsTabbedPane.getSelectedIndex()){
+            case 0:
+                return statuses;
+            case 1:
+                return mentions;
+            case 2:
+                return searches;
+            default:
+                throw new IllegalArgumentException("Invalid Tab Selected!");
+                
         }
         
     }
 
     public int getSelectedStatus() {
-        if(isMentionsSelected){
-            return mentionsView.getSelectedIndex();
-        }else{
-            return tweetsView.getSelectedIndex();
-        }
+//        if(isMentionsSelected){
+//            return mentionsView.getSelectedIndex();
+//        }else{
+//            return tweetsView.getSelectedIndex();
+//        }
+          switch(tweetsTabbedPane.getSelectedIndex()){
+              case 0:
+                  return tweetsView.getSelectedIndex();
+              case 1:
+                  return mentionsView.getSelectedIndex();
+              case 2:
+                  return searchView.getSelectedIndex();
+              default:
+                  throw new IllegalArgumentException("Invalid Tab Selected!");
+          }
+        
+        
     }
 
     public DefaultListModel getTweetList() {
-        if(isMentionsSelected){
-            return mentionsList;
-        }else{
-            return tweetsList; 
+//        if(isMentionsSelected){
+//            return mentionsList;
+//        }else{
+//            return tweetsList; 
+//        }
+        
+        switch(tweetsTabbedPane.getSelectedIndex()){
+            case 0:
+                return tweetsList;
+            case 1:
+                return mentionsList;
+            case 2:
+                return searchList;
+            default:
+                throw new IllegalArgumentException("Invalid Tab Selected!");
         }
     }
     

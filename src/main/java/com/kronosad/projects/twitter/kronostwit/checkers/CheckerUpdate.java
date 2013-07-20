@@ -23,13 +23,13 @@ import org.xml.sax.SAXException;
 public class CheckerUpdate {
     
     public String releaseType = "Alpha";
-    public double version = 2.0;
+    public double version = 2.1;
     public double serverVersion;
     private URL apiURL;
 
     public CheckerUpdate() {
         try {
-            this.apiURL = new URL("http://api.kronosad.com/Common/projects.xml");
+            this.apiURL = new URL("http://api.kronosad.com/common/projects.xml");
         } catch (MalformedURLException ex) {
             Logger.getLogger(CheckerUpdate.class.getName()).log(Level.SEVERE, null, ex);
         }
