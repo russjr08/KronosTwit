@@ -82,7 +82,7 @@ public class ConsoleMain {
                     System.exit(1);
                 }else if(updater.serverVersion < updater.version){
                     JOptionPane.showMessageDialog(null, "Your Version of KronosTwit has a higher version than the one detected on the server, \n"
-                            + "this probably means you are running a BETA copy. Please proceed with caution!", "Version Mismatch Detected!", JOptionPane.INFORMATION_MESSAGE);
+                            + "this probably means you are running a BETA copy. Please proceed with caution!", "Version Mismatch Detected!", JOptionPane.WARNING_MESSAGE);
                     
                 }
             }
