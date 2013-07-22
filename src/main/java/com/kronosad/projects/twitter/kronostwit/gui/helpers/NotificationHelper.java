@@ -21,21 +21,13 @@ public class NotificationHelper {
         if(status.getText().contains("@" + ConsoleMain.twitter.getScreenName())){
             System.setProperty("swing.aatext", "true");
             INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
-            if(System.getProperty("os.name").contains("Mac")){
-                System.out.println("Activating OS X Notification Features...");
-                com.apple.eawt.Application.getApplication().requestUserAttention(true);
-                com.apple.eawt.Application.getApplication().setDockIconBadge("1");
-            }
+            
             new NotificationBuilder().withStyle(style).withTitle("KronosTwit - New Mention!")
                     .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
                     .withListener(new NotificationEventAdapter() {
                         public void clicked(NotificationEvent event){
                              if(viewTimeline != null){
                                  viewTimeline.toFront();
-                                 if(System.getProperty("os.name").contains("OS X")){
-                                    com.apple.eawt.Application.getApplication().requestUserAttention(false);
-
-                                }
                              }
                         } 
                     
@@ -49,7 +41,6 @@ public class NotificationHelper {
     
     public static void notifyDeletion(Status status, final WindowViewTimeline viewTimeline) throws TwitterException{
         
-            
             System.setProperty("swing.aatext", "true");
             INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
             
@@ -59,14 +50,11 @@ public class NotificationHelper {
                         public void clicked(NotificationEvent event){
                              if(viewTimeline != null){
                                  viewTimeline.toFront();
-                                 
                              }
                         } 
                     
                     })
                     .showNotification();
-            
-            
             
             
         

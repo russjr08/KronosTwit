@@ -19,7 +19,6 @@ public class ConsoleLoader {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KronosTwit - Beta");
         loadResources();
-        System.out.println("OS Detected: " + System.getProperty("os.name"));
 
         ConsoleMain.load();
     }
