@@ -122,6 +122,18 @@ public class WindowViewTimeline extends Window implements IStatus {
         btnNewTweet = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
 
         tweetsTabbedPane.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -271,6 +283,22 @@ public class WindowViewTimeline extends Window implements IStatus {
         }
 
     }//GEN-LAST:event_tweetsTabbedPaneMouseClicked
+
+    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
+        
+        if(System.getProperty("os.name").contains("Mac")){
+                com.apple.eawt.Application.getApplication().setDockIconBadge("");
+        }
+
+        
+    }//GEN-LAST:event_formWindowStateChanged
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        if(System.getProperty("os.name").contains("Mac")){
+                System.out.println("Activating OS X Notification Features...");
+                com.apple.eawt.Application.getApplication().setDockIconBadge("0");
+        }
+    }//GEN-LAST:event_formWindowGainedFocus
 
     
     
