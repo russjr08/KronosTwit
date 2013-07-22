@@ -17,10 +17,22 @@ public class TweetHelper {
         String[] composition = tweet.split(" ");
         
         for(String words : composition){
-            if(words.contains("http://") || words.contains("https://")){
+            if(words.startsWith("http://") || words.startsWith("https://")){
                 if(!links.contains(words)){
                     links.add(words);
 
+                }
+            }
+            
+            if(words.startsWith("/r/")){
+                if(!links.contains(words)){
+                    links.add("http://reddit.com" + words);
+                }
+            }
+            
+            if(words.startsWith("r/")){
+                if(!links.contains(words)){
+                    links.add("http://reddit.com/" + words);
                 }
             }
         }
