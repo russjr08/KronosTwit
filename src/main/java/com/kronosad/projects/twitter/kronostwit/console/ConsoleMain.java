@@ -124,7 +124,7 @@ public class ConsoleMain {
                 e.printStackTrace();
                 System.exit(1);
             }finally{
-                loading.done();
+                
                 javax.swing.SwingUtilities.invokeLater(new Runnable(){
                     @Override
                     public void run(){
@@ -133,6 +133,7 @@ public class ConsoleMain {
                     }
                     
                 });
+                loading.done();
             }
             
 
