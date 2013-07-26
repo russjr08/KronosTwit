@@ -78,6 +78,7 @@ public class WindowViewTimeline extends Window implements IStatus {
      */
     public WindowViewTimeline(String title, int sizeX, int sizeY) {
         super(title, sizeX, sizeY);
+        this.setLocationRelativeTo(null);
         MenuBarHelper.initMenu();
         this.setJMenuBar(menuBar);
         try {
