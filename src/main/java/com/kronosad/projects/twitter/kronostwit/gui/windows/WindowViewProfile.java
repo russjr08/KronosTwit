@@ -264,53 +264,63 @@ public class WindowViewProfile extends Window implements IStatus{
     private HelperRefreshUserTimeline refreshTL = new HelperRefreshUserTimeline(this);
     
     public void init() {
-        URL profileImageURL = null;
-        File betaPicture = new File("beta_user.png");
-        File verifiedPicture = new File("verified_account.png");
         try {
-            profileImageURL = new URL(user.getProfileImageURL());
+            if(this.user.getScreenName().equalsIgnoreCase(ConsoleMain.twitter.getScreenName())){
+                btnFollow.setEnabled(false);
+            }
             
-        } catch (MalformedURLException e) {
-            System.out.println("Error getting URL of profile image");
-            e.printStackTrace();
-        }
+            URL profileImageURL = null;
+            File betaPicture = new File("beta_user.png");
+            File verifiedPicture = new File("verified_account.png");
+            try {
+                profileImageURL = new URL(user.getProfileImageURL());
+                
+            } catch (MalformedURLException e) {
+                System.out.println("Error getting URL of profile image");
+                e.printStackTrace();
+            }
 
-        try {
-            profileImage = ImageIO.read(profileImageURL);
-            betaImage = ImageIO.read(betaPicture);
-            verifiedImage = ImageIO.read(verifiedPicture);
-            for(String userName : ConsoleMain.BETA_USERS){
-                if(userName.equalsIgnoreCase(user.getScreenName())){
-                    betaUserStar.setIcon(new ImageIcon(betaImage));
-                    System.out.println("BETA USER!");
+            try {
+                profileImage = ImageIO.read(profileImageURL);
+                betaImage = ImageIO.read(betaPicture);
+                verifiedImage = ImageIO.read(verifiedPicture);
+                for(String userName : ConsoleMain.BETA_USERS){
+                    if(userName.equalsIgnoreCase(user.getScreenName())){
+                        betaUserStar.setIcon(new ImageIcon(betaImage));
+                        System.out.println("BETA USER!");
+                    }
                 }
-            }
-            if(user.isVerified()){
-                betaUserStar.setIcon(new ImageIcon(verifiedImage));
-            }
-            profilePictureLabel.setIcon(new ImageIcon(profileImage));
+                if(user.isVerified()){
+                    betaUserStar.setIcon(new ImageIcon(verifiedImage));
+                }
+                profilePictureLabel.setIcon(new ImageIcon(profileImage));
 
-        } catch (IOException e) {
-            System.out.println("Error getting profile image!");
-            e.printStackTrace();
-        }
-        
-        lblUsernameField.setText(user.getScreenName());
-        lblWebsiteTxt.setText(user.getURL());
-        lblLocationText.setText(user.getLocation());
-        bioLblTxt.setText("<html><p>" + user.getDescription() + "</p></html>");
-        tweetsList.setModel(tweetModel);
-        //populateTweets();
-        refreshTL.refreshUserTimeline(user);
-        
-        this.setVisible(true);
-        
-        jProgressBar1.setIndeterminate(true);
-        
-        if(following.isSourceFollowingTarget()){
-            btnFollow.setText("Unfollow");
-        }else{
-            btnFollow.setText("Follow");
+            } catch (IOException e) {
+                System.out.println("Error getting profile image!");
+                e.printStackTrace();
+            }
+            
+            lblUsernameField.setText(user.getScreenName());
+            lblWebsiteTxt.setText(user.getURL());
+            lblLocationText.setText(user.getLocation());
+            bioLblTxt.setText("<html><p>" + user.getDescription() + "</p></html>");
+            tweetsList.setModel(tweetModel);
+            //populateTweets();
+            refreshTL.refreshUserTimeline(user);
+            
+            this.setVisible(true);
+            
+            jProgressBar1.setIndeterminate(true);
+            
+            if(following.isSourceFollowingTarget()){
+                btnFollow.setText("Unfollow");
+            }else{
+                btnFollow.setText("Follow");
+            }
+        } catch (TwitterException ex) {
+            Logger.getLogger(WindowViewProfile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(WindowViewProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
