@@ -3,6 +3,7 @@ package com.kronosad.projects.twitter.kronostwit.console;
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
+import com.kronosad.projects.twitter.kronostwit.data.DataDownloader;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingScreen;
 import twitter4j.*;
@@ -20,8 +21,6 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 public class ConsoleMain {
 
@@ -101,25 +100,33 @@ public class ConsoleMain {
                 System.out.println("Authorization Details located! Using those!");
             }
 
-            String betaKey = CheckerBetaUser.getBetaKeyProperties();
+            //String betaKey = CheckerBetaUser.getBetaKeyProperties();
             loading.checkUser();
 
-            if(betaKey == null){
-                betaKey = JOptionPane.showInputDialog("A previous Beta Key was not found. Please enter your Beta Key.");
+//            if(betaKey == null){
+//                betaKey = JOptionPane.showInputDialog("A previous Beta Key was not found. Please enter your Beta Key.");
+//
+//            }else{
+//                System.out.println("Previous Beta Key found! Using those!");
+//                
+//            }
 
-            }else{
-                System.out.println("Previous Beta Key found! Using those!");
-                
+            boolean problems = DataDownloader.downloadData();
+            if(problems){
+                JOptionPane.showMessageDialog(null, "Error checking if you are"
+                        + " authorized to use this app. Terminating!",
+                        "Error checking User Authorization",
+                        JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
             }
-
-
             try {
-                if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
-                    //mainMenu(); Use this if you want to use the console based version of the app.
-                    //MainGUI gui = new MainGUI();
-                    CheckerBetaUser.setBetaKeyProperties(betaKey);
-                    
-                }
+//                if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
+//                    //mainMenu(); Use this if you want to use the console based version of the app.
+//                    //MainGUI gui = new MainGUI();
+//                    CheckerBetaUser.setBetaKeyProperties(betaKey);
+//                    
+//                }
+                CheckerBetaUser.isBetaUser(twitter.getScreenName());
             } catch (TwitterException e) {
                 e.printStackTrace();
                 System.exit(1);

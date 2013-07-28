@@ -1,6 +1,8 @@
 package com.kronosad.projects.twitter.kronostwit.checkers;
 
 import com.kronosad.api.internet.ReadURL;
+import com.kronosad.projects.twitter.kronostwit.user.KronosUser;
+import com.kronosad.projects.twitter.kronostwit.user.UserRegistry;
 
 import javax.swing.*;
 import java.io.FileInputStream;
@@ -41,6 +43,22 @@ public class CheckerBetaUser {
         }
 
 
+        return false;
+    }
+    
+    public static boolean isBetaUser(String username){
+        
+        KronosUser user = UserRegistry.getKronosUser(username);
+        if(user.isBetaUser()){
+            return true;
+        }else{
+            JOptionPane.showMessageDialog(null,
+                    "Sorry, you are not enrolled in"
+                    + " the KronosTwit Beta Testing Program",
+                    "User Not Authorized", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+        
         return false;
     }
 

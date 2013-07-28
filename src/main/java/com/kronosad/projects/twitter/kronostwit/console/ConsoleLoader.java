@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class ConsoleLoader {
     
-    private static String[] resourceList = {"greetings.txt", "beta_user.png"};
+    private static String[] resourceList = {"greetings.txt", "beta_user.png", "verified_account.png"};
     
     public static void main(String[] args){
         System.setProperty("apple.laf.useScreenMenuBar", "true");
