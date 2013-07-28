@@ -34,6 +34,7 @@ public class WindowViewProfile extends Window implements IStatus{
     private Twitter twitter;
     public Image profileImage;
     public Image betaImage;
+    public Image verifiedImage;
     
     private static Relationship following;
 
@@ -265,6 +266,7 @@ public class WindowViewProfile extends Window implements IStatus{
     public void init() {
         URL profileImageURL = null;
         File betaPicture = new File("beta_user.png");
+        File verifiedPicture = new File("verified_account.png");
         try {
             profileImageURL = new URL(user.getProfileImageURL());
             
@@ -276,11 +278,15 @@ public class WindowViewProfile extends Window implements IStatus{
         try {
             profileImage = ImageIO.read(profileImageURL);
             betaImage = ImageIO.read(betaPicture);
+            verifiedImage = ImageIO.read(verifiedPicture);
             for(String userName : ConsoleMain.BETA_USERS){
                 if(userName.equalsIgnoreCase(user.getScreenName())){
                     betaUserStar.setIcon(new ImageIcon(betaImage));
                     System.out.println("BETA USER!");
                 }
+            }
+            if(user.isVerified()){
+                betaUserStar.setIcon(new ImageIcon(verifiedImage));
             }
             profilePictureLabel.setIcon(new ImageIcon(profileImage));
 
