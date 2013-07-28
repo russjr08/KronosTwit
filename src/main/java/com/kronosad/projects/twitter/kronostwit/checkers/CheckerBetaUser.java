@@ -3,6 +3,7 @@ package com.kronosad.projects.twitter.kronostwit.checkers;
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.user.KronosUser;
 import com.kronosad.projects.twitter.kronostwit.user.UserRegistry;
+import java.io.File;
 
 import javax.swing.*;
 import java.io.FileInputStream;
@@ -49,6 +50,8 @@ public class CheckerBetaUser {
     public static boolean isBetaUser(String username){
         
         KronosUser user = UserRegistry.getKronosUser(username);
+        deleteOldBetaProperties();
+
         if(user.isBetaUser()){
             return true;
         }else{
@@ -59,10 +62,11 @@ public class CheckerBetaUser {
             System.exit(1);
         }
         
+        
         return false;
     }
 
-
+    @Deprecated
     public static void setBetaKeyProperties(String betaKey){
         prop.setProperty("BetaKey", betaKey);
         System.out.println("Attempting to save Beta Key...");
@@ -76,7 +80,8 @@ public class CheckerBetaUser {
             System.out.println("Attempt success! Beta Key is stored!");
         }
     }
-
+    
+    @Deprecated
     public static String getBetaKeyProperties(){
 
         String betaKey;
@@ -96,9 +101,26 @@ public class CheckerBetaUser {
 
         return null;
     }
+    
+    public static void deleteOldBetaProperties(){
+        
+        File propFile = new File("Beta.properties");
+        
+        int deleteFile;
+        
+        if(propFile.exists()){
+            deleteFile = JOptionPane.showConfirmDialog(null, "An old Beta properties file was found and is no longer needed, do you want to delete this file?", "Old File Detected", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if(deleteFile == 0){
+                propFile.deleteOnExit();
+                JOptionPane.showMessageDialog(null, "The file will be deleted when this app is closed.", "Option Confirmed", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
 
-
-
-
-
+    }
+        
 }
+
+
+
+
+
