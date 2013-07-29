@@ -5,6 +5,8 @@ import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshUserTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import com.kronosad.projects.twitter.kronostwit.user.KronosUser;
+import com.kronosad.projects.twitter.kronostwit.user.UserRegistry;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +38,8 @@ public class WindowViewProfile extends Window implements IStatus{
     public Image betaImage;
     public Image verifiedImage;
     
+    private KronosUser kronosUser;
+    
     private static Relationship following;
 
     
@@ -55,6 +59,7 @@ public class WindowViewProfile extends Window implements IStatus{
         }
         this.user = user;
         this.twitter = twitter; 
+        kronosUser = UserRegistry.getKronosUser(user.getScreenName());
         
         initComponents();
         init();
@@ -284,12 +289,18 @@ public class WindowViewProfile extends Window implements IStatus{
                 profileImage = ImageIO.read(profileImageURL);
                 betaImage = ImageIO.read(betaPicture);
                 verifiedImage = ImageIO.read(verifiedPicture);
-                for(String userName : ConsoleMain.BETA_USERS){
-                    if(userName.equalsIgnoreCase(user.getScreenName())){
-                        betaUserStar.setIcon(new ImageIcon(betaImage));
-                        System.out.println("BETA USER!");
-                    }
+//                for(String userName : ConsoleMain.BETA_USERS){
+//                    if(userName.equalsIgnoreCase(user.getScreenName())){
+//                        betaUserStar.setIcon(new ImageIcon(betaImage));
+//                        System.out.println("BETA USER!");
+//                    }
+//                }
+                
+                if(kronosUser.isBetaUser()){
+                    betaUserStar.setIcon(new ImageIcon(betaImage));
+
                 }
+                
                 if(user.isVerified()){
                     betaUserStar.setIcon(new ImageIcon(verifiedImage));
                 }
