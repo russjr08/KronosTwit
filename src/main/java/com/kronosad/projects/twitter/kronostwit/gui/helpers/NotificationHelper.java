@@ -5,6 +5,7 @@ import ch.swingfx.twinkle.event.NotificationEvent;
 import ch.swingfx.twinkle.event.NotificationEventAdapter;
 import ch.swingfx.twinkle.style.INotificationStyle;
 import ch.swingfx.twinkle.style.theme.DarkDefaultNotification;
+import ch.swingfx.twinkle.window.Positions;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import twitter4j.Status;
@@ -32,6 +33,7 @@ public class NotificationHelper {
                         } 
                     
                     })
+                    .withPosition(Positions.NORTH_WEST)
                     .showNotification();
             
             
@@ -54,6 +56,7 @@ public class NotificationHelper {
                         } 
                     
                     })
+                    .withPosition(Positions.NORTH_WEST)
                     .showNotification();
             
             
