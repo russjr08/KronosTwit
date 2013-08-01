@@ -17,6 +17,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.listeners.StreamStatusListen
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.ViewProfileMenuListener;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -354,7 +355,7 @@ public class WindowViewTimeline extends Window implements IStatus {
                 System.out.println("Closing App!");
             }
         });
-        
+        this.setBackground(new ThemeDefault().getCurrentColor());
         
         
         

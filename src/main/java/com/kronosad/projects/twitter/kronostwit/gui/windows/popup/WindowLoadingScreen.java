@@ -5,6 +5,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 
 /**
  *
@@ -20,7 +21,9 @@ public class WindowLoadingScreen extends Window {
      */
     public WindowLoadingScreen(String title, int sizeX, int sizeY) {
         super(title, sizeX, sizeY);
+       
         initComponents();
+        init();
         this.setVisible(true);
     }
 
@@ -87,6 +90,8 @@ public class WindowLoadingScreen extends Window {
     public void init() {
 
         this.setTitle("Loading Application!");
+        ThemeDefault defaultTheme = new ThemeDefault();
+        this.setBackground(defaultTheme.getCurrentColor());
         
     }
 

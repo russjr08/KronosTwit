@@ -9,6 +9,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.helpers.DocumentLimitedInput
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperNewTweet;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
@@ -227,6 +228,7 @@ public class WindowNewTweet extends Window {
         
         progressBarCharsLeft.setMaximum(140);
         this.setVisible(true);
+        this.setBackground(new ThemeDefault().getCurrentColor());
     }
 
     @Override

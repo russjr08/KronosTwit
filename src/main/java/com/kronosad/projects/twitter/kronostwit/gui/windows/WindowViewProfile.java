@@ -5,6 +5,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshUserTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import com.kronosad.projects.twitter.kronostwit.user.KronosUser;
 import com.kronosad.projects.twitter.kronostwit.user.UserRegistry;
 import java.awt.Image;
@@ -115,7 +116,7 @@ public class WindowViewProfile extends Window implements IStatus{
         tweetsPanelLayout.setHorizontalGroup(
             tweetsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tweetsPanelLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                 .addContainerGap())
         );
         tweetsPanelLayout.setVerticalGroup(
@@ -330,6 +331,7 @@ public class WindowViewProfile extends Window implements IStatus{
         } catch (IllegalStateException ex) {
             Logger.getLogger(WindowViewProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.setBackground(new ThemeDefault().getCurrentColor());
 
     }
 
