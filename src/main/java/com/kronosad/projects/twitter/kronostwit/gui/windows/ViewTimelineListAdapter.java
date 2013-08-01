@@ -98,6 +98,13 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 timelineView.popUp.add(linkItem);
             }
             
+            ArrayList<String> hashtags = TweetHelper.getHashtagsFromTweet(status.getText());
+            
+            for(String hashtag : hashtags){
+                JMenuItem hashItem = new JMenuItem("Search: " + hashtag);
+                timelineView.popUp.add(hashItem);
+            }
+            
             for(int i = 0; i < timelineView.popUp.getComponents().length; i++){
                 Component popUpItem = timelineView.popUp.getComponent(i);
                 if(popUpItem instanceof JMenuItem){
@@ -107,15 +114,27 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                         if(item.getText().startsWith("Navigate")){
                             System.out.println("Adding Listener");
                             popUpItem.addMouseListener(new GenericClickListener());
-                            if(!item.getText().equalsIgnoreCase("Navigate To: " + link)){
+                            if((!links.contains(link)) || links.isEmpty()){
                                 timelineView.popUp.remove(timelineView.popUp.getComponent(i));
                             }
-                        }else{
-                            System.out.println("Doesn't start with Navigate!");
+                        }
+                    }
+                    for(String hashTag : hashtags){
+                        if(item.getText().startsWith("Search")){
+                            System.out.println("Adding Listener for Search");
+                            popUpItem.addMouseListener(new GenericClickListener());
+                            if((!hashtags.contains(hashTag)) || (hashtags.isEmpty())){
+                                timelineView.popUp.remove(timelineView.popUp.getComponent(i));
+                            }
                         }
                     }
                     if(links.isEmpty()){
                         if(item.getText().startsWith("Navigate")){
+                            timelineView.popUp.remove(i);
+                        }
+                    }
+                    if(hashtags.isEmpty()){
+                        if(item.getText().startsWith("Search")){
                             timelineView.popUp.remove(i);
                         }
                     }

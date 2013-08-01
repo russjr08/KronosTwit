@@ -1,6 +1,7 @@
 
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
+import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -41,6 +42,11 @@ public class GenericClickListener extends MouseAdapter {
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(GenericClickListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                }
+                if(link.contains("#")){
+                    
+                    WindowViewTimeline.search(link);
+                    
                 }
             }
             

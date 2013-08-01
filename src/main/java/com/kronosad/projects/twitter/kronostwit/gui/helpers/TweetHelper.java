@@ -44,5 +44,22 @@ public class TweetHelper {
         
     }
     
+    public static ArrayList<String> getHashtagsFromTweet(String tweet){
+        ArrayList<String> hashtags = new ArrayList<String>();
+        
+        String[] composition = tweet.split(" ");
+        
+        for(String word : composition){
+            if(word.startsWith("#")){
+                System.out.println("Hashtag found!");
+                if(!hashtags.contains(word)){
+                    hashtags.add(word);
+                }
+            }
+        }
+        
+        return hashtags;
+    }
+    
     
 }

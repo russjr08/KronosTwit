@@ -53,10 +53,10 @@ import twitter4j.TwitterStreamFactory;
 public class WindowViewTimeline extends Window implements IStatus {
     public DefaultListModel tweetsList = new DefaultListModel();
     public DefaultListModel mentionsList = new DefaultListModel();
-    public DefaultListModel searchList = new DefaultListModel();
+    public static DefaultListModel searchList = new DefaultListModel();
     public ArrayList<Status> statuses = new ArrayList<Status>();
     public ArrayList<Status> mentions = new ArrayList<Status>();
-    public ArrayList<Status> searches = new ArrayList<Status>();
+    public static ArrayList<Status> searches = new ArrayList<Status>();
     private User user;
     protected HelperRefreshTimeline refresh = new HelperRefreshTimeline(this);
     protected JPopupMenu popUp = new JPopupMenu();
@@ -248,11 +248,38 @@ public class WindowViewTimeline extends Window implements IStatus {
             isMentionsSelected = true;
             System.out.println("Mentions Tab Selected...");
         }else if(tweetsTabbedPane.getSelectedIndex() == 2){
-            isMentionsSelected = false;
-            searchList.removeAllElements();
-            searches.clear();
             String query = JOptionPane.showInputDialog(null, "What would you like to search for?", "Enter your Query", JOptionPane.QUESTION_MESSAGE);
-            QueryResult queryResult = null;
+            // Duplicate Code
+//            isMentionsSelected = false;
+//            searchList.removeAllElements();
+//            searches.clear();
+//            QueryResult queryResult = null;
+//            try {
+//                Query searchQuery = new Query(query);
+//                searchQuery.setCount(100);
+//                queryResult = ConsoleMain.twitter.search(searchQuery);
+//            } catch (TwitterException ex) {
+//                Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+//            }finally{
+//                for(Status status : queryResult.getTweets()){
+//                    searches.add(0,status);
+//                    searchList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+//                    
+//                }
+//                
+//            }
+            search(query);
+            
+        }
+
+    }//GEN-LAST:event_tweetsTabbedPaneMouseClicked
+
+    public static void search(String query){
+        isMentionsSelected = false;
+        searchList.removeAllElements();
+        searches.clear();
+        tweetsTabbedPane.setSelectedIndex(2);
+        QueryResult queryResult = null;
             try {
                 Query searchQuery = new Query(query);
                 searchQuery.setCount(100);
@@ -267,12 +294,7 @@ public class WindowViewTimeline extends Window implements IStatus {
                 }
                 
             }
-            
-            
-        }
-
-    }//GEN-LAST:event_tweetsTabbedPaneMouseClicked
-
+    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -288,7 +310,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     public javax.swing.JList mentionsView;
     private javax.swing.JList searchView;
     private javax.swing.JPanel timelinePanel;
-    private javax.swing.JTabbedPane tweetsTabbedPane;
+    private static javax.swing.JTabbedPane tweetsTabbedPane;
     protected javax.swing.JList tweetsView;
     private javax.swing.JLabel userPictureLbl;
     // End of variables declaration//GEN-END:variables
@@ -497,6 +519,8 @@ public class WindowViewTimeline extends Window implements IStatus {
                 throw new IllegalArgumentException("Invalid Tab Selected!");
         }
     }
+    
+    
     
     
 }
