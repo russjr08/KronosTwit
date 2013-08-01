@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -36,8 +37,11 @@ public class ConsoleMain {
     
     public static final String[] BETA_USERS = {"russjr08", "trisam889"};
 
-    public static void load(){
-
+    public static void load(String[] args){
+        final ArrayList<String> arguments = new ArrayList<String>();
+        for(String argument : args){
+            arguments.add(argument);
+        }
 
         try {
             
@@ -135,8 +139,12 @@ public class ConsoleMain {
                 javax.swing.SwingUtilities.invokeLater(new Runnable(){
                     @Override
                     public void run(){
-                        WindowViewTimeline viewTimeline = new WindowViewTimeline("View Timeline", 500, 600);
-
+                        if(!arguments.contains("-console")){
+                            WindowViewTimeline viewTimeline = new WindowViewTimeline("View Timeline", 500, 600);
+                        }else{
+                            System.out.println("All GUI methods halted! You are now running in Console Only mode!");
+                            mainMenu();
+                        }
                     }
                     
                 });
@@ -239,7 +247,7 @@ public class ConsoleMain {
 
     public static void printHomeTimeline(){
         try {
-            for(Status status : twitter.getHomeTimeline()){
+            for(Status status : twitter.getHomeTimeline(new Paging(1, 100))){
                 System.out.println(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
             }
         } catch (TwitterException e) {

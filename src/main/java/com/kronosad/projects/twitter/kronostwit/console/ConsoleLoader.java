@@ -20,7 +20,7 @@ public class ConsoleLoader {
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KronosTwit - Beta");
         loadResources();
 
-        ConsoleMain.load();
+        ConsoleMain.load(args);
     }
     
     public static void loadResources(){
