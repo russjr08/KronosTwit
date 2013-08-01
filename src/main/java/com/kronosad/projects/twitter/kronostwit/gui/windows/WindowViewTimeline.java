@@ -288,8 +288,8 @@ public class WindowViewTimeline extends Window implements IStatus {
                 Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
             }finally{
                 for(Status status : queryResult.getTweets()){
-                    searches.add(0,status);
-                    searchList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+                    searches.add(status);
+                    searchList.addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
                     
                 }
                 
