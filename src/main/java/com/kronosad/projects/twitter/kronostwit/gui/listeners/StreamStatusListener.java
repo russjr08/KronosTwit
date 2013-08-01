@@ -42,13 +42,12 @@ public class StreamStatusListener implements UserStreamListener{
         }
         
     }
-    
     public void onStatus(Status status) {
         timelineView.statuses.add(0, status);
-        timelineView.tweetsList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+        timelineView.tweetsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), status.getText()));
         if(status.getText().contains(authedUser.getScreenName())){
             timelineView.mentions.add(0, status);
-            timelineView.mentionsList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+            timelineView.mentionsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), status.getText()));
         }
         try {
             NotificationHelper.notifyMention(status, timelineView);

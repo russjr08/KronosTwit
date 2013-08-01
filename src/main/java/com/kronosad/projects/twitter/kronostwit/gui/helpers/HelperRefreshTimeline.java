@@ -50,8 +50,8 @@ public class HelperRefreshTimeline {
                 }
 
                 for(Status status : statuses.getStatuses()){
-                    statuses.getTweetList().addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
-
+                    statuses.getTweetList().addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), status.getText()));
+                    
                 }
                 WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
 
@@ -63,7 +63,7 @@ public class HelperRefreshTimeline {
                 }
 
                 for(Status status : timelineWindow.mentions){
-                    timelineWindow.mentionsList.addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
+                    timelineWindow.mentionsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), status.getText()));
                     
                 }
             } catch (TwitterException e) {

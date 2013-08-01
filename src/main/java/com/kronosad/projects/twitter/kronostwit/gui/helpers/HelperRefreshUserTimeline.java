@@ -36,7 +36,7 @@ public class HelperRefreshUserTimeline {
                 }
 
                 for(Status status : this.statuses.getStatuses()){
-                    this.statuses.getTweetList().addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
+                    this.statuses.getTweetList().addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), status.getText()));
 
                 }
             } catch (TwitterException e) {
