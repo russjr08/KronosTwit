@@ -20,6 +20,7 @@ public class TweetHelper {
             if(words.startsWith("http://") || words.startsWith("https://")){
                 if(!links.contains(words)){
                     links.add(words);
+                    System.out.println("Link found!");
 
                 }
             }

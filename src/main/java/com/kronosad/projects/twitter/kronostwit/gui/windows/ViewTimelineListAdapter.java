@@ -94,15 +94,55 @@ public class ViewTimelineListAdapter extends MouseAdapter {
             
             
             for(String link : links){
-                JMenuItem linkItem = new JMenuItem("Navigate To: " + link);
-                timelineView.popUp.add(linkItem);
+                boolean alreadyContains = false;
+                String linkText = "Navigate To: " + link;
+                for(int i = 0; i < timelineView.popUp.getComponents().length; i++){
+                    if(timelineView.popUp.getComponent(i) instanceof JMenuItem){
+                        JMenuItem component = (JMenuItem) timelineView.popUp.getComponent(i);
+                        if(component.getText().equalsIgnoreCase(linkText)){
+                            alreadyContains = true;
+                        }
+                        if(component.getText().contains("Navigate")){
+                            String[] parts = component.getText().split(" ");
+                            if(!links.contains(parts[1])){
+                                timelineView.popUp.remove(i);
+                            }
+                        }
+                    }
+                }
+                if(!alreadyContains){
+                    JMenuItem linkItem = new JMenuItem(linkText);
+                    timelineView.popUp.add(linkItem);    
+                }
+                
             }
             
             ArrayList<String> hashtags = TweetHelper.getHashtagsFromTweet(status.getText());
             
             for(String hashtag : hashtags){
-                JMenuItem hashItem = new JMenuItem("Search: " + hashtag);
-                timelineView.popUp.add(hashItem);
+                boolean alreadyContains = false;
+                String hashLink = "Search: " + hashtag;
+                
+                for(int i = 0; i < timelineView.popUp.getComponents().length; i++){
+                    if(timelineView.popUp.getComponent(i) instanceof JMenuItem){
+                        JMenuItem component = (JMenuItem) timelineView.popUp.getComponent(i);
+                        if(component.getText().equalsIgnoreCase(hashLink)){
+                            alreadyContains = true;
+                        }
+                        if(component.getText().contains("Search")){
+                            String[] parts = component.getText().split(" ");
+                            if(!hashtags.contains(parts[1])){
+                                timelineView.popUp.remove(i);
+                            }
+                        }
+                    }
+                }
+                if(!alreadyContains){
+                    JMenuItem hashItem = new JMenuItem(hashLink);
+                    timelineView.popUp.add(hashItem);
+                }
+               
+                
             }
             
             for(int i = 0; i < timelineView.popUp.getComponents().length; i++){
