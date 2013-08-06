@@ -91,7 +91,7 @@ public class WindowLoadingScreen extends Window {
 
         this.setTitle("Loading Application!");
         ThemeDefault defaultTheme = new ThemeDefault();
-        this.setBackground(defaultTheme.getCurrentColor());
+        this.getContentPane().setBackground(defaultTheme.getCurrentColor());
         
     }
 

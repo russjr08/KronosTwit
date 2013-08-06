@@ -16,7 +16,7 @@ public class ThemeDefault implements ITheme{
     
     public Color getCurrentColor() {
         Calendar calendar = Calendar.getInstance();
-        if(calendar.getTime().getHours() >= 20){
+        if(calendar.getTime().getHours() >= 20 || calendar.getTime().getHours() <= 7){
             return getNightColor();
         }else{
             return getDayColor();

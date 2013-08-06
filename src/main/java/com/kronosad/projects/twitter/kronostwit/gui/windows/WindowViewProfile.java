@@ -331,7 +331,7 @@ public class WindowViewProfile extends Window implements IStatus{
         } catch (IllegalStateException ex) {
             Logger.getLogger(WindowViewProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setBackground(new ThemeDefault().getCurrentColor());
+        this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
 
     }
 

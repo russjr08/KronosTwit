@@ -228,7 +228,7 @@ public class WindowNewTweet extends Window {
         
         progressBarCharsLeft.setMaximum(140);
         this.setVisible(true);
-        this.setBackground(new ThemeDefault().getCurrentColor());
+        this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
     }
 
     @Override
