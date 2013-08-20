@@ -63,8 +63,10 @@ public class ViewTimelineListAdapter extends MouseAdapter {
             
             if(user.isProtected() && !status.isRetweet()){
                 timelineView.retweetMenuItem.setEnabled(false);
+                timelineView.quoteRTMenuItem.setEnabled(false);
             }else{
                 timelineView.retweetMenuItem.setEnabled(true);
+                timelineView.quoteRTMenuItem.setEnabled(true);
             }
             
             if(status.isRetweetedByMe()){
@@ -75,6 +77,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
             
             if(user.isProtected() && !status.isRetweet()){
                 timelineView.retweetMenuItem.setText("RT - Private Account");
+                timelineView.quoteRTMenuItem.setText("Quote RT - Private Account");
             }
             
             timelineView.replyMenuItem.setText("Reply to %u".replaceAll("%u", user.getScreenName()));

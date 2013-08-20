@@ -4,14 +4,21 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
+import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.enums.FinishedWork;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.DocumentLimitedInput;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperNewTweet;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import twitter4j.TwitterException;
 
 
 /**
@@ -146,20 +153,28 @@ public class WindowNewTweet extends Window {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtAreaTweetKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAreaTweetKeyReleased
-        progressBarCharsLeft.setValue(txtAreaTweet.getText().length());
-        int left = 140 - txtAreaTweet.getText().length();
-        
-        lblCharsLeftTxt.setText(String.valueOf(left));
-        
-        if(left <= 0){
-        }
+        updateCharsLeft();
         
         if(evt.getKeyCode() == KeyEvent.VK_ESCAPE){
             this.dispose();
         }
     }//GEN-LAST:event_txtAreaTweetKeyReleased
-
+    
+    private void updateCharsLeft(){
+       progressBarCharsLeft.setValue(txtAreaTweet.getText().length());
+        int left = 140 - txtAreaTweet.getText().length();
+        
+        lblCharsLeftTxt.setText(String.valueOf(left));
+        
+        if(left <= 0){
+        } 
+    }
+    
     private void btnTweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTweetActionPerformed
+        send();
+    }//GEN-LAST:event_btnTweetActionPerformed
+
+    public void send(){
         if(!isReply || txtAreaTweet.getText() == null){
             
             HelperNewTweet newTweet = new HelperNewTweet(statuses, txtAreaTweet.getText());
@@ -201,11 +216,13 @@ public class WindowNewTweet extends Window {
         }else{
             System.out.println("No Context!");
         }
-    }//GEN-LAST:event_btnTweetActionPerformed
-
+    }
+    
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         if(evt.getKeyCode() == KeyEvent.VK_ESCAPE){
             this.dispose();
+        }else if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            send();
         }
     }//GEN-LAST:event_formKeyReleased
     
@@ -229,6 +246,29 @@ public class WindowNewTweet extends Window {
         progressBarCharsLeft.setMaximum(140);
         this.setVisible(true);
         this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
+        if(this.isReply){
+            try {
+                ArrayList<String> users = TweetHelper.getUsersFromTweet(ConsoleMain.twitter.showStatus(replyID).getText());
+                if(!users.isEmpty()){
+                    for(final String user : users){
+                        System.out.println(user);
+                        if(!user.equalsIgnoreCase("@" + ConsoleMain.twitter.getScreenName())){
+                            SwingUtilities.invokeLater(new Runnable(){
+                                public void run(){
+                                    txtAreaTweet.setText(txtAreaTweet.getText() + " " + user);
+
+                                }
+                            });
+                        }
+                    }
+                }
+            } catch (TwitterException ex) {
+                Logger.getLogger(WindowNewTweet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        updateCharsLeft();
     }
 
     @Override

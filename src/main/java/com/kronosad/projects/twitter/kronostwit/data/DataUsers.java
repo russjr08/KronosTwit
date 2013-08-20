@@ -28,6 +28,7 @@ public class DataUsers implements IData {
     private URL apiURL;
     
     public DataUsers(){
+        
         try {
             apiURL = new URL("http://api.kronosad.com/KronosTwit/data/users.xml");
         } catch (MalformedURLException ex) {
@@ -37,6 +38,7 @@ public class DataUsers implements IData {
     
     
     public void download() throws ParserConfigurationException, IOException, SAXException {
+        System.out.println("Starting download of Users XML");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document apiInfo = builder.parse(apiURL.openStream());
@@ -44,7 +46,6 @@ public class DataUsers implements IData {
         apiInfo.normalize();
         
         NodeList nodeList = apiInfo.getElementsByTagName("user");
-        
         for(int i = 0; i < nodeList.getLength(); i++){
             Node node = nodeList.item(i);
             

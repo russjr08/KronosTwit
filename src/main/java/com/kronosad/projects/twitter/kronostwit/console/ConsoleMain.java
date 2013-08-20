@@ -37,12 +37,19 @@ public class ConsoleMain {
     
     public static final String[] BETA_USERS = {"russjr08", "trisam889"};
 
-    public static void load(String[] args){
+    public static void load(String[] args, boolean problems){
+        if(problems){
+            JOptionPane.showMessageDialog(null, "Error Grabbing Application Data, terminating!", "Error Downloading Data",
+                    JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
         final ArrayList<String> arguments = new ArrayList<String>();
         for(String argument : args){
             arguments.add(argument);
         }
-
+        while(loading.isUpdating){
+            
+        }
         try {
             
             scanner = new Scanner(System.in);
@@ -50,7 +57,6 @@ public class ConsoleMain {
 
             
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            loading.initialCode();
 
 
             try {
@@ -90,10 +96,13 @@ public class ConsoleMain {
                 }
             }
             
+            
+            
             twitter = TwitterFactory.getSingleton();
             File twitter4JFile = new File("twitter4j.properties");
-            twitter.setOAuthConsumer(consumerKey, consumerSecret);
 
+            
+            twitter.setOAuthConsumer(consumerKey, consumerSecret);
             if(!twitter4JFile.exists()){
                 System.out.println("No previous token found! Executing new user setup!");
                 getNewUserTokenGUI();
@@ -103,6 +112,7 @@ public class ConsoleMain {
             }else{
                 System.out.println("Authorization Details located! Using those!");
             }
+            
 
             //String betaKey = CheckerBetaUser.getBetaKeyProperties();
             loading.checkUser();
@@ -115,14 +125,7 @@ public class ConsoleMain {
 //                
 //            }
 
-            boolean problems = DataDownloader.downloadData();
-            if(problems){
-                JOptionPane.showMessageDialog(null, "Error checking if you are"
-                        + " authorized to use this app. Terminating!",
-                        "Error checking User Authorization",
-                        JOptionPane.ERROR_MESSAGE);
-                System.exit(1);
-            }
+            
             try {
 //                if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
 //                    //mainMenu(); Use this if you want to use the console based version of the app.

@@ -10,6 +10,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.helpers.MenuBarHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.DeleteMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.FavoriteMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.NewTweetMenuItemListener;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.QuoteRTMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.RTMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.RefreshMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.ReplyMenuItemListener;
@@ -64,6 +65,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     protected static JMenuItem viewProfileMenuItem = new JMenuItem("View %u's Profile");
     protected static JMenuItem newTweetMenuItem = new JMenuItem("New Tweet");
     protected static JMenuItem retweetMenuItem = new JMenuItem("RT");
+    protected static JMenuItem quoteRTMenuItem = new JMenuItem("Quote RT");
     protected static JMenuItem refreshMenuItem = new JMenuItem("Refresh");
     protected static JMenuItem favoriteMenuItem = new JMenuItem("Favorite");
     protected static JMenuItem replyMenuItem = new JMenuItem("Reply to %u");
@@ -376,6 +378,7 @@ public class WindowViewTimeline extends Window implements IStatus {
        
         List<String> lines = FileUtils.readLines(file);
         
+        
         Random random = new Random();
         
         int randomGreeting = random.nextInt(lines.size());
@@ -430,6 +433,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         
         viewProfileMenuItem.addMouseListener(new ViewProfileMenuListener(this));
         retweetMenuItem.addMouseListener(new RTMenuItemListener(this));
+        quoteRTMenuItem.addMouseListener(new QuoteRTMenuItemListener(this));
         refreshMenuItem.addMouseListener(new RefreshMenuItemListener(this));
         favoriteMenuItem.addMouseListener(new FavoriteMenuItemListener(this));
         replyMenuItem.addMouseListener(new ReplyMenuItemListener(this));
@@ -444,7 +448,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         popUp.add(favoriteMenuItem);
         popUp.add(replyMenuItem);
         popUp.add(retweetMenuItem);
-        
+        popUp.add(quoteRTMenuItem);
         
 
         

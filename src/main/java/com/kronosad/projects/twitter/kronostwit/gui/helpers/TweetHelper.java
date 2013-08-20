@@ -62,5 +62,21 @@ public class TweetHelper {
         return hashtags;
     }
     
+    public static ArrayList<String> getUsersFromTweet(String tweet){
+        ArrayList<String> users = new ArrayList<String>();
+        
+        String[] composition = tweet.split(" ");
+        for(String word  : composition){
+            if(word.startsWith("@")){
+                System.out.println("User Found!");
+                if(!users.contains(word)){
+                    users.add(word);
+                }
+            }
+        }
+        
+        return users;
+    }
+    
     
 }

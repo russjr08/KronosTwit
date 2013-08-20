@@ -24,20 +24,22 @@ public class DataDownloader {
                 downloader.download();
             } catch (ParserConfigurationException ex) {
                 Logger.getLogger(DataDownloader.class.getName()).log(Level.SEVERE, null, ex);
+                return true;
             } catch (IOException ex) {
                 Logger.getLogger(DataDownloader.class.getName()).log(Level.SEVERE, null, ex);
+                return true;
             } catch (SAXException ex) {
                 Logger.getLogger(DataDownloader.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
     
     private static void initDownloaders(){
         
         downloaders.add(new DataUsers());
+        downloaders.add(new DataResources());
         
     }
     
