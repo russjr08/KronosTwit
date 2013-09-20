@@ -124,8 +124,18 @@ public class StreamStatusListener implements UserStreamListener{
 
     }
 
-    public void onFavorite(User user, User user1, Status status) {
-
+    public void onFavorite(User favoriter, User favorited, Status status) {
+        try {
+            if(!favoriter.getScreenName().equalsIgnoreCase(ConsoleMain.twitter.getScreenName())){
+                
+                NotificationHelper.notifyFavorite(status, timelineView);
+                
+            }
+        } catch (TwitterException ex) {
+            Logger.getLogger(StreamStatusListener.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(StreamStatusListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void onUnfavorite(User user, User user1, Status status) {

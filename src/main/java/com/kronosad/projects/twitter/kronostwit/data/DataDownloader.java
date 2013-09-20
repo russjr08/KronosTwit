@@ -1,6 +1,7 @@
 
 package com.kronosad.projects.twitter.kronostwit.data;
 
+import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IData;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class DataDownloader {
     private static ArrayList<IData> downloaders = new ArrayList<IData>();
     
     public static boolean downloadData(){
+        System.out.println("Preparing to download data...");
         initDownloaders();
         for(IData downloader : downloaders){
             try {
@@ -33,6 +35,7 @@ public class DataDownloader {
                 return true;
             }
         }
+        ConsoleMain.loading.isDownloadingData = false;
         return false;
     }
     

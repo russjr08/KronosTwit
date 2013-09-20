@@ -11,3 +11,4 @@ target/classes
 pom.properties
 nb-configuration.xml
 nbactions.xml
+/target/

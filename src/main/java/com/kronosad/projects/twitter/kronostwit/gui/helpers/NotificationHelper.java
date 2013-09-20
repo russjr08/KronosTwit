@@ -23,6 +23,9 @@ public class NotificationHelper {
             System.setProperty("swing.aatext", "true");
             INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
             
+            if(!status.getText().startsWith("RT")){
+                
+            
             new NotificationBuilder().withStyle(style).withTitle("KronosTwit - New Mention!")
                     .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
                     .withListener(new NotificationEventAdapter() {
@@ -35,7 +38,20 @@ public class NotificationHelper {
                     })
                     .withPosition(Positions.NORTH_WEST)
                     .showNotification();
-            
+            }else{
+                new NotificationBuilder().withStyle(style).withTitle("KronosTwit - Retweet!")
+                    .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
+                    .withListener(new NotificationEventAdapter() {
+                        public void clicked(NotificationEvent event){
+                             if(viewTimeline != null){
+                                 viewTimeline.toFront();
+                             }
+                        } 
+                    
+                    })
+                    .withPosition(Positions.NORTH_WEST)
+                    .showNotification();
+            }
             
         }
         
@@ -61,6 +77,26 @@ public class NotificationHelper {
             
             
         
+        
+    }
+    
+    public static void notifyFavorite(Status status, final WindowViewTimeline viewTimeline) throws TwitterException{
+        System.setProperty("swing.aatext", "true");
+            INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
+            
+            new NotificationBuilder().withStyle(style).withTitle("KronosTwit - Your Tweet was Favorited!")
+                    .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
+                    .withListener(new NotificationEventAdapter() {
+                        public void clicked(NotificationEvent event){
+                             if(viewTimeline != null){
+                                 viewTimeline.toFront();
+                             }
+                        } 
+                    
+                    })
+                    .withPosition(Positions.NORTH_WEST)
+                    .showNotification();
+            
         
     }
     

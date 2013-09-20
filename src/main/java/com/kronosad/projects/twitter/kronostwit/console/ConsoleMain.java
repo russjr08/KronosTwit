@@ -35,19 +35,23 @@ public class ConsoleMain {
     public static String consumerKey, consumerSecret;
     public static WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
     
+    @Deprecated
     public static final String[] BETA_USERS = {"russjr08", "trisam889"};
 
-    public static void load(String[] args, boolean problems){
-        if(problems){
-            JOptionPane.showMessageDialog(null, "Error Grabbing Application Data, terminating!", "Error Downloading Data",
-                    JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
+    public static void load(String[] args/*, boolean problems*/){
+//        if(problems){
+//            JOptionPane.showMessageDialog(null, "Error Grabbing Application Data, terminating!", "Error Downloading Data",
+//                    JOptionPane.ERROR_MESSAGE);
+//            System.exit(1);
+//        }
         final ArrayList<String> arguments = new ArrayList<String>();
         for(String argument : args){
             arguments.add(argument);
         }
         while(loading.isUpdating){
+            
+        }
+        while(loading.isDownloadingData){
             
         }
         try {

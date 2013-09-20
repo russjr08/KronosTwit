@@ -15,6 +15,7 @@ import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 public class WindowLoadingScreen extends Window {
     
     public volatile boolean isUpdating = false;
+    public volatile boolean isDownloadingData = false;
     
     /**
      * Creates new form WindowLoadingScreen
@@ -133,6 +134,7 @@ public class WindowLoadingScreen extends Window {
     
     public void loadingResources(){
         isUpdating = true;
+        isDownloadingData = true;
         progressStatus.setValue(5);
         lblStatus.setText("Checking / Download Resources");
         
