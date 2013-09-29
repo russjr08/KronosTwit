@@ -7,6 +7,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.NotificationHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.util.logging.Level;
@@ -44,10 +45,10 @@ public class StreamStatusListener implements UserStreamListener{
     }
     public void onStatus(Status status) {
         timelineView.statuses.add(0, status);
-        timelineView.tweetsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), status.getText()));
+        timelineView.tweetsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
         if(status.getText().contains(authedUser.getScreenName())){
             timelineView.mentions.add(0, status);
-            timelineView.mentionsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), status.getText()));
+            timelineView.mentionsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
         }
         try {
             NotificationHelper.notifyMention(status, timelineView);

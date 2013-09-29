@@ -3,7 +3,6 @@ package com.kronosad.projects.twitter.kronostwit.console;
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
-import com.kronosad.projects.twitter.kronostwit.data.DataDownloader;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingScreen;
 import twitter4j.*;

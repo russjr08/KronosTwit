@@ -93,7 +93,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 e.printStackTrace();
             }
          
-            ArrayList<String> links = TweetHelper.getLinksFromTweet(status.getText());
+            ArrayList<String> links = TweetHelper.getLinksFromTweet(TweetHelper.unshortenTweet(status.getText()));
             
             
             for(String link : links){

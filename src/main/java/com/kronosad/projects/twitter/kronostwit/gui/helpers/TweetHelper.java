@@ -78,5 +78,19 @@ public class TweetHelper {
         return users;
     }
     
+    public static String unshortenTweet(String tweet){
+        String[] words = tweet.split(" ");
+        
+        for(int i = 0; i < words.length; i++){
+            String word = words[i];
+            if(word.startsWith("http")){
+                tweet = tweet.replace(word, URLUnshortener.unshorten(word));
+                
+            }
+        }
+        
+        return tweet;
+    }
+    
     
 }
