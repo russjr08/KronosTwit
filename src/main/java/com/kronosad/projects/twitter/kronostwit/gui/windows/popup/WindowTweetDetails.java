@@ -17,7 +17,7 @@ import twitter4j.TwitterException;
  */
 public class WindowTweetDetails extends javax.swing.JFrame {
     
-    private Status status;
+    protected final Status status;
     
     /**
      * Creates new form WindowTweetDetails
