@@ -33,6 +33,7 @@ public class ConsoleMain {
     public static Properties prop;
     public static String consumerKey, consumerSecret;
     public static WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
+    public static ArrayList<String> arguments = new ArrayList<String>();
     
     @Deprecated
     public static final String[] BETA_USERS = {"russjr08", "trisam889"};
@@ -43,7 +44,6 @@ public class ConsoleMain {
 //                    JOptionPane.ERROR_MESSAGE);
 //            System.exit(1);
 //        }
-        final ArrayList<String> arguments = new ArrayList<String>();
         for(String argument : args){
             arguments.add(argument);
         }

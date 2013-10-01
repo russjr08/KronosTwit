@@ -7,7 +7,6 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
 import java.awt.Image;
-import java.awt.Window;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,7 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JWindow;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -27,6 +26,7 @@ import javax.swing.JWindow;
 public class WindowImagePopup extends JFrame{
     private URL imageUrl;
     private JLabel imageLabel;
+    private JScrollPane scrollPane;
     
     public WindowImagePopup(String url){
         try {
@@ -38,13 +38,17 @@ public class WindowImagePopup extends JFrame{
         
         imageLabel = new JLabel();
         
-        this.add(imageLabel);
+        scrollPane = new JScrollPane(imageLabel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        
+        this.add(scrollPane);
         this.pack();
         
         this.setTitle("Downloading Image...");
         this.setSize(200, 200);
         this.setVisible(true);
         downloadImage();
+        this.setSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize().width - 200, java.awt.Toolkit.getDefaultToolkit().getScreenSize().height - 200);
+        
         
     }
     

@@ -5,8 +5,13 @@ import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.Timer;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -32,54 +37,17 @@ public class HelperRefreshTimeline {
         } catch (TwitterException ex) {
             Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(canRefresh){
-            try {
-
-                System.out.println("Status update, REFRESH!");
-                statuses.getStatuses().clear();
-                statuses.getTweetList().clear();
-
-
-
-
-                for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
-                    
-                    statuses.getStatuses().add(timelineStatuses);
-
-                    
-                }
-
-                for(Status status : statuses.getStatuses()){
-                    statuses.getTweetList().addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
-                    
-                }
-                WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
-
-                for(Status timelineStatuses : ConsoleMain.twitter.getMentionsTimeline(new Paging(1, 80))){
-
-                    timelineWindow.mentions.add(timelineStatuses);
-                    
-                    
-                }
-
-                for(Status status : timelineWindow.mentions){
-                    timelineWindow.mentionsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
-                    
-                }
-            } catch (TwitterException e) {
-                e.printStackTrace();
-                if(e.getStatusCode() == 429){
-                    System.out.println("ERROR: Twitter limit reached. Shutting down auto update! You will need to" +
-                            " restart this application to reuse refresh!");
-                    canRefresh = false;
-                }
-            }
-
-        }else{
-            System.out.println("We can not refresh at the time! (Twitter status refresh limit reached!)");
-        }
+        
+        new UpdateRunner().execute();
+        
+        
+        
+        
 
     }
+    
+    
+    
     
     @Deprecated
     public static void autoUpdate(){
@@ -115,6 +83,72 @@ public class HelperRefreshTimeline {
 
 
 
+    }
+    
+    class UpdateRunner extends SwingWorker<Void, Void>{
+
+        @Override
+        protected Void doInBackground() throws Exception {
+                if(canRefresh){
+                    try {
+
+                        System.out.println("Status update, REFRESH!");
+        //                statuses.getStatuses().clear();
+        //                statuses.getTweetList().clear();
+
+
+
+
+                        for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
+
+                            statuses.getStatuses().add(timelineStatuses);
+
+
+                        }
+                        final WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
+
+                        for(Status status : statuses.getStatuses()){
+                            statuses.getTweetList().addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+                            SwingUtilities.invokeLater(new Runnable() {
+                                public void run() {
+                                  timelineWindow.tweetsView.updateUI();
+                                }
+                              });
+                        }
+
+                        for(Status timelineStatuses : ConsoleMain.twitter.getMentionsTimeline(new Paging(1, 80))){
+
+                            timelineWindow.mentions.add(timelineStatuses);
+
+
+                        }
+
+                        for(Status status : timelineWindow.mentions){
+                            timelineWindow.mentionsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+
+                        }
+                    } catch (TwitterException e) {
+                        e.printStackTrace();
+                        if(e.getStatusCode() == 429){
+                            System.out.println("ERROR: Twitter limit reached. Shutting down auto update! You will need to" +
+                                    " restart this application to reuse refresh!");
+                            canRefresh = false;
+                        }
+                    }
+                    
+                    try{
+                        Thread.sleep(10000);
+                    }catch(InterruptedException e){
+                        
+                    }
+
+            }else{
+                System.out.println("We can not refresh at the time! (Twitter status refresh limit reached!)");
+            }
+            
+            return null;
+        }
+        
     }
 
 }

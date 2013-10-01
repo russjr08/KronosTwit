@@ -4,6 +4,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.GenericClickListener;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowTweetDetails;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -193,6 +194,17 @@ public class ViewTimelineListAdapter extends MouseAdapter {
             
 
             
+        }
+        
+        if(SwingUtilities.isLeftMouseButton(event)){
+            if(event.getClickCount() == 2){
+                System.out.println("Double Click!");
+                try {
+                    new WindowTweetDetails(ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId()));
+                } catch (TwitterException ex) {
+                    Logger.getLogger(ViewTimelineListAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         
         

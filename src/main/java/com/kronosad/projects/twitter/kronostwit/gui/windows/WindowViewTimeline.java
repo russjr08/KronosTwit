@@ -39,6 +39,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 import twitter4j.TwitterException;
 import org.apache.commons.io.*;
 import twitter4j.Query;
@@ -87,6 +88,8 @@ public class WindowViewTimeline extends Window implements IStatus {
         try {
             this.user = ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId());
             initComponents();
+            System.out.println(tweetsView.getWidth());
+            tweetsView.setCellRenderer(new MyCellRenderer(tweetsView.getWidth()));
             init();
             
         } catch (TwitterException ex) {
@@ -316,7 +319,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     private javax.swing.JList searchView;
     private javax.swing.JPanel timelinePanel;
     private static javax.swing.JTabbedPane tweetsTabbedPane;
-    protected javax.swing.JList tweetsView;
+    public javax.swing.JList tweetsView;
     private javax.swing.JLabel userPictureLbl;
     // End of variables declaration//GEN-END:variables
 
@@ -417,7 +420,12 @@ public class WindowViewTimeline extends Window implements IStatus {
     public void loadTimeline(){
         
         System.out.println("Load Timeline Method called!");
-        refresh.refreshTimelineFirstTime();
+        new Thread(){
+            @Override
+            public void run(){
+                refresh.refreshTimelineFirstTime();   
+            }
+        }.start();
     }
 
     public static boolean isIsMentionsSelected() {
@@ -516,7 +524,7 @@ public class WindowViewTimeline extends Window implements IStatus {
 //        }else{
 //            return tweetsList; 
 //        }
-        
+
         switch(tweetsTabbedPane.getSelectedIndex()){
             case 0:
                 return tweetsList;
