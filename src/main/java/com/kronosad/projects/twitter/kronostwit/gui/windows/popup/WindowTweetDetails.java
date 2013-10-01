@@ -215,7 +215,7 @@ public class WindowTweetDetails extends javax.swing.JFrame {
         
         txtFieldFav.setEditable(false);
         
-        txtFieldFav.setText(String.valueOf(status.getFavoriteCount()));
+        //txtFieldFav.setText(String.valueOf(status.getFavoriteCount()));
         
         txtFldRT.setEditable(false);
         
