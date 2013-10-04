@@ -129,7 +129,7 @@ public class StreamStatusListener implements UserStreamListener{
         try {
             if(!favoriter.getScreenName().equalsIgnoreCase(ConsoleMain.twitter.getScreenName())){
                 
-                NotificationHelper.notifyFavorite(status, timelineView);
+                NotificationHelper.notifyFavorite(status, timelineView, favoriter, favorited);
                 
             }
         } catch (TwitterException ex) {

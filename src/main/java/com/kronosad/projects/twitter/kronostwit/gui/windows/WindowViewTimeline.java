@@ -326,13 +326,11 @@ public class WindowViewTimeline extends Window implements IStatus {
     @Override
     public void init() {
         try {
-            loadGreetings();
+            //loadGreetings();
             //displayBanner();
             displayProfilePicture();
             
         } catch (IOException ex) {
-            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TwitterException ex) {
             Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -341,7 +339,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         searchView.setModel(searchList);
         
         System.out.println("Attempting to load timeline...");
-        
+        this.setTitle("Loading Tweets...");
         
         //initTimer();
         loadTimeline();

@@ -7,6 +7,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -40,6 +41,7 @@ public class HelperRefreshTimeline {
         
         new UpdateRunner().execute();
         
+
         
         
         
@@ -97,7 +99,7 @@ public class HelperRefreshTimeline {
         //                statuses.getTweetList().clear();
 
 
-
+                        
 
                         for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
 
@@ -108,12 +110,13 @@ public class HelperRefreshTimeline {
                         final WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
 
                         for(Status status : statuses.getStatuses()){
-                            statuses.getTweetList().addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
-                            SwingUtilities.invokeLater(new Runnable() {
-                                public void run() {
-                                  timelineWindow.tweetsView.updateUI();
-                                }
-                              });
+                            timelineWindow.tweetsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+                            SwingUtilities.invokeLater(new Runnable(){
+                            public void run(){
+                                timelineWindow.tweetsView.updateUI();
+                                timelineWindow.mentionsView.updateUI();
+                            }
+                        });
                         }
 
                         for(Status timelineStatuses : ConsoleMain.twitter.getMentionsTimeline(new Paging(1, 80))){
@@ -125,8 +128,10 @@ public class HelperRefreshTimeline {
 
                         for(Status status : timelineWindow.mentions){
                             timelineWindow.mentionsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
-
+                            
                         }
+                        
+                        
                     } catch (TwitterException e) {
                         e.printStackTrace();
                         if(e.getStatusCode() == 429){
@@ -146,6 +151,15 @@ public class HelperRefreshTimeline {
                 System.out.println("We can not refresh at the time! (Twitter status refresh limit reached!)");
             }
             
+            WindowViewTimeline timelineView = (WindowViewTimeline)statuses;
+            try {
+                timelineView.loadGreetings();
+            } catch (IOException ex) {
+                Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TwitterException ex) {
+                Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
             return null;
         }
         

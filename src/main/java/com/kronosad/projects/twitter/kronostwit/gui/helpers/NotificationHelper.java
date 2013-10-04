@@ -10,6 +10,7 @@ import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 /**
  *
@@ -80,11 +81,11 @@ public class NotificationHelper {
         
     }
     
-    public static void notifyFavorite(Status status, final WindowViewTimeline viewTimeline) throws TwitterException{
+    public static void notifyFavorite(Status status, final WindowViewTimeline viewTimeline, User favoriter, User favorited) throws TwitterException{
         System.setProperty("swing.aatext", "true");
             INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
             
-            new NotificationBuilder().withStyle(style).withTitle("KronosTwit - Your Tweet was Favorited!")
+            new NotificationBuilder().withStyle(style).withTitle("KronosTwit - Your Tweet was Favorited! (By @" + favoriter.getScreenName() + ")")
                     .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
                     .withListener(new NotificationEventAdapter() {
                         public void clicked(NotificationEvent event){
