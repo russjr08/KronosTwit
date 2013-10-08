@@ -272,42 +272,45 @@ public class WindowViewProfile extends Window implements IStatus{
                 btnFollow.setEnabled(false);
             }
             
-            URL profileImageURL = null;
-            File betaPicture = new File("beta_user.png");
-            File verifiedPicture = new File("verified_account.png");
-            try {
-                profileImageURL = new URL(user.getProfileImageURL());
-                
-            } catch (MalformedURLException e) {
-                System.out.println("Error getting URL of profile image");
-                e.printStackTrace();
-            }
+            
+            final File betaPicture = new File("beta_user.png");
+            final File verifiedPicture = new File("verified_account.png");
+            
+               
+            new Thread(){
+                @Override
+                public void run(){
+                 
+            
+                    try {
+                        profileImage = ImageIO.read(new URL(user.getProfileImageURL()));
+                        betaImage = ImageIO.read(betaPicture);
+                        verifiedImage = ImageIO.read(verifiedPicture);
+        //                for(String userName : ConsoleMain.BETA_USERS){
+        //                    if(userName.equalsIgnoreCase(user.getScreenName())){
+        //                        betaUserStar.setIcon(new ImageIcon(betaImage));
+        //                        System.out.println("BETA USER!");
+        //                    }
+        //                }
 
-            try {
-                profileImage = ImageIO.read(profileImageURL);
-                betaImage = ImageIO.read(betaPicture);
-                verifiedImage = ImageIO.read(verifiedPicture);
-//                for(String userName : ConsoleMain.BETA_USERS){
-//                    if(userName.equalsIgnoreCase(user.getScreenName())){
-//                        betaUserStar.setIcon(new ImageIcon(betaImage));
-//                        System.out.println("BETA USER!");
-//                    }
-//                }
-                
-                if(kronosUser.isBetaUser()){
-                    betaUserStar.setIcon(new ImageIcon(betaImage));
+                        if(kronosUser.isBetaUser()){
+                            betaUserStar.setIcon(new ImageIcon(betaImage));
 
+                        }
+
+                        if(user.isVerified()){
+                            betaUserStar.setIcon(new ImageIcon(verifiedImage));
+                        }
+                        profilePictureLabel.setIcon(new ImageIcon(profileImage));
+
+                    } catch (IOException e) {
+                        System.out.println("Error getting profile image!");
+                        e.printStackTrace();
+                    }
                 }
-                
-                if(user.isVerified()){
-                    betaUserStar.setIcon(new ImageIcon(verifiedImage));
-                }
-                profilePictureLabel.setIcon(new ImageIcon(profileImage));
-
-            } catch (IOException e) {
-                System.out.println("Error getting profile image!");
-                e.printStackTrace();
-            }
+            
+            }.start();
+            
             
             lblUsernameField.setText(user.getScreenName());
             lblWebsiteTxt.setText(user.getURL());
@@ -332,7 +335,7 @@ public class WindowViewProfile extends Window implements IStatus{
             Logger.getLogger(WindowViewProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
-
+        this.tweetsList.addMouseListener(new ViewProfileListAdapter(this));
     }
 
     public void close() {
