@@ -6,6 +6,7 @@
 
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import twitter4j.Status;
@@ -197,7 +198,7 @@ public class WindowTweetDetails extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     private void init() throws TwitterException{
-        
+        this.setBackground(new ThemeDefault().getCurrentColor());
         checkBoxFavorited.setEnabled(false);
         checkBoxFavorited.setSelected(status.isFavorited());
         
