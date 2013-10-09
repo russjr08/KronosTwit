@@ -79,6 +79,9 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JLabel" name="userPictureLbl">
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="userPictureLblMousePressed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JTabbedPane" name="tweetsTabbedPane">
       <Events>
