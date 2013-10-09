@@ -4,6 +4,7 @@ import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshUserTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.URLUnshortener;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import com.kronosad.projects.twitter.kronostwit.user.KronosUser;
@@ -427,7 +428,16 @@ public class WindowViewProfile extends Window implements IStatus{
             
             
             lblUsername.setText(user.getScreenName());
-            lblWebsite.setText(user.getURL());
+            new Thread(){
+                public void run(){
+                    if(user.getURL() != null && !user.getURL().isEmpty()){
+                        lblWebsite.setText(URLUnshortener.unshorten(user.getURL()));
+
+                    }else{
+                        lblWebsite.setText("");
+                    }
+                }
+            }.start();
             lblLocation.setText(user.getLocation());
             lblBio.setText("<html><p>" + user.getDescription() + "</p></html>");
             tweetsList.setModel(tweetModel);
