@@ -157,6 +157,8 @@ public class WindowNewTweet extends Window {
         
         if(evt.getKeyCode() == KeyEvent.VK_ESCAPE){
             this.dispose();
+        }else if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            send();
         }
     }//GEN-LAST:event_txtAreaTweetKeyReleased
     
@@ -221,7 +223,9 @@ public class WindowNewTweet extends Window {
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         if(evt.getKeyCode() == KeyEvent.VK_ESCAPE){
             this.dispose();
-        }else if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        }
+        
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             send();
         }
     }//GEN-LAST:event_formKeyReleased
