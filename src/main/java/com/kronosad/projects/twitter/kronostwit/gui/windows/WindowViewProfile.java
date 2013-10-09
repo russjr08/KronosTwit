@@ -41,7 +41,7 @@ public class WindowViewProfile extends Window implements IStatus{
     
     private KronosUser kronosUser;
     
-    private static Relationship following;
+    private static Relationship relationship;
 
     
     
@@ -54,7 +54,7 @@ public class WindowViewProfile extends Window implements IStatus{
     public WindowViewProfile(String title, int SizeX, int SizeY, User user, Twitter twitter) {
         super(title, SizeX, SizeY);
         try {
-            this.following = ConsoleMain.twitter.showFriendship(ConsoleMain.twitter.getId(), user.getId());
+            this.relationship = ConsoleMain.twitter.showFriendship(ConsoleMain.twitter.getId(), user.getId());
         } catch (TwitterException ex) {
             Logger.getLogger(WindowViewProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -76,38 +76,37 @@ public class WindowViewProfile extends Window implements IStatus{
     private void initComponents() {
 
         profilePictureLabel = new javax.swing.JLabel();
-        lblUsername = new javax.swing.JLabel();
-        lblUsernameField = new javax.swing.JLabel();
-        lblWebsite = new javax.swing.JLabel();
-        lblWebsiteTxt = new javax.swing.JLabel();
-        lblLocation = new javax.swing.JLabel();
-        lblLocationText = new javax.swing.JLabel();
-        lblBio = new javax.swing.JLabel();
         tbdPaneTweets = new javax.swing.JTabbedPane();
         tweetsPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tweetsList = new javax.swing.JList();
-        bioLblTxt = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
-        btnFollow = new javax.swing.JButton();
         betaUserStar = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblWebsite = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblLocation = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblBio = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        chckBoxFollowing = new javax.swing.JCheckBox();
+        chckBoxFollows = new javax.swing.JCheckBox();
+        chckBoxBlocked = new javax.swing.JCheckBox();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lblFollowerCount = new javax.swing.JLabel();
+        lblFollowingCount = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lblUserConceiveDate = new javax.swing.JLabel();
+        btnFollow = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(450, 650));
-
-        lblUsername.setText("Username: ");
-
-        lblUsernameField.setText("%u");
-
-        lblWebsite.setText("Website: ");
-
-        lblWebsiteTxt.setText("%w");
-
-        lblLocation.setText("Location: ");
-
-        lblLocationText.setText("%l");
-
-        lblBio.setText("Bio: ");
 
         jScrollPane2.setViewportView(tweetsList);
 
@@ -116,7 +115,7 @@ public class WindowViewProfile extends Window implements IStatus{
         tweetsPanelLayout.setHorizontalGroup(
             tweetsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(tweetsPanelLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
                 .addContainerGap())
         );
         tweetsPanelLayout.setVerticalGroup(
@@ -128,16 +127,166 @@ public class WindowViewProfile extends Window implements IStatus{
 
         tbdPaneTweets.addTab("Tweets", tweetsPanel);
 
-        bioLblTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        betaUserStar.setToolTipText("Beta User");
 
-        btnFollow.setText("Follow");
-        btnFollow.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setText("Username:");
+
+        lblUsername.setText("%u");
+
+        jLabel2.setText("Website:");
+
+        lblWebsite.setText("%w");
+
+        jLabel3.setText("Location:");
+
+        lblLocation.setText("%l");
+
+        jLabel4.setText("Bio:");
+
+        lblBio.setText("%bio");
+        lblBio.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel1)
+                    .add(jLabel2)
+                    .add(jLabel3)
+                    .add(jLabel4))
+                .add(18, 18, 18)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                        .add(lblUsername, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(lblWebsite, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .add(lblLocation, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(lblBio, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(lblUsername))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel2)
+                    .add(lblWebsite))
+                .add(18, 18, 18)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel3)
+                    .add(lblLocation))
+                .add(18, 18, 18)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jLabel4)
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(lblBio, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("User Details", jPanel1);
+
+        chckBoxFollowing.setText("Do you follow %u?");
+        chckBoxFollowing.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFollowActionPerformed(evt);
+                chckBoxFollowingActionPerformed(evt);
             }
         });
 
-        betaUserStar.setToolTipText("Beta User");
+        chckBoxFollows.setText("Does %u follow you?");
+        chckBoxFollows.setEnabled(false);
+
+        chckBoxBlocked.setText("Is %u blocked? (Upcoming Feature)");
+        chckBoxBlocked.setEnabled(false);
+
+        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(chckBoxFollowing)
+                    .add(chckBoxFollows)
+                    .add(chckBoxBlocked))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(chckBoxFollowing)
+                .add(26, 26, 26)
+                .add(chckBoxFollows)
+                .add(29, 29, 29)
+                .add(chckBoxBlocked)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Relationship", jPanel2);
+
+        jLabel5.setText("Followers:");
+
+        jLabel6.setText("Following:");
+
+        lblFollowerCount.setText("0");
+
+        lblFollowingCount.setText("0");
+
+        jLabel7.setText("Member Since:");
+
+        lblUserConceiveDate.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                        .add(jPanel3Layout.createSequentialGroup()
+                            .add(jLabel5)
+                            .add(18, 18, 18)
+                            .add(lblFollowerCount, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(jPanel3Layout.createSequentialGroup()
+                            .add(jLabel6)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                            .add(lblFollowingCount, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .add(jLabel7))
+                .addContainerGap(125, Short.MAX_VALUE))
+            .add(jPanel3Layout.createSequentialGroup()
+                .add(25, 25, 25)
+                .add(lblUserConceiveDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel3Layout.createSequentialGroup()
+                .add(17, 17, 17)
+                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel5)
+                    .add(lblFollowerCount))
+                .add(42, 42, 42)
+                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel6)
+                    .add(lblFollowingCount))
+                .add(27, 27, 27)
+                .add(jLabel7)
+                .add(18, 18, 18)
+                .add(lblUserConceiveDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Twitter Details", jPanel3);
+
+        btnFollow.setText("Follow");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,42 +295,19 @@ public class WindowViewProfile extends Window implements IStatus{
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, tbdPaneTweets, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, tbdPaneTweets)
                     .add(jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(lblUsername, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .add(layout.createSequentialGroup()
-                                        .add(lblWebsite, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .add(13, 13, 13))
-                                    .add(layout.createSequentialGroup()
-                                        .add(lblLocation, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .add(8, 8, 8))
-                                    .add(layout.createSequentialGroup()
-                                        .add(lblBio, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .add(43, 43, 43)))
-                                .add(18, 18, 18)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(layout.createSequentialGroup()
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(lblWebsiteTxt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .add(layout.createSequentialGroup()
-                                                .add(lblUsernameField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .add(2, 2, 2))
-                                            .add(layout.createSequentialGroup()
-                                                .add(lblLocationText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .add(6, 6, 6)))
-                                        .add(53, 53, 53)
-                                        .add(betaUserStar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                    .add(layout.createSequentialGroup()
-                                        .add(59, 59, 59)
-                                        .add(btnFollow))))
-                            .add(bioLblTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 304, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .add(jTabbedPane1)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(betaUserStar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(btnFollow)
+                .add(181, 181, 181))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -189,29 +315,14 @@ public class WindowViewProfile extends Window implements IStatus{
                 .add(jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                        .add(layout.createSequentialGroup()
-                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(lblUsername)
-                                .add(lblUsernameField))
-                            .add(18, 18, 18)
-                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                .add(lblWebsite)
-                                .add(lblWebsiteTxt))
-                            .add(56, 56, 56))
+                    .add(layout.createSequentialGroup()
+                        .add(56, 56, 56)
                         .add(profilePictureLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(betaUserStar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblLocation)
-                    .add(lblLocationText))
-                .add(14, 14, 14)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblBio)
-                    .add(btnFollow))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(bioLblTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
+                    .add(betaUserStar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 257, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnFollow)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(tbdPaneTweets, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 300, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -219,46 +330,56 @@ public class WindowViewProfile extends Window implements IStatus{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFollowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFollowActionPerformed
-        if(following.isSourceFollowingTarget()){
-            try {
-                ConsoleMain.twitter.destroyFriendship(user.getId());
-            } catch (TwitterException ex) {
-                JOptionPane.showMessageDialog(null, "Could not unfollow user!", "Error", JOptionPane.ERROR_MESSAGE);
-
-            }finally{
-                btnFollow.setText("Follow");
-
-            }
-            
-        }else{
+    private void chckBoxFollowingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chckBoxFollowingActionPerformed
+        
+        if(chckBoxFollowing.isSelected()){
             try {
                 ConsoleMain.twitter.createFriendship(user.getId());
             } catch (TwitterException ex) {
-                JOptionPane.showMessageDialog(null, "Could not follow user!", "Error", JOptionPane.ERROR_MESSAGE);
-            }finally{
-                btnFollow.setText("Unfollow");
-
+                chckBoxFollowing.setSelected(false);
+                JOptionPane.showMessageDialog(null, "Failed to follow user!", "Following Failed!", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        }else{
+            try {
+                ConsoleMain.twitter.destroyFriendship(user.getId());
+            } catch (TwitterException ex) {
+                chckBoxFollowing.setSelected(true);
+                JOptionPane.showMessageDialog(null, "Failed to unfollow user!", "Unfollowing Failed!", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
             }
         }
         
-    }//GEN-LAST:event_btnFollowActionPerformed
+    }//GEN-LAST:event_chckBoxFollowingActionPerformed
 
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel betaUserStar;
-    private javax.swing.JLabel bioLblTxt;
     private javax.swing.JButton btnFollow;
+    private javax.swing.JCheckBox chckBoxBlocked;
+    private javax.swing.JCheckBox chckBoxFollowing;
+    private javax.swing.JCheckBox chckBoxFollows;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblBio;
+    private javax.swing.JLabel lblFollowerCount;
+    private javax.swing.JLabel lblFollowingCount;
     private javax.swing.JLabel lblLocation;
-    private javax.swing.JLabel lblLocationText;
+    private javax.swing.JLabel lblUserConceiveDate;
     private javax.swing.JLabel lblUsername;
-    private javax.swing.JLabel lblUsernameField;
     private javax.swing.JLabel lblWebsite;
-    private javax.swing.JLabel lblWebsiteTxt;
     private javax.swing.JLabel profilePictureLabel;
     private javax.swing.JTabbedPane tbdPaneTweets;
     private javax.swing.JList tweetsList;
@@ -312,10 +433,10 @@ public class WindowViewProfile extends Window implements IStatus{
             }.start();
             
             
-            lblUsernameField.setText(user.getScreenName());
-            lblWebsiteTxt.setText(user.getURL());
-            lblLocationText.setText(user.getLocation());
-            bioLblTxt.setText("<html><p>" + user.getDescription() + "</p></html>");
+            lblUsername.setText(user.getScreenName());
+            lblWebsite.setText(user.getURL());
+            lblLocation.setText(user.getLocation());
+            lblBio.setText("<html><p>" + user.getDescription() + "</p></html>");
             tweetsList.setModel(tweetModel);
             //populateTweets();
             refreshTL.refreshUserTimeline(user);
@@ -324,7 +445,7 @@ public class WindowViewProfile extends Window implements IStatus{
             
             jProgressBar1.setIndeterminate(true);
             
-            if(following.isSourceFollowingTarget()){
+            if(relationship.isSourceFollowingTarget()){
                 btnFollow.setText("Unfollow");
             }else{
                 btnFollow.setText("Follow");
@@ -336,6 +457,46 @@ public class WindowViewProfile extends Window implements IStatus{
         }
         this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
         this.tweetsList.addMouseListener(new ViewProfileListAdapter(this));
+        setupRelationship();
+        setupStats();
+    }
+    
+    public void setupRelationship(){
+        // Are you following checkbox
+        if(relationship.isSourceFollowingTarget()){
+            chckBoxFollowing.setSelected(true);
+        }else{
+            chckBoxFollowing.setSelected(false);
+        }
+        
+        // Is following you checkbox
+        if(relationship.isSourceFollowedByTarget()){
+            chckBoxFollows.setSelected(true);
+        }else{
+            chckBoxFollows.setSelected(false);
+        }
+        
+        // Blocked Checkbox
+        if(relationship.isSourceBlockingTarget()){
+            chckBoxBlocked.setSelected(true);
+        }else{
+            chckBoxBlocked.setSelected(false);
+        }
+        
+        // Setup labels
+        chckBoxFollowing.setText(chckBoxFollowing.getText().replace("%u", user.getScreenName()));
+        chckBoxFollows.setText(chckBoxFollows.getText().replace("%u", user.getScreenName()));
+        chckBoxBlocked.setText(chckBoxBlocked.getText().replace("%u", user.getScreenName()));
+        
+        
+    }
+    
+    public void setupStats(){
+        lblFollowerCount.setText(String.valueOf(user.getFollowersCount()));
+        lblFollowingCount.setText(String.valueOf(user.getFriendsCount()));
+        lblUserConceiveDate.setText(user.getCreatedAt().toString());
+        
+        
     }
 
     public void close() {
