@@ -31,9 +31,13 @@ public class ViewProfileMenuListener extends MouseAdapter {
 
         }
         
-        User user = status.getUser();
-        
-        WindowViewProfile profile = new WindowViewProfile(user.getScreenName(), 500, 600, user, ConsoleMain.twitter);
+        final User user = status.getUser();
+        new Thread(){
+            @Override
+            public void run(){
+                WindowViewProfile profile = new WindowViewProfile(user.getScreenName(), 500, 600, user, ConsoleMain.twitter);    
+            }
+        }.start();
 
     }
     

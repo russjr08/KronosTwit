@@ -290,11 +290,18 @@ public class WindowViewTimeline extends Window implements IStatus {
 
     private void userPictureLblMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userPictureLblMousePressed
         
-        try {
-            new WindowViewProfile(ConsoleMain.twitter.getScreenName(), 500, 600, ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId()), ConsoleMain.twitter);
-        } catch (TwitterException ex) {
-            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new Thread(){
+            
+            @Override
+            public void run(){
+                try {
+                    new WindowViewProfile(ConsoleMain.twitter.getScreenName(), 500, 600, ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId()), ConsoleMain.twitter);
+                } catch (TwitterException ex) {
+                    Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+                }    
+            }
+            
+        }.start();
         
     }//GEN-LAST:event_userPictureLblMousePressed
 

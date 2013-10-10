@@ -151,10 +151,8 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lblUsername" max="32767" attributes="0"/>
-                              <Component id="lblWebsite" pref="120" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="lblUsername" max="32767" attributes="0"/>
+                          <Component id="lblWebsite" pref="170" max="32767" attributes="0"/>
                           <Component id="lblLocation" max="32767" attributes="0"/>
                           <Component id="lblBio" pref="170" max="32767" attributes="0"/>
                       </Group>

@@ -159,9 +159,8 @@ public class WindowViewProfile extends Window implements IStatus{
                     .add(jLabel4))
                 .add(18, 18, 18)
                 .add(userDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(userDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                        .add(lblUsername, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(lblWebsite, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .add(lblUsername, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(lblWebsite, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                     .add(lblLocation, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(lblBio, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -481,7 +480,15 @@ public class WindowViewProfile extends Window implements IStatus{
         chckBoxFollowing.setText(chckBoxFollowing.getText().replace("%u", user.getScreenName()));
         chckBoxFollows.setText(chckBoxFollows.getText().replace("%u", user.getScreenName()));
         chckBoxBlocked.setText(chckBoxBlocked.getText().replace("%u", user.getScreenName()));
-        
+        try {
+            if(user.getId() == ConsoleMain.twitter.getId()){
+                chckBoxFollowing.setEnabled(false);
+            }
+        } catch (TwitterException ex) {
+            Logger.getLogger(WindowViewProfile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(WindowViewProfile.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
