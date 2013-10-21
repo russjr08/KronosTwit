@@ -1,6 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 
+import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
@@ -160,6 +161,7 @@ public class HelperRefreshTimeline {
                 Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
             }
                 
+            ConsoleLoader.console.redraw();
             return null;
         }
         

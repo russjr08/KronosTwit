@@ -4,6 +4,7 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
+import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.MenuBarHelper;
@@ -40,6 +41,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import twitter4j.TwitterException;
 import org.apache.commons.io.*;
 import twitter4j.Query;
@@ -348,6 +351,20 @@ public class WindowViewTimeline extends Window implements IStatus {
 
     @Override
     public void init() {
+        
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         try {
             //loadGreetings();
             //displayBanner();
@@ -369,6 +386,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         setupAdapters();
         
         this.setVisible(true);
+        SwingUtilities.updateComponentTreeUI(this);
         final TwitterStream stream = new TwitterStreamFactory().getInstance();
         stream.addListener(new StreamStatusListener(this));
         stream.setOAuthConsumer(ConsoleMain.consumerKey, ConsoleMain.consumerSecret);
@@ -452,6 +470,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     public static boolean isIsMentionsSelected() {
         return isMentionsSelected;
     }
+   
     
     
     

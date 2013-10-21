@@ -53,14 +53,13 @@ public class ConsoleMain {
         while(loading.isDownloadingData){
             
         }
-        try {
+        
             
             scanner = new Scanner(System.in);
             prop = new Properties();
 
             
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
+            
 
             try {
                 System.out.println("Connecting to server for secret consumer data...");
@@ -80,19 +79,19 @@ public class ConsoleMain {
             
             loading.checkUpdate();
             
-            CheckerUpdate updater = new CheckerUpdate();
+            ConsoleLoader.updater = new CheckerUpdate();
             try {
-                updater.check();
+                ConsoleLoader.updater.check();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Failed to check for updates!", "Update Check Failed", JOptionPane.WARNING_MESSAGE);
             }finally{
                 System.out.println("Final Versions: ");
-                System.out.println("Client: " + updater.version);
-                System.out.println("Server: " + updater.serverVersion);
-                if(updater.serverVersion > updater.version){
+                System.out.println("Client: " + ConsoleLoader.updater.version);
+                System.out.println("Server: " + ConsoleLoader.updater.serverVersion);
+                if(ConsoleLoader.updater.serverVersion > ConsoleLoader.updater.version){
                     JOptionPane.showMessageDialog(null, "Your Version of KronosTwit is out of date! Please update!", "Out of Date!", JOptionPane.ERROR_MESSAGE);
                     System.exit(1);
-                }else if(updater.serverVersion < updater.version){
+                }else if(ConsoleLoader.updater.serverVersion < ConsoleLoader.updater.version){
                     JOptionPane.showMessageDialog(null, "Your Version of KronosTwit has a higher version than the one detected on the server, \n"
                             + "this probably means you are running a BETA copy. Please proceed with caution!", "Version Mismatch Detected!", JOptionPane.WARNING_MESSAGE);
                     
@@ -155,20 +154,12 @@ public class ConsoleMain {
                     
                 });
                 loading.done();
-            }
+            
             
 
             
 
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(ConsoleMain.class.getName()).log(Level.SEVERE, null, ex);
         }
         
 

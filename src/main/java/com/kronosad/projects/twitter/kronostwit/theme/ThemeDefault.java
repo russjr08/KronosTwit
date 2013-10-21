@@ -12,8 +12,15 @@ import java.util.Calendar;
 public class ThemeDefault implements ITheme{
     
     public ThemeDefault(){
-        
+        Calendar calendar = Calendar.getInstance();
+       if(calendar.getTime().getHours() >= 20 || calendar.getTime().getHours() <= 7){
+            isDaytime = false;
+        }else{
+            isDaytime = true;
+        } 
     }
+    
+    public boolean isDaytime = true;
     
     public Color getCurrentColor() {
         Calendar calendar = Calendar.getInstance();
@@ -28,8 +35,10 @@ public class ThemeDefault implements ITheme{
         }
         
         if(calendar.getTime().getHours() >= 20 || calendar.getTime().getHours() <= 7){
+            isDaytime = false;
             return getNightColor();
         }else{
+            isDaytime = true;
             return getDayColor();
         }
     }

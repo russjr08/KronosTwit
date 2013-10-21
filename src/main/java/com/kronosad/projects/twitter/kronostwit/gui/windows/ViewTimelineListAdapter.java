@@ -46,8 +46,6 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 Logger.getLogger(ViewTimelineListAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
             //System.out.println(timelineView.getSelectedStatus());
-            System.out.println(timelineView.tweetsView.getMaxSelectionIndex());
-            System.out.println(timelineView.getStatuses().size());
             
             User user = status.getUser();
             System.out.println(status.getText());
