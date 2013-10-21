@@ -34,6 +34,7 @@ public class WindowConsole extends javax.swing.JFrame {
             
         initComponents();
         System.setOut(new OverridePrintStream(System.out, this));
+        System.setErr(new OverridePrintStream(System.err, this));
         this.setVisible(true);
         this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
         if(!new ThemeDefault().isDaytime){

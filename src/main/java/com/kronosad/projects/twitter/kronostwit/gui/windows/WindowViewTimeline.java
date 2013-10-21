@@ -84,7 +84,10 @@ public class WindowViewTimeline extends Window implements IStatus {
      * Creates new form WindowViewTimeline
      */
     public WindowViewTimeline(String title, int sizeX, int sizeY) {
+        
         super(title, sizeX, sizeY);
+        
+        
         this.setLocationRelativeTo(null);
         MenuBarHelper.initMenu();
         this.setJMenuBar(menuBar);
@@ -352,17 +355,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     @Override
     public void init() {
         
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         
         
         try {

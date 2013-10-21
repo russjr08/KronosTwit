@@ -82,6 +82,7 @@ public class ConsoleMain {
             ConsoleLoader.updater = new CheckerUpdate();
             try {
                 ConsoleLoader.updater.check();
+                // TODO: Implement Updater Mechanism
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Failed to check for updates!", "Update Check Failed", JOptionPane.WARNING_MESSAGE);
             }finally{
@@ -127,6 +128,17 @@ public class ConsoleMain {
 //                
 //            }
 
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             try {
 //                if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
@@ -135,6 +147,7 @@ public class ConsoleMain {
 //                    CheckerBetaUser.setBetaKeyProperties(betaKey);
 //                    
 //                }
+                
                 CheckerBetaUser.isBetaUser(twitter.getScreenName());
             } catch (TwitterException e) {
                 e.printStackTrace();
