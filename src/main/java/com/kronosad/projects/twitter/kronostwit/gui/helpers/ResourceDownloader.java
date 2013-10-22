@@ -41,6 +41,7 @@ public class ResourceDownloader {
             return true;
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "There was an error downloading resource: " + fileName, "Error Downloading Resources", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
             return false;
         }
         
@@ -52,7 +53,10 @@ public class ResourceDownloader {
         ConsoleMain.loading.loadingResources();
 
         System.out.println("Downloading Resources...");
+        
+        System.out.println("--- Local Resources... ---");
         for(Resource resource : resources){
+            System.out.println("---");
             File file = new File(resource.getResourceName());
             String localMd5 = null;
 
@@ -86,18 +90,25 @@ public class ResourceDownloader {
                 }
             }
             
+            System.out.println("Resource Name: " + resource.getResourceName());
+            System.out.println("Resource (Local) MD5: " + localMd5);
+            System.out.println("---");
+            
+            
             if((!file.exists()) || (!resource.getMd5().equals(localMd5) && !resource.isIgnoreUpdate())){
                 System.out.println("Updating Resource: " + resource.getResourceName());
                 try {
                     FileUtils.copyURLToFile(resource.getUrl(), file);
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "There was an error download resource: " + resource.getResourceName(), "Error Downloading Resource", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "There was an error downloading resource: " + resource.getResourceName(), "Error Downloading Resource", JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
                     return false;
                 }
             }
             
             
         }
+        System.out.println("--- End Local Resources ---");
         loading.initialCode();
 
         return true;

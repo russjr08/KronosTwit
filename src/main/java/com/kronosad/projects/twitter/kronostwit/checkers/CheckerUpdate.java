@@ -23,8 +23,9 @@ import org.xml.sax.SAXException;
 public class CheckerUpdate {
     
     public String releaseType = "Alpha";
-    public double version = 2.3;
+    public double version = 2.4;
     public double serverVersion;
+    public URL buildURL;
     private URL apiURL;
 
     public CheckerUpdate() {
@@ -59,6 +60,7 @@ public class CheckerUpdate {
                     System.out.println("Server Release Type: " + element.getAttribute("release"));
                     System.out.println("Directory on Server: " + element.getAttribute("dir"));
                     serverVersion = Double.parseDouble(element.getAttribute("version"));
+                    buildURL = new URL(element.getAttribute("buildURL"));
                     
                 }
                 

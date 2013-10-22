@@ -20,6 +20,8 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
+                        	<finalName>KronosTwit</finalName>
+                        	<appendAssemblyId>false</appendAssemblyId>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>

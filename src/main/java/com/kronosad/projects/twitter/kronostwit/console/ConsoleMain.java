@@ -3,6 +3,7 @@ package com.kronosad.projects.twitter.kronostwit.console;
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.Updater;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingScreen;
 import twitter4j.*;
@@ -44,12 +45,32 @@ public class ConsoleMain {
 //                    JOptionPane.ERROR_MESSAGE);
 //            System.exit(1);
 //        }
+        
+        File jar = new File(ConsoleMain.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        System.out.println("This jar's file name: " + jar.getName());
+        
+        
+        
         for(String argument : args){
             arguments.add(argument);
         }
         while(loading.isUpdating){
             
         }
+        
+        if(!arguments.contains("-development")){
+            if(!jar.getName().equals("KronosTwit.jar")){
+                JOptionPane.showMessageDialog(null, "Hey! My jar file name is not KronosTwit.jar! Please rename "
+                        + "me next time I am closed! My update mechanism expects my file name to be KronosTwit.jar!",
+                        "Unsafe file name detected", JOptionPane.WARNING_MESSAGE);
+            }
+            
+        }
+        
+        if(arguments.contains("-updated")){
+            JOptionPane.showMessageDialog(null, String.format("Congrats! KronosTwit has been automatically updated to %s!", ConsoleLoader.updater.version), "Update complete!", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
         while(loading.isDownloadingData){
             
         }
@@ -82,7 +103,6 @@ public class ConsoleMain {
             ConsoleLoader.updater = new CheckerUpdate();
             try {
                 ConsoleLoader.updater.check();
-                // TODO: Implement Updater Mechanism
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Failed to check for updates!", "Update Check Failed", JOptionPane.WARNING_MESSAGE);
             }finally{
@@ -90,7 +110,10 @@ public class ConsoleMain {
                 System.out.println("Client: " + ConsoleLoader.updater.version);
                 System.out.println("Server: " + ConsoleLoader.updater.serverVersion);
                 if(ConsoleLoader.updater.serverVersion > ConsoleLoader.updater.version){
-                    JOptionPane.showMessageDialog(null, "Your Version of KronosTwit is out of date! Please update!", "Out of Date!", JOptionPane.ERROR_MESSAGE);
+                    
+                    System.out.println("WARNING: Starting update procedures!");
+                    Updater.update(ConsoleLoader.updater, false);
+                    
                     System.exit(1);
                 }else if(ConsoleLoader.updater.serverVersion < ConsoleLoader.updater.version){
                     JOptionPane.showMessageDialog(null, "Your Version of KronosTwit has a higher version than the one detected on the server, \n"
