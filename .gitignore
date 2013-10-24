@@ -12,3 +12,5 @@ pom.properties
 nb-configuration.xml
 nbactions.xml
 /target/
+*.png
+*.sh

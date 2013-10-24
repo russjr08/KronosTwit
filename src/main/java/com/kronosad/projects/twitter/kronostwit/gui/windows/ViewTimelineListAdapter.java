@@ -106,7 +106,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                         }
                         if(component.getText().contains("Navigate")){
                             String[] parts = component.getText().split(" ");
-                            if(!links.contains(parts[1])){
+                            if(!links.contains(parts[2])){
                                 timelineView.popUp.remove(i);
                             }
                         }
@@ -118,6 +118,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 }
                 
             }
+            
             
             ArrayList<String> hashtags = TweetHelper.getHashtagsFromTweet(status.getText());
             
@@ -183,7 +184,8 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 }
             }
             
-            
+            links.clear();
+ 
             
             
             
