@@ -106,9 +106,10 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                         }
                         if(component.getText().contains("Navigate")){
                             String[] parts = component.getText().split(" ");
-                            if(!links.contains(parts[1])){
+                            if(!links.contains(parts[2])){
                                 timelineView.popUp.remove(i);
                             }
+                           
                         }
                     }
                 }
@@ -118,6 +119,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 }
                 
             }
+            
             
             ArrayList<String> hashtags = TweetHelper.getHashtagsFromTweet(status.getText());
             
@@ -147,6 +149,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 
             }
             
+            // Add listeners and remove non-needed items.
             for(int i = 0; i < timelineView.popUp.getComponents().length; i++){
                 Component popUpItem = timelineView.popUp.getComponent(i);
                 if(popUpItem instanceof JMenuItem){
@@ -154,7 +157,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                     
                     for(String link : links){
                         if(item.getText().startsWith("Navigate")){
-                            System.out.println("Adding Listener");
+                            System.out.println("Adding Link Listener");
                             popUpItem.addMouseListener(new GenericClickListener());
                             if((!links.contains(link)) || links.isEmpty()){
                                 timelineView.popUp.remove(timelineView.popUp.getComponent(i));
@@ -182,21 +185,15 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                     }
                 }
             }
-            
-            
-            
-            
-            
-            
-            
-            
-
-            
+            // Clear the lists after we're done with it!
+            links.clear();
+            hashtags.clear();
+     
         }
         
         if(SwingUtilities.isLeftMouseButton(event)){
             if(event.getClickCount() == 2){
-                System.out.println("Double Click!");
+
                 try {
                     new WindowTweetDetails(ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId()));
                 } catch (TwitterException ex) {

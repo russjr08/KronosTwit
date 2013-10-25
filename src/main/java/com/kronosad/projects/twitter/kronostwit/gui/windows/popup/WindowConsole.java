@@ -77,7 +77,7 @@ public class WindowConsole extends javax.swing.JFrame {
     }
     
     public void appendObjectToConsole(Object object){
-        this.areaConsole.append(object.toString());
+        this.areaConsole.append(object.toString() + "\n");
     }
 
     /**
