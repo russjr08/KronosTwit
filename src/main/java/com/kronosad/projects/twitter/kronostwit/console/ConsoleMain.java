@@ -71,6 +71,10 @@ public class ConsoleMain {
             JOptionPane.showMessageDialog(null, String.format("Congrats! KronosTwit has been automatically updated to %s!", ConsoleLoader.updater.version), "Update complete!", JOptionPane.INFORMATION_MESSAGE);
         }
         
+        if(arguments.contains("-forceupdate")){
+            Updater.update(ConsoleLoader.updater, false);
+        }
+        
         while(loading.isDownloadingData){
             
         }
@@ -138,6 +142,8 @@ public class ConsoleMain {
             }else{
                 System.out.println("Authorization Details located! Using those!");
             }
+            
+            
             
 
             //String betaKey = CheckerBetaUser.getBetaKeyProperties();
@@ -266,6 +272,7 @@ public class ConsoleMain {
     public static void saveAccessToken(AccessToken token){
         prop.setProperty("oauth.accessToken", token.getToken());
         prop.setProperty("oauth.accessTokenSecret", token.getTokenSecret());
+        prop.setProperty("includeEntities", "true");
         //prop.setProperty("debug", "true"); Do you want debug data?
         try {
             prop.store(new FileOutputStream("twitter4j.properties"), null);

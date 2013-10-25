@@ -38,6 +38,7 @@ public class NotificationHelper {
                     
                     })
                     .withPosition(Positions.NORTH_WEST)
+                    .withDisplayTime(15000)
                     .showNotification();
             }else{
                 new NotificationBuilder().withStyle(style).withTitle("KronosTwit - Retweet!")
@@ -51,6 +52,7 @@ public class NotificationHelper {
                     
                     })
                     .withPosition(Positions.NORTH_WEST)
+                    .withDisplayTime(15000)
                     .showNotification();
             }
             
@@ -74,6 +76,7 @@ public class NotificationHelper {
                     
                     })
                     .withPosition(Positions.NORTH_WEST)
+                    .withDisplayTime(15000)
                     .showNotification();
             
             
@@ -96,6 +99,7 @@ public class NotificationHelper {
                     
                     })
                     .withPosition(Positions.NORTH_WEST)
+                    .withDisplayTime(15000)
                     .showNotification();
             
         
