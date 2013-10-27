@@ -7,7 +7,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
-import com.kronosad.projects.twitter.kronostwit.gui.helpers.MenuBarHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.menubar.MenuBarHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.DeleteMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.FavoriteMenuItemListener;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.NewTweetMenuItemListener;
