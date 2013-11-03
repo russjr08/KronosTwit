@@ -63,6 +63,10 @@ public class WindowViewProfile extends Window implements IStatus{
         this.twitter = twitter; 
         kronosUser = UserRegistry.getKronosUser(user.getScreenName());
         
+        if(kronosUser.getTag() != null){
+            this.setTitle(kronosUser.getTag());
+        }
+        
         initComponents();
         init();
     }

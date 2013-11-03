@@ -14,3 +14,4 @@ nbactions.xml
 /target/
 *.png
 *.sh
+*.bat
