@@ -139,4 +139,9 @@ public class WindowLoadingScreen extends Window {
         lblStatus.setText("Checking / Download Resources");
         
     }
+    
+    public void loadingTweets(){
+        progressStatus.setValue(95);
+        lblStatus.setText("Loading Tweets... Please Wait.");
+    }
 }

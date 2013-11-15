@@ -65,6 +65,8 @@ public class WindowViewProfile extends Window implements IStatus{
         
         if(kronosUser.getTag() != null){
             this.setTitle(kronosUser.getTag());
+        }else{
+            this.setTitle(user.getScreenName());
         }
         
         initComponents();

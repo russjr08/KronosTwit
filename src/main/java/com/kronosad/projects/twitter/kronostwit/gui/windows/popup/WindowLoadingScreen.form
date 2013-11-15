@@ -4,12 +4,9 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="0"/>
     <Property name="resizable" type="boolean" value="false"/>
-<<<<<<< HEAD
-=======
     <Property name="type" type="java.awt.Window$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
       <Value id="POPUP"/>
     </Property>
->>>>>>> 9f487d89ad289af826645f06d376690bb32a85cb
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

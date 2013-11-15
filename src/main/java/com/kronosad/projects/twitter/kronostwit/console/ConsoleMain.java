@@ -188,6 +188,7 @@ public class ConsoleMain {
                     public void run(){
                         if(!arguments.contains("-console")){
                             WindowViewTimeline viewTimeline = new WindowViewTimeline("View Timeline", 500, 600);
+                            loading.loadingTweets();
                         }else{
                             System.out.println("All GUI methods halted! You are now running in Console Only mode!");
                             mainMenu();
@@ -195,7 +196,7 @@ public class ConsoleMain {
                     }
                     
                 });
-                loading.done();
+//                loading.done();
             
             
 

@@ -112,12 +112,7 @@ public class HelperRefreshTimeline {
 
                         for(Status status : statuses.getStatuses()){
                             timelineWindow.tweetsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
-                            SwingUtilities.invokeLater(new Runnable(){
-                            public void run(){
-                                timelineWindow.tweetsView.updateUI();
-                                timelineWindow.mentionsView.updateUI();
-                            }
-                        });
+ 
                         }
 
                         for(Status timelineStatuses : ConsoleMain.twitter.getMentionsTimeline(new Paging(1, 80))){
@@ -142,19 +137,18 @@ public class HelperRefreshTimeline {
                         }
                     }
                     
-                    try{
-                        Thread.sleep(10000);
-                    }catch(InterruptedException e){
-                        
-                    }
-
+                   
             }else{
                 System.out.println("We can not refresh at the time! (Twitter status refresh limit reached!)");
             }
             
+            ConsoleMain.loading.done();
             WindowViewTimeline timelineView = (WindowViewTimeline)statuses;
             try {
+                
+                timelineView.setVisible(true);
                 timelineView.loadGreetings();
+                
             } catch (IOException ex) {
                 Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
             } catch (TwitterException ex) {

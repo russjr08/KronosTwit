@@ -378,7 +378,6 @@ public class WindowViewTimeline extends Window implements IStatus {
         loadTimeline();
         setupAdapters();
         
-        this.setVisible(true);
         SwingUtilities.updateComponentTreeUI(this);
         final TwitterStream stream = new TwitterStreamFactory().getInstance();
         stream.addListener(new StreamStatusListener(this));

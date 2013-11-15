@@ -29,7 +29,9 @@ public class ConsoleLoader {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KronosTwit - Alpha");
         console = new WindowConsole();
+        System.out.println("Starting update check!");
         updater.check();
+        System.out.println("Downloading Data in new Thread.");
         new Thread(){ // Need to download data here?
             @Override
             public void run(){
