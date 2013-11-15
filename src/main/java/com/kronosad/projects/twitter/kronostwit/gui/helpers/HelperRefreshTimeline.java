@@ -101,20 +101,24 @@ public class HelperRefreshTimeline {
 
 
                         
-
+                        // Home Timeline Tweets
+                        System.out.println("Loading home timeline...");
                         for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
 
                             statuses.getStatuses().add(timelineStatuses);
+//                            System.out.println(timelineStatuses.toString());
 
 
                         }
                         final WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
 
+                        System.out.println("Adding home timeline to window...");
                         for(Status status : statuses.getStatuses()){
                             timelineWindow.tweetsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
  
                         }
-
+                        
+                        System.out.println("Loading Mentions Timeline...");
                         for(Status timelineStatuses : ConsoleMain.twitter.getMentionsTimeline(new Paging(1, 80))){
 
                             timelineWindow.mentions.add(timelineStatuses);
@@ -122,6 +126,7 @@ public class HelperRefreshTimeline {
 
                         }
 
+                        System.out.println("Adding mentions timeline to window...");
                         for(Status status : timelineWindow.mentions){
                             timelineWindow.mentionsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
                             
@@ -142,20 +147,28 @@ public class HelperRefreshTimeline {
                 System.out.println("We can not refresh at the time! (Twitter status refresh limit reached!)");
             }
             
+            System.out.println("Done loading tweets..");
             ConsoleMain.loading.done();
-            WindowViewTimeline timelineView = (WindowViewTimeline)statuses;
-            try {
-                
-                timelineView.setVisible(true);
-                timelineView.loadGreetings();
-                
-            } catch (IOException ex) {
-                Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TwitterException ex) {
-                Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
-            ConsoleLoader.console.redraw();
+            
+            new Thread(){
+                @Override
+                public void run(){
+                    WindowViewTimeline timelineView = (WindowViewTimeline)statuses;
+                    try {
+
+                        timelineView.setVisible(true);
+                        timelineView.loadGreetings();
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (TwitterException ex) {
+                        Logger.getLogger(HelperRefreshTimeline.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    ConsoleLoader.console.redraw();
+                }
+            }.start();
+            
             return null;
         }
         
