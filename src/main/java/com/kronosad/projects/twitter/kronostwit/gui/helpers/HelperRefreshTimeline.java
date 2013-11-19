@@ -4,6 +4,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.StreamStatusListener;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,8 @@ import javax.swing.Timer;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
 
 public class HelperRefreshTimeline {
@@ -149,6 +152,21 @@ public class HelperRefreshTimeline {
             
             System.out.println("Done loading tweets..");
             ConsoleMain.loading.done();
+            
+            System.out.println("Initializing Twitter Stream...");
+            final TwitterStream stream = new TwitterStreamFactory().getInstance();
+            stream.addListener(new StreamStatusListener(statuses));
+            stream.setOAuthConsumer(ConsoleMain.consumerKey, ConsoleMain.consumerSecret);
+            stream.user();
+        
+            Runtime.getRuntime().addShutdownHook(new Thread(){
+                @Override
+                public void run()
+                {
+                    stream.shutdown();
+                    System.out.println("Closing App!");
+                }
+            });
             
             new Thread(){
                 @Override

@@ -379,20 +379,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         setupAdapters();
         
         SwingUtilities.updateComponentTreeUI(this);
-        final TwitterStream stream = new TwitterStreamFactory().getInstance();
-        stream.addListener(new StreamStatusListener(this));
-        stream.setOAuthConsumer(ConsoleMain.consumerKey, ConsoleMain.consumerSecret);
-        stream.user();
         
-        Runtime.getRuntime().addShutdownHook(new Thread()
-{
-            @Override
-            public void run()
-            {
-                stream.shutdown();
-                System.out.println("Closing App!");
-            }
-        });
         System.out.println("Setting Color");
         System.out.println(new ThemeDefault().getCurrentColor().toString());
         this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
