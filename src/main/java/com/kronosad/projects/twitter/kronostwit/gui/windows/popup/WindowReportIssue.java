@@ -5,6 +5,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
 import com.kronosad.projects.libraries.GitlabAPI;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -14,14 +15,16 @@ import java.util.logging.Logger;
  *
  * @author russjr08
  */
-public class WindowReportIssue extends javax.swing.JFrame {
+public class WindowReportIssue extends Window {
 
     /**
      * Creates new form WindowReportIssue
      */
     public WindowReportIssue() {
+        super("", 500, 500);
         initComponents();
         this.setVisible(true);
+        super.init();
     }
 
     /**
@@ -158,4 +161,9 @@ public class WindowReportIssue extends javax.swing.JFrame {
     private javax.swing.JTextField txtLabel;
     private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void close() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

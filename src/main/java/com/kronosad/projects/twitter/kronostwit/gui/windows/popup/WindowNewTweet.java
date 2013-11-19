@@ -243,6 +243,9 @@ public class WindowNewTweet extends Window {
 
     @Override
     public void init() {
+        
+        super.init();
+
         dli = new DocumentLimitedInput(140);
         txtAreaTweet.setDocument(dli);
         txtAreaTweet.setLineWrap(true);

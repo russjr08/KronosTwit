@@ -384,6 +384,7 @@ public class WindowViewProfile extends Window implements IStatus{
     private HelperRefreshUserTimeline refreshTL = new HelperRefreshUserTimeline(this);
     
     public void init() {
+        super.init();
         jTabbedPane1.setBackground(new ThemeDefault().getCurrentColor());
         userDetailsPanel.setBackground(new ThemeDefault().getCurrentColor());
         relationshipPanel.setBackground(new ThemeDefault().getCurrentColor());

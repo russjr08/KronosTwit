@@ -52,5 +52,39 @@ public class ThemeDefault implements ITheme{
     public Color getNightColor() {
         return new Color(77,77,77);
     }
+
+    public Color getCurrentFontColor() {
+        
+        Calendar calendar = Calendar.getInstance();
+        File disableThemes = new File("DISABLE_THEMES");
+        File forceNight = new File("FORCE_NIGHT_THEME");
+        
+        if(disableThemes.exists()){
+            return getDayFontColor();
+        }
+        
+        if(forceNight.exists()){
+            return getNightFontColor();
+        }
+        
+        if(calendar.getTime().getHours() >= 20 || calendar.getTime().getHours() <= 7){
+            isDaytime = false;
+            return getNightFontColor();
+        }else{
+            isDaytime = true;
+            return getDayFontColor();
+        }
+        
+    }
+
+    public Color getDayFontColor() {
+        
+        return Color.BLACK;
+    
+    }
+
+    public Color getNightFontColor() {
+        return Color.WHITE;
+    }
     
 }

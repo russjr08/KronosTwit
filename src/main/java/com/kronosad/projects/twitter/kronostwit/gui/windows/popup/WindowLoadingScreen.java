@@ -89,6 +89,7 @@ public class WindowLoadingScreen extends Window {
 
     @Override
     public void init() {
+        super.init();
 
         this.setTitle("Loading Application!");
         ThemeDefault defaultTheme = new ThemeDefault();

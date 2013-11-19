@@ -6,6 +6,7 @@
 
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
+import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ import twitter4j.TwitterException;
  *
  * @author Russell
  */
-public class WindowTweetDetails extends javax.swing.JFrame {
+public class WindowTweetDetails extends Window {
     
     protected final Status status;
     
@@ -25,14 +26,13 @@ public class WindowTweetDetails extends javax.swing.JFrame {
      * @param status - The status you want to view.
      */
     public WindowTweetDetails(Status status) {
+        // TODO: Change this.
+        
+        super("", 500, 500);
         initComponents();
         this.status = status;
         
-        try {
-            init();
-        } catch (TwitterException ex) {
-            Logger.getLogger(WindowTweetDetails.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        init();
     }
 
     /**
@@ -197,8 +197,8 @@ public class WindowTweetDetails extends javax.swing.JFrame {
     private javax.swing.JTextField txtFldRT;
     // End of variables declaration//GEN-END:variables
     
-    private void init() throws TwitterException{
-        this.setBackground(new ThemeDefault().getCurrentColor());
+    public void init(){
+        super.init();
         checkBoxFavorited.setEnabled(false);
         checkBoxFavorited.setSelected(status.isFavorited());
         
@@ -224,6 +224,11 @@ public class WindowTweetDetails extends javax.swing.JFrame {
         
         this.setVisible(true);
         
+    }
+
+    @Override
+    public void close() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

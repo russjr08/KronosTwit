@@ -1,5 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
+import java.awt.Component;
 import javax.swing.*;
 
 public abstract class Window extends JFrame{
@@ -12,12 +14,29 @@ public abstract class Window extends JFrame{
         this.setTitle(title);
 
         this.setSize(sizeX, sizeY);
-
+        
+        
+        
 
 
     }
 
-    public abstract void init();
+    public void init(){
+        initFonts();
+    }
+    
+    protected void initFonts(){
+        for(Component component : this.getContentPane().getComponents()){
+            if(component instanceof JLabel){
+                component.setForeground(new ThemeDefault().getCurrentFontColor());
+            }
+            
+        }
+        
+        this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
+        
+        
+    }
 
     public abstract void close();
 
