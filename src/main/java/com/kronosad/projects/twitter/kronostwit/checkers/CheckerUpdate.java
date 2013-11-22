@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 public class CheckerUpdate {
     
     public String releaseType = "Alpha";
-    public double version = 2.4;
+    public double version = 2.5;
     public double serverVersion;
     public URL buildURL;
     private URL apiURL;
