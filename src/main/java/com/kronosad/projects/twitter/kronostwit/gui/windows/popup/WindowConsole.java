@@ -134,8 +134,5 @@ public class WindowConsole extends Window {
     private javax.swing.JLabel lblWarning;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void close() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }

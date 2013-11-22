@@ -7,7 +7,10 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.theme.ITheme;
-import com.kronosad.projects.twitter.kronostwit.theme.ThemeRegistry;
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeUtils;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -50,6 +53,7 @@ public class WindowThemePreference extends Window {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         btnSetTheme = new javax.swing.JButton();
+        btnReloadThemes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -64,6 +68,13 @@ public class WindowThemePreference extends Window {
         btnSetTheme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSetThemeActionPerformed(evt);
+            }
+        });
+
+        btnReloadThemes.setText("Reload Themes");
+        btnReloadThemes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadThemesActionPerformed(evt);
             }
         });
 
@@ -84,6 +95,8 @@ public class WindowThemePreference extends Window {
                     .add(layout.createSequentialGroup()
                         .add(6, 6, 6)
                         .add(jButton1)
+                        .add(26, 26, 26)
+                        .add(btnReloadThemes)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(btnSetTheme)
                         .add(22, 22, 22))))
@@ -98,7 +111,8 @@ public class WindowThemePreference extends Window {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 9, Short.MAX_VALUE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jButton1)
-                    .add(btnSetTheme)))
+                    .add(btnSetTheme)
+                    .add(btnReloadThemes)))
         );
 
         pack();
@@ -106,16 +120,48 @@ public class WindowThemePreference extends Window {
 
     private void btnSetThemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetThemeActionPerformed
         
-        Preferences.setActiveTheme((String)model.get(themeList.getSelectedIndex()));
+        String themeName = (String)model.get(themeList.getSelectedIndex());
+        Preferences.setActiveTheme(themeName);
+        
+        try {
+            if(!themeName.equalsIgnoreCase("Default")){
+                ConsoleLoader.themeReg.add(ThemeUtils.fabricateThemeFromFile(themeName));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(WindowThemePreference.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ConsoleLoader.themeReg.getNewActive();
         
-        JOptionPane.showMessageDialog(null, "Chosen theme will be used on newly opened Windows!", "Theme applied", JOptionPane.WARNING_MESSAGE);
+
         
+        for(Window window : ConsoleLoader.windows){
+            window.recolor();
+        }
         
         
     }//GEN-LAST:event_btnSetThemeActionPerformed
 
+    private void btnReloadThemesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadThemesActionPerformed
+        model.clear();
+        ConsoleLoader.themeReg.clearThemes();
+
+        try {
+
+            ThemeUtils.initThemes();
+        } catch (IOException ex) {
+            Logger.getLogger(WindowThemePreference.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for(ITheme theme : ConsoleLoader.themeReg.getThemes()){
+            if(theme != null){
+                model.addElement(theme.getName());
+
+            }
+        }
+    }//GEN-LAST:event_btnReloadThemesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnReloadThemes;
     private javax.swing.JButton btnSetTheme;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -141,8 +187,5 @@ public class WindowThemePreference extends Window {
         
     }
     
-    @Override
-    public void close() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }

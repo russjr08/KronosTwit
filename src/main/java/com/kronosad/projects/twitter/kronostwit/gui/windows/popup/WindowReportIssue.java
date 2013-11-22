@@ -162,8 +162,5 @@ public class WindowReportIssue extends Window {
     private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void close() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }

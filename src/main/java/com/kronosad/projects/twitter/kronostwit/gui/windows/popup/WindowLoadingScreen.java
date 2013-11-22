@@ -95,12 +95,6 @@ public class WindowLoadingScreen extends Window {
         
     }
 
-    @Override
-    public void close() {
-
-        
-    
-    }
     
     public void initialCode(){
         isUpdating = false;

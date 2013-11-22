@@ -25,9 +25,12 @@ public class ThemeRegistry {
     }
     
     public void add(ITheme themeToAdd){
-        for(ITheme theme : themes){
+        for(int i = 0; i < themes.size(); i++){
+            ITheme theme = themes.get(i);
             if(theme.getName().equalsIgnoreCase(themeToAdd.getName())){
-                throw new IllegalArgumentException("Theme Already Exists!");
+                System.out.println(String.format("Theme with the name %s "
+                        + "is already present. Removing and re-adding!", themeToAdd.getName()));
+                themes.remove(i);
             }
             
         }
@@ -69,6 +72,17 @@ public class ThemeRegistry {
     
     public ITheme getActiveTheme(){
         return activeTheme;
+    }
+    
+    public void clearThemes(){
+        for(int i = 0; i < themes.size(); i++){
+            
+            ITheme theme = themes.get(i);
+            
+            if(!theme.getName().equalsIgnoreCase("Default")){
+                themes.remove(i);
+            }
+        }
     }
     
     

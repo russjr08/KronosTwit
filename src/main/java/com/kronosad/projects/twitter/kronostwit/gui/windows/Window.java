@@ -4,6 +4,8 @@ import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.*;
 
 public abstract class Window extends JFrame{
@@ -16,6 +18,34 @@ public abstract class Window extends JFrame{
         this.setTitle(title);
 
         this.setSize(sizeX, sizeY);
+        
+        ConsoleLoader.windows.add(this);
+        
+        this.addWindowListener(new WindowListener(){
+
+            public void windowOpened(WindowEvent we) {}
+
+            public void windowClosing(WindowEvent we) {
+                close();
+            }
+
+            public void windowClosed(WindowEvent we) {
+                close();
+            }
+
+            public void windowIconified(WindowEvent we) {}
+
+            public void windowDeiconified(WindowEvent we) {}
+
+            public void windowActivated(WindowEvent we) {}
+            
+            public void windowDeactivated(WindowEvent we) {}
+            
+            
+            
+            
+            
+        });
         
         
         
@@ -54,7 +84,15 @@ public abstract class Window extends JFrame{
         
     }
 
-    public abstract void close();
+    public void close(){
+        ConsoleLoader.windows.remove(this);
+    }
+    
+    public void recolor(){
+        this.getContentPane().setBackground(ConsoleLoader.themeReg.getActiveTheme().getCurrentColor());
+        initFonts(this);
+        SwingUtilities.updateComponentTreeUI(this);
+    }
 
 
 

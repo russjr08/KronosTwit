@@ -97,6 +97,7 @@ public class WindowViewTimeline extends Window implements IStatus {
             System.out.println(tweetsView.getWidth());
             tweetsView.setCellRenderer(new MyCellRenderer(tweetsView.getWidth()));
             init();
+            specialInit();
             
         } catch (TwitterException ex) {
             Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
@@ -359,6 +360,13 @@ public class WindowViewTimeline extends Window implements IStatus {
 
         
         
+        
+    }
+    
+    public void specialInit(){
+    
+        
+        
         try {
             //loadGreetings();
             //displayBanner();
@@ -381,16 +389,10 @@ public class WindowViewTimeline extends Window implements IStatus {
         
         SwingUtilities.updateComponentTreeUI(this);
         
-        System.out.println("Setting Color");
-        
-        
-        
+        System.out.println("Setting Color");    
     }
 
-    @Override
-    public void close() {
-        
-    }
+   
     
     public void loadGreetings() throws IOException, TwitterException{
         User user = ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId());

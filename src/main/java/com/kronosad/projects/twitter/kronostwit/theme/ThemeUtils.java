@@ -111,22 +111,30 @@ public class ThemeUtils {
 
             @Override
             public Color getDayColor() {
-                return new Color(Integer.parseInt(prop.getProperty("dayColor")));
+                String[] colors = prop.getProperty("dayColor").split(",");
+                
+                return new Color(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2]));
             }
 
             @Override
             public Color getDayFontColor() {
-                return new Color(Integer.parseInt(prop.getProperty("dayFontColor")));
+                String[] colors = prop.getProperty("dayFontColor").split(",");
+                
+                return new Color(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2]));
             }
 
             @Override
             public Color getNightColor() {
-                return new Color(Integer.parseInt(prop.getProperty("nightColor")));
+                String[] colors = prop.getProperty("nightColor").split(",");
+                
+                return new Color(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2]));
             }
 
             @Override
             public Color getNightFontColor() {
-                return new Color(Integer.parseInt(prop.getProperty("nightFontColor")));
+                String[] colors = prop.getProperty("nightFontColor").split(",");
+                
+                return new Color(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2]));
             }
 
             @Override
@@ -168,6 +176,8 @@ public class ThemeUtils {
             System.out.println("No external Themes detected.");
         }
     }
+    
+    
     
     
     

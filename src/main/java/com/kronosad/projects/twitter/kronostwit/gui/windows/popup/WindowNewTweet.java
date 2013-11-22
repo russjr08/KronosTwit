@@ -277,10 +277,5 @@ public class WindowNewTweet extends Window {
         updateCharsLeft();
     }
 
-    @Override
-    public void close() {
-
-        
-    
-    }
+   
 }

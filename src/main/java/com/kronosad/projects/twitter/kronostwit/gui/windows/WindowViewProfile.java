@@ -505,9 +505,7 @@ public class WindowViewProfile extends Window implements IStatus{
         
     }
 
-    public void close() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+   
     @Deprecated
     public void populateTweets(){
         if(HelperRefreshTimeline.canRefresh){
