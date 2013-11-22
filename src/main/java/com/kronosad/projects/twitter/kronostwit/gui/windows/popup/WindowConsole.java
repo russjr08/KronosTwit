@@ -8,8 +8,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.logging.OverridePrintStream;
-import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
-import java.awt.Color;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintStream;
@@ -20,7 +19,7 @@ import javax.swing.text.DefaultCaret;
  *
  * @author Russell
  */
-public class WindowConsole extends javax.swing.JFrame {
+public class WindowConsole extends Window {
     
     public PrintStream old;
     /**
@@ -30,16 +29,14 @@ public class WindowConsole extends javax.swing.JFrame {
         
        
         
-     
+        super("Console", 500, 500);
             
         initComponents();
         System.setOut(new OverridePrintStream(System.out, this));
         System.setErr(new OverridePrintStream(System.err, this));
         this.setVisible(true);
-        this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
-        if(!new ThemeDefault().isDaytime){
-        lblWarning.setForeground(Color.WHITE);
-        }
+        
+        super.init();
         
         if(ConsoleLoader.updater.releaseType.toLowerCase().contains("Alpha".toLowerCase()) || ConsoleLoader.updater.releaseType.toLowerCase().contains("Beta".toLowerCase())){
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -60,6 +57,7 @@ public class WindowConsole extends javax.swing.JFrame {
     }
     
     public void redraw(){
+        super.init();
 
         SwingUtilities.updateComponentTreeUI(this);
         System.out.println("Console Window has been redrawn...");
@@ -135,4 +133,9 @@ public class WindowConsole extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblWarning;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void close() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

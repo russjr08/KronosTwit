@@ -6,23 +6,21 @@ import java.io.File;
 import java.util.Calendar;
 
 /**
- *
+ * This is an abstract class. The only methods that should be implemented by
+ * this class is the methods that are used to calculate which colors to use currently.
  * @author russjr08
  */
-public class ThemeDefault implements ITheme{
+public abstract class ExtendableTheme implements ITheme{
     
-    public ThemeDefault(){
-        Calendar calendar = Calendar.getInstance();
-       if(calendar.getTime().getHours() >= 20 || calendar.getTime().getHours() <= 7){
-            isDaytime = false;
-        }else{
-            isDaytime = true;
-        } 
+    public ExtendableTheme(){
+        
+        isDaytime = true;
     }
     
-    public boolean isDaytime = true;
+    public boolean isDaytime;
     
     public Color getCurrentColor() {
+        
         Calendar calendar = Calendar.getInstance();
         File disableThemes = new File("DISABLE_THEMES");
         File forceNight = new File("FORCE_NIGHT_THEME");
@@ -41,20 +39,11 @@ public class ThemeDefault implements ITheme{
             isDaytime = true;
             return getDayColor();
         }
-    }
-
-    public Color getDayColor() {
-        Color dayColor = new Color(238, 238, 238);
         
-        return dayColor;
-    }
-
-    public Color getNightColor() {
-        return new Color(77,77,77);
     }
 
     public Color getCurrentFontColor() {
-        
+
         Calendar calendar = Calendar.getInstance();
         File disableThemes = new File("DISABLE_THEMES");
         File forceNight = new File("FORCE_NIGHT_THEME");
@@ -75,20 +64,19 @@ public class ThemeDefault implements ITheme{
             return getDayFontColor();
         }
         
-    }
-
-    public Color getDayFontColor() {
-        
-        return Color.BLACK;
     
     }
+    
+    // To be implemented by subclass.
 
-    public Color getNightFontColor() {
-        return Color.WHITE;
-    }
+    public abstract Color getDayColor();
 
-    public String getName() {
-        return "Default";
-    }
+    public abstract Color getDayFontColor();
+
+    public abstract Color getNightColor();
+
+    public abstract Color getNightFontColor();
+
+    public abstract String getName();
     
 }

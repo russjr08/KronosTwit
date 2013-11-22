@@ -382,8 +382,6 @@ public class WindowViewTimeline extends Window implements IStatus {
         SwingUtilities.updateComponentTreeUI(this);
         
         System.out.println("Setting Color");
-        System.out.println(new ThemeDefault().getCurrentColor().toString());
-        this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
         
         
         

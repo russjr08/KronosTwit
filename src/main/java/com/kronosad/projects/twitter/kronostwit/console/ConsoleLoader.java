@@ -8,7 +8,8 @@ import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
 import com.kronosad.projects.twitter.kronostwit.data.DataDownloader;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.ResourceDownloader;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowConsole;
-import java.io.File;
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeRegistry;
+import com.kronosad.projects.twitter.kronostwit.theme.ThemeUtils;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
@@ -20,6 +21,7 @@ import org.xml.sax.SAXException;
 public class ConsoleLoader {
     public static CheckerUpdate updater;
     public static WindowConsole console;
+    public static ThemeRegistry themeReg;
 
     @Deprecated
     private static String[] resourceList = {"greetings.txt", "beta_user.png", "verified_account.png"};
@@ -28,7 +30,19 @@ public class ConsoleLoader {
         updater = new CheckerUpdate();
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KronosTwit - Alpha");
+        
+        themeReg = new ThemeRegistry();
+
         console = new WindowConsole();
+        
+        System.out.println("Initializing Themes!");
+        
+        
+        ThemeUtils.initThemes();
+        
+        themeReg.getNewActive();
+        
+        
         System.out.println("Starting update check!");
         updater.check();
         System.out.println("Downloading Data in new Thread.");

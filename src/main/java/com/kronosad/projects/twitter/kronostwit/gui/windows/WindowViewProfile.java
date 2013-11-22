@@ -1,18 +1,17 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
+import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshUserTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.URLUnshortener;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
-import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
 import com.kronosad.projects.twitter.kronostwit.user.KronosUser;
 import com.kronosad.projects.twitter.kronostwit.user.UserRegistry;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -385,10 +384,10 @@ public class WindowViewProfile extends Window implements IStatus{
     
     public void init() {
         super.init();
-        jTabbedPane1.setBackground(new ThemeDefault().getCurrentColor());
-        userDetailsPanel.setBackground(new ThemeDefault().getCurrentColor());
-        relationshipPanel.setBackground(new ThemeDefault().getCurrentColor());
-        twitterDetailsPanel.setBackground(new ThemeDefault().getCurrentColor());
+        jTabbedPane1.setBackground(ConsoleLoader.themeReg.getActiveTheme().getCurrentColor());
+        userDetailsPanel.setBackground(ConsoleLoader.themeReg.getActiveTheme().getCurrentColor());
+        relationshipPanel.setBackground(ConsoleLoader.themeReg.getActiveTheme().getCurrentColor());
+        twitterDetailsPanel.setBackground(ConsoleLoader.themeReg.getActiveTheme().getCurrentColor());
 
         
             
@@ -455,7 +454,6 @@ public class WindowViewProfile extends Window implements IStatus{
             jProgressBar1.setIndeterminate(true);
             
         
-        this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
         this.tweetsList.addMouseListener(new ViewProfileListAdapter(this));
         setupRelationship();
         setupStats();

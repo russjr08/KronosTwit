@@ -41,4 +41,9 @@ public interface ITheme {
     
     public Color getNightFontColor();
     
+    /**
+     * Gets the name of the theme. 
+     */
+    public String getName();
+    
 }

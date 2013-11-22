@@ -252,7 +252,6 @@ public class WindowNewTweet extends Window {
         
         progressBarCharsLeft.setMaximum(140);
         this.setVisible(true);
-        this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
         if(this.isReply){
             try {
                 ArrayList<String> users = TweetHelper.getUsersFromTweet(ConsoleMain.twitter.showStatus(replyID).getText());
