@@ -6,15 +6,14 @@ import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.StreamStatusListener;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.Preferences;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.filter.Filter;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.Timer;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -95,39 +94,98 @@ public class HelperRefreshTimeline {
 
         @Override
         protected Void doInBackground() throws Exception {
+                System.out.println("Initializing Filters...");
+                
+                ArrayList<Filter> filters = Preferences.getFilters();
+                System.out.println(String.format("Retrieved %s filters.", filters.size()));
+
                 if(canRefresh){
                     try {
-
-                        System.out.println("Status update, REFRESH!");
-        //                statuses.getStatuses().clear();
-        //                statuses.getTweetList().clear();
-
-
                         
                         // Home Timeline Tweets
                         System.out.println("Loading home timeline...");
+                        int filteredHomeTweets = 0;
                         for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
+                            boolean filtered = false;
+                            
+                            for(Filter filter : filters){
+                                if(filter.isUsername()){
+                                    
+                                    
+                                    if(timelineStatuses.getUser().getScreenName().toLowerCase().contains(filter.getFilter().toLowerCase())){
+                                        
+                                        filtered = true;
+                                        System.out.println("Filtered Tweet found.. Ignoring.");
+                                        filteredHomeTweets++;
 
-                            statuses.getStatuses().add(timelineStatuses);
-//                            System.out.println(timelineStatuses.toString());
+                                        break;
+                                    }
+                                }else{
+                                    if(timelineStatuses.getText().toLowerCase().contains(filter.getFilter().toLowerCase())){
+                                        
+                                        filtered = true;
+                                        System.out.println("Filtered Tweet found.. Ignoring.");
+
+                                        filteredHomeTweets++;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            
+                            if(!filtered){
+                                statuses.getStatuses().add(timelineStatuses);
+                            }
 
 
                         }
+                        
+                        System.out.println(String.format("%s tweets were not added due to being filtered out!", filteredHomeTweets));
+                        
                         final WindowViewTimeline timelineWindow = (WindowViewTimeline) statuses;
 
                         System.out.println("Adding home timeline to window...");
+                        
                         for(Status status : statuses.getStatuses()){
                             timelineWindow.tweetsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
  
                         }
                         
+                        
+                        
                         System.out.println("Loading Mentions Timeline...");
+                        int filteredMentions = 0;
+                        
                         for(Status timelineStatuses : ConsoleMain.twitter.getMentionsTimeline(new Paging(1, 80))){
-
-                            timelineWindow.mentions.add(timelineStatuses);
+                            
+                            boolean filtered = false;
+                            
+                            for(Filter filter : filters){
+                                if(filter.isUsername()){
+                                    if(timelineStatuses.getUser().getScreenName().toLowerCase().contains(filter.getFilter().toLowerCase())){
+                                        filtered = true;
+                                        filteredMentions++;
+                                        System.out.println("Filtered Mention found.. Ignoring.");
+                                        break;
+                                    }
+                                }else{
+                                    if(timelineStatuses.getText().toLowerCase().contains(filter.getFilter().toLowerCase())){
+                                        filtered = true;
+                                        filteredMentions++;
+                                        System.out.println("Filtered Mention found.. Ignoring.");
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if(!filtered){
+                                timelineWindow.mentions.add(timelineStatuses);
+                            }
+                            
 
 
                         }
+                        System.out.println(String.format("%s mentions were not added due to being filtered out!", filteredMentions));
 
                         System.out.println("Adding mentions timeline to window...");
                         for(Status status : timelineWindow.mentions){

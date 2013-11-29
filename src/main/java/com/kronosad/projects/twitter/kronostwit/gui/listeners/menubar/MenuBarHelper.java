@@ -6,6 +6,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.listeners.menubar;
 
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.WindowThemePreference;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.filter.WindowPreferenceFilters;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -24,7 +25,8 @@ public class MenuBarHelper {
     private static JMenuItem showProfile = new JMenuItem("Show Profile");
     
     private static JMenuItem submitIssue = new JMenuItem("Submit Issue");
-    
+        
+    private static JMenuItem filterPreference = new JMenuItem("Filters");
     private static JMenuItem themePreference = new JMenuItem("Themes");
     
 
@@ -44,11 +46,21 @@ public class MenuBarHelper {
             
         });
         
+        filterPreference.addActionListener(new ActionListener(){
+            
+            public void actionPerformed(ActionEvent ae){
+                new WindowPreferenceFilters();
+            }
+            
+            
+        });
+        
         twitterMenu.add(deleteData);
         twitterMenu.add(showProfile);
         
         feedbackMenu.add(submitIssue);
         
+        preferencesMenu.add(filterPreference);
         preferencesMenu.add(themePreference);
         
         

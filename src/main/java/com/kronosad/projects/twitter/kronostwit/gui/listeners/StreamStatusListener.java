@@ -9,7 +9,10 @@ import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimelin
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.NotificationHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.Preferences;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.filter.Filter;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import twitter4j.DirectMessage;
@@ -44,12 +47,32 @@ public class StreamStatusListener implements UserStreamListener{
         
     }
     public void onStatus(Status status) {
-        timelineView.statuses.add(0, status);
-        timelineView.tweetsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
-        if(status.getText().contains(authedUser.getScreenName())){
-            timelineView.mentions.add(0, status);
-            timelineView.mentionsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+        ArrayList<Filter> filters = Preferences.getFilters();
+        
+        boolean filtered = false;
+        for(Filter filter : filters){
+            if(filter.isUsername()){
+                if(filter.getFilter().equalsIgnoreCase(status.getUser().getScreenName())){
+                    filtered = true;
+                    break;
+                }
+            }else{
+                if(filter.getFilter().toLowerCase().contains(status.getText())){
+                    filtered = true;
+                    break;
+                }
+            }
         }
+        if(!filtered){
+            timelineView.statuses.add(0, status);
+            timelineView.tweetsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+        
+            if(status.getText().contains(authedUser.getScreenName())){
+                timelineView.mentions.add(0, status);
+                timelineView.mentionsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+            }
+        }
+        
         try {
             NotificationHelper.notifyMention(status, timelineView);
         } catch (TwitterException ex) {
