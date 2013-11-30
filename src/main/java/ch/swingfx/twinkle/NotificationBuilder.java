@@ -288,6 +288,14 @@ public class NotificationBuilder {
 		// This window displays the notification
 		final JWindow window = fStyle.getNotificationWindowCreator().createNotificationWindow(fIcon, fTitle, fMessage, fStyle, sMainScreenGraphicsConfiguration);
 		
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        window.toFront();
+                        window.repaint();
+                    }
+                });
+                
 		// set the position of the window
 		final Point windowPosition = fPosition.getPosition(sMainScreenSize, sMainScreenInsets, window, fStyle);
 		final int x = windowPosition.x;

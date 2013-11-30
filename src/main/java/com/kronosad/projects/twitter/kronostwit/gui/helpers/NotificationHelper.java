@@ -19,10 +19,10 @@ import twitter4j.User;
 public class NotificationHelper {
     
     public static void notifyMention(Status status, final WindowViewTimeline viewTimeline) throws TwitterException{
+        INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);      
         
         if(status.getText().contains("@" + ConsoleMain.twitter.getScreenName())){
             System.setProperty("swing.aatext", "true");
-            INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
             
             if(!status.getText().startsWith("RT")){
                 
