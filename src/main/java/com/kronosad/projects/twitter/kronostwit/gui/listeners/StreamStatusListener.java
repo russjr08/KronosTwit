@@ -5,24 +5,16 @@
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
-import com.kronosad.projects.twitter.kronostwit.gui.helpers.NotificationHelper;
-import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.*;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.Preferences;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.filter.Filter;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import twitter4j.*;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import twitter4j.DirectMessage;
-import twitter4j.StallWarning;
-import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
-import twitter4j.TwitterException;
-import twitter4j.User;
-import twitter4j.UserList;
-import twitter4j.UserStreamListener;
 
 /**
  *
@@ -65,11 +57,11 @@ public class StreamStatusListener implements UserStreamListener{
         }
         if(!filtered){
             timelineView.statuses.add(0, status);
-            timelineView.tweetsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+            timelineView.tweetsList.add(0, TweetFormat.formatTweet(status));
         
             if(status.getText().contains(authedUser.getScreenName())){
                 timelineView.mentions.add(0, status);
-                timelineView.mentionsList.add(0, String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+                timelineView.mentionsList.add(0, TweetFormat.formatTweet(status));
             }
         }
         

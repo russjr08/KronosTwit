@@ -148,7 +148,7 @@ public class GitlabAPI {
 
     }
     
-    public static void createIssue(int projectID, String title, String description, String labels) throws IOException {
+    public static int createIssue(int projectID, String title, String description, String labels) throws IOException {
         URL url = new URL(String.format("http://git.tristen.co/api/v3/projects/%s/issues", projectID));
 
         Gson gson = new Gson();
@@ -214,6 +214,8 @@ public class GitlabAPI {
         System.out.println(response.toString());
 
         connection.disconnect();
+
+        return issueID;
 
 
     }

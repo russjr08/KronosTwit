@@ -2,7 +2,6 @@
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -36,7 +35,7 @@ public class HelperRefreshUserTimeline {
                 }
 
                 for(Status status : this.statuses.getStatuses()){
-                    this.statuses.getTweetList().addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+                    this.statuses.getTweetList().addElement(TweetFormat.formatTweet(status));
 
                 }
             } catch (TwitterException e) {

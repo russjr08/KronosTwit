@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.TimerTask;
 
 
 public class MainGUI extends JFrame implements IStatus{
@@ -101,14 +100,14 @@ public class MainGUI extends JFrame implements IStatus{
 
 
 
-    class updateTask extends TimerTask{
-
-        @Override
-        public void run() {
-            HelperRefreshTimeline.autoUpdate();
-            System.out.println("Auto Refresh!");
-        }
-    }
+//    class updateTask extends TimerTask{
+//
+//        @Override
+//        public void run() {
+//            HelperRefreshTimeline.autoUpdate();
+//            System.out.println("Auto Refresh!");
+//        }
+//    }
 
 
 

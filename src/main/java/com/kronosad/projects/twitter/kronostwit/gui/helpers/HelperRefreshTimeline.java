@@ -3,23 +3,19 @@ package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.StreamStatusListener;
+import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.Preferences;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.filter.Filter;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import twitter4j.*;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingWorker;
-import twitter4j.Paging;
-import twitter4j.Status;
-import twitter4j.TwitterException;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
-import twitter4j.User;
 
 public class HelperRefreshTimeline {
 
@@ -50,45 +46,7 @@ public class HelperRefreshTimeline {
         
 
     }
-    
-    
-    
-    
-    @Deprecated
-    public static void autoUpdate(){
-        System.out.println("Status Update Performed.");
 
-        statuses.getStatuses().clear();
-        statuses.getTweetList().clear();
-
-
-        try {
-            for(Status status : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
-
-                //list.addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
-                statuses.getStatuses().add(status);
-            }
-
-            for(Status status : statuses.getStatuses()){
-                statuses.getTweetList().addElement(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
-
-            }
-        } catch (TwitterException exception) {
-            exception.printStackTrace();
-            if(exception.getStatusCode() == 429){
-                System.out.println("ERROR: Twitter limit reached. Shutting down auto update! You will need to " +
-                        "reopen this application to start using again.");
-                if(MainGUI.tm != null){
-                    MainGUI.tm.stop();
-                    canRefresh = false;
-
-                }
-            }
-        }
-
-
-
-    }
     
     class UpdateRunner extends SwingWorker<Void, Void>{
 
@@ -147,7 +105,7 @@ public class HelperRefreshTimeline {
                         System.out.println("Adding home timeline to window...");
                         
                         for(Status status : statuses.getStatuses()){
-                            timelineWindow.tweetsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+                            timelineWindow.tweetsList.addElement(TweetFormat.formatTweet(status));
  
                         }
                         
@@ -189,7 +147,7 @@ public class HelperRefreshTimeline {
 
                         System.out.println("Adding mentions timeline to window...");
                         for(Status status : timelineWindow.mentions){
-                            timelineWindow.mentionsList.addElement(String.format("[%s:%s]%s:\n %s", status.getCreatedAt().getHours(), status.getCreatedAt().getMinutes(), status.getUser().getName(), TweetHelper.unshortenTweet(status.getText())));
+                            timelineWindow.mentionsList.addElement(TweetFormat.formatTweet(status));
                             
                         }
                         
@@ -221,8 +179,12 @@ public class HelperRefreshTimeline {
                 @Override
                 public void run()
                 {
+                    ConsoleLoader.console.appendToConsole("Closing App!");
+
+                    for(Window window : ConsoleLoader.windows){
+                        window.setTitle("Closing Application...");
+                    }
                     stream.shutdown();
-                    System.out.println("Closing App!");
                 }
             });
             

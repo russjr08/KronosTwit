@@ -4,53 +4,28 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
-import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.*;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.menubar.MenuBarHelper;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.DeleteMenuItemListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.FavoriteMenuItemListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.NewTweetMenuItemListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.QuoteRTMenuItemListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.RTMenuItemListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.RefreshMenuItemListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.ReplyMenuItemListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.StreamStatusListener;
-import com.kronosad.projects.twitter.kronostwit.gui.listeners.ViewProfileMenuListener;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
-import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
-import java.awt.Image;
+import org.apache.commons.io.FileUtils;
+import twitter4j.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.TimerTask;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import java.util.Timer;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import twitter4j.TwitterException;
-import org.apache.commons.io.*;
-import twitter4j.Query;
-import twitter4j.QueryResult;
-import twitter4j.Status;
-import twitter4j.User;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
 
 /**
  *
@@ -327,8 +302,8 @@ public class WindowViewTimeline extends Window implements IStatus {
             }finally{
                 for(Status status : queryResult.getTweets()){
                     searches.add(status);
-                    searchList.addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
-                    
+                    searchList.addElement(TweetFormat.formatTweet(status));
+
                 }
                 
             }
@@ -406,7 +381,6 @@ public class WindowViewTimeline extends Window implements IStatus {
         int randomGreeting = random.nextInt(lines.size());
         
         this.setTitle(lines.get(randomGreeting).replaceAll("%u", user.getName()));
-        
        
         
         
@@ -497,12 +471,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     
     
     public ArrayList<Status> getStatuses() {
-        
-//        if(isMentionsSelected){
-//            return mentions;
-//        }else{
-//            return statuses;
-//        }
+
         
         switch(tweetsTabbedPane.getSelectedIndex()){
             case 0:
@@ -519,11 +488,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     }
 
     public int getSelectedStatus() {
-//        if(isMentionsSelected){
-//            return mentionsView.getSelectedIndex();
-//        }else{
-//            return tweetsView.getSelectedIndex();
-//        }
+
           switch(tweetsTabbedPane.getSelectedIndex()){
               case 0:
                   return tweetsView.getSelectedIndex();
@@ -539,11 +504,6 @@ public class WindowViewTimeline extends Window implements IStatus {
     }
 
     public DefaultListModel getTweetList() {
-//        if(isMentionsSelected){
-//            return mentionsList;
-//        }else{
-//            return tweetsList; 
-//        }
 
         switch(tweetsTabbedPane.getSelectedIndex()){
             case 0:

@@ -5,11 +5,15 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
 import com.kronosad.projects.libraries.GitlabAPI;
+import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
+import twitter4j.TwitterException;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  *
@@ -129,15 +133,28 @@ public class WindowReportIssue extends Window {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-        
+        int issueID = 0;
         try {
-            GitlabAPI.createIssue(2, txtTitle.getText(), txtDetails.getText(), txtLabel.getText());
+            issueID = GitlabAPI.createIssue(2, txtTitle.getText(), txtDetails.getText(), txtLabel.getText() + String.format(",%s", ConsoleMain.twitter.getScreenName()));
         } catch (IOException ex) {
             System.out.println("Could not report issue!");
             ex.printStackTrace();
-        }finally{
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                if(Desktop.isDesktopSupported()){
+                Desktop.getDesktop().browse(new URL(String.format("http://git.tristen.co/russjr08/kronostwit/issues/%s", issueID)).toURI());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
             this.dispose();
         }
+
+
         
         
     }//GEN-LAST:event_btnReportActionPerformed
