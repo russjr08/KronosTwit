@@ -213,9 +213,11 @@ public class GitlabAPI {
 
         System.out.println(response.toString());
 
+
+
         connection.disconnect();
 
-        return issueID;
+        return gson.fromJson(response.toString(), Issue.class).getIid();
 
 
     }

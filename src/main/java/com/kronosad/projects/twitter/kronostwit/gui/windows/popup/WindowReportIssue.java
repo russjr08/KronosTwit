@@ -5,6 +5,8 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
 import com.kronosad.projects.libraries.GitlabAPI;
+import com.kronosad.projects.libraries.PastebinAPI;
+import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import twitter4j.TwitterException;
@@ -133,9 +135,26 @@ public class WindowReportIssue extends Window {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-        int issueID = 0;
+
+        PastebinAPI pastebin = new PastebinAPI("0593b337f2378b464f1d9b04541e333c", "text", ConsoleLoader.console.getConsoleText());
+
+        System.out.println("Sending console text to pastebin (Will be included in issue.)");
+
+        String url = "";
         try {
-            issueID = GitlabAPI.createIssue(2, txtTitle.getText(), txtDetails.getText(), txtLabel.getText() + String.format(",%s", ConsoleMain.twitter.getScreenName()));
+            url = pastebin.post();
+            System.out.println("Pastebin URL: " + url);
+        } catch (IOException e) {
+            System.out.println("There was a problem submitting console to pastebin...");
+            e.printStackTrace();
+        }
+
+        int issueID = 0;
+
+        String issueText = txtDetails.getText() + "\n" + url; // Yes, I know.. this is really dirty..
+
+        try {
+            issueID = GitlabAPI.createIssue(2, txtTitle.getText(), issueText, txtLabel.getText() + String.format(",%s", ConsoleMain.twitter.getScreenName()));
         } catch (IOException ex) {
             System.out.println("Could not report issue!");
             ex.printStackTrace();
@@ -144,7 +163,7 @@ public class WindowReportIssue extends Window {
         } finally{
             try {
                 if(Desktop.isDesktopSupported()){
-                Desktop.getDesktop().browse(new URL(String.format("http://git.tristen.co/russjr08/kronostwit/issues/%s", issueID)).toURI());
+                    Desktop.getDesktop().browse(new URL(String.format("http://git.tristen.co/russjr08/kronostwit/issues/%s", issueID)).toURI());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

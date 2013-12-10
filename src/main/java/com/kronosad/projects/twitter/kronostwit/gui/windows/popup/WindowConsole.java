@@ -9,11 +9,12 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.logging.OverridePrintStream;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
+
+import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintStream;
-import javax.swing.SwingUtilities;
-import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -76,6 +77,10 @@ public class WindowConsole extends Window {
     
     public void appendObjectToConsole(Object object){
         this.areaConsole.append(object.toString() + "\n");
+    }
+
+    public String getConsoleText(){
+        return this.areaConsole.getText();
     }
 
     /**
