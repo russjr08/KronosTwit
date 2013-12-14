@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  *
  * @author Russell
  */
-public class WindowNewTweet extends Window {
+public class WindowNewTweet extends Window implements Runnable {
     private DocumentLimitedInput dli;
     /**
      * Creates new form WindowNewTweet
@@ -258,11 +258,24 @@ public class WindowNewTweet extends Window {
     public void init() {
         
         super.init();
+        SwingUtilities.invokeLater(this);
 
+
+    }
+
+    public void setAttachment(File file){
+        System.out.println("Attaching: " + file.getPath());
+        JOptionPane.showMessageDialog(null, "Attachment Received!", "Attached", JOptionPane.INFORMATION_MESSAGE);
+        attachment = file;
+    }
+
+
+    @Override
+    public void run() {
         dli = new DocumentLimitedInput(140);
         txtAreaTweet.setDocument(dli);
         txtAreaTweet.setLineWrap(true);
-        
+
         progressBarCharsLeft.setMaximum(140);
         this.setVisible(true);
         if(this.isReply){
@@ -284,21 +297,13 @@ public class WindowNewTweet extends Window {
             } catch (TwitterException ex) {
                 Logger.getLogger(WindowNewTweet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
 
         DragDropListener dropListener = new DragDropListener(this);
         new DropTarget(txtAreaTweet, dropListener);
 
-        
+
         updateCharsLeft();
     }
-
-    public void setAttachment(File file){
-        System.out.println("Attaching: " + file.getPath());
-        JOptionPane.showMessageDialog(null, "Attachment Received!", "Attached", JOptionPane.INFORMATION_MESSAGE);
-        attachment = file;
-    }
-
-   
 }
