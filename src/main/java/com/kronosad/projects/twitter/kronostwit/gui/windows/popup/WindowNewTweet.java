@@ -9,16 +9,18 @@ import com.kronosad.projects.twitter.kronostwit.enums.FinishedWork;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.DocumentLimitedInput;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperNewTweet;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.listeners.DragDropListener;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
-import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
+import twitter4j.TwitterException;
+
+import javax.swing.*;
+import java.awt.dnd.DropTarget;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import twitter4j.TwitterException;
 
 
 /**
@@ -33,6 +35,7 @@ public class WindowNewTweet extends Window {
     private IStatus statuses;
     private boolean isReply = false;
     private long replyID;
+    private File attachment = null;
     public WindowNewTweet(String title, int sizeX, int sizeY, IStatus status) {
         super(title, sizeX, sizeY);
         statuses = status;
@@ -180,6 +183,11 @@ public class WindowNewTweet extends Window {
         if(!isReply || txtAreaTweet.getText() == null){
             
             HelperNewTweet newTweet = new HelperNewTweet(statuses, txtAreaTweet.getText());
+
+            if(attachment != null){
+                newTweet.setFile(attachment);
+            }
+
             FinishedWork type = newTweet.tweet();
             
             if(type == type.NOTWEET){
@@ -200,6 +208,11 @@ public class WindowNewTweet extends Window {
             }
         }else if(isReply){
             HelperNewTweet newTweet = new HelperNewTweet(statuses, txtAreaTweet.getText(), replyID);
+
+            if(attachment != null){
+                newTweet.setFile(attachment);
+            }
+
             FinishedWork type = newTweet.tweetWithReply();
             
             if(type == type.NOTWEET){
@@ -273,8 +286,18 @@ public class WindowNewTweet extends Window {
             }
             
         }
+
+        DragDropListener dropListener = new DragDropListener(this);
+        new DropTarget(txtAreaTweet, dropListener);
+
         
         updateCharsLeft();
+    }
+
+    public void setAttachment(File file){
+        System.out.println("Attaching: " + file.getPath());
+        JOptionPane.showMessageDialog(null, "Attachment Received!", "Attached", JOptionPane.INFORMATION_MESSAGE);
+        attachment = file;
     }
 
    
