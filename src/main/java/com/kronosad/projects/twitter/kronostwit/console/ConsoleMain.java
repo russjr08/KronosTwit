@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -143,10 +144,22 @@ public class ConsoleMain {
                 System.out.println("Authorization Details located! Using those!");
             }
             
-            
-            
+            System.out.println("Checking rate limit status...");
 
-            //String betaKey = CheckerBetaUser.getBetaKeyProperties();
+            try {
+                Map<String, RateLimitStatus> stats = twitter.getRateLimitStatus();
+                RateLimitStatus status = stats.get("/application/rate_limit_status");
+                System.out.println(status.toString());
+                if(status.getRemaining() <= 5){
+                    JOptionPane.showMessageDialog(null, String.format("Sorry! You need to wait %s seconds before you can open this app again!", status.getSecondsUntilReset()));
+                    System.exit(0);
+                }
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+
+        //String betaKey = CheckerBetaUser.getBetaKeyProperties();
             loading.checkUser();
 
 //            if(betaKey == null){
