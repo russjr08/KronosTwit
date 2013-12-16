@@ -3,6 +3,8 @@ package com.kronosad.projects.twitter.kronostwit.console;
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
+import com.kronosad.projects.twitter.kronostwit.commands.CommandRegistry;
+import com.kronosad.projects.twitter.kronostwit.commands.CommandUnshortenURL;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.Updater;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingScreen;
@@ -195,6 +197,7 @@ public class ConsoleMain {
                 @Override
                 public void run() {
                     if (!arguments.contains("-console")) {
+                        registerCommands();
                         new WindowViewTimeline("View Timeline", 500, 600);
                         loading.loadingTweets();
                     } else {
@@ -210,6 +213,10 @@ public class ConsoleMain {
         }
 
 
+    }
+
+    public static void registerCommands(){
+        CommandRegistry.registerCommand(new CommandUnshortenURL());
     }
 
     public static void getNewUserToken() {

@@ -6,12 +6,14 @@
 
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
+import com.kronosad.projects.twitter.kronostwit.commands.CommandRegistry;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.logging.OverridePrintStream;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.PrintStream;
@@ -95,6 +97,7 @@ public class WindowConsole extends Window {
         lblWarning = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         areaConsole = new javax.swing.JTextArea();
+        fieldCommand = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -105,6 +108,12 @@ public class WindowConsole extends Window {
         areaConsole.setRows(5);
         jScrollPane1.setViewportView(areaConsole);
 
+        fieldCommand.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fieldCommandKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,9 +122,11 @@ public class WindowConsole extends Window {
                 .addContainerGap(87, Short.MAX_VALUE)
                 .addComponent(lblWarning)
                 .addGap(119, 119, 119))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(fieldCommand))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -124,17 +135,33 @@ public class WindowConsole extends Window {
                 .addContainerGap()
                 .addComponent(lblWarning)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void fieldCommandKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fieldCommandKeyReleased
+
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            if(fieldCommand.getText() != null){
+                if(!CommandRegistry.runCommand(fieldCommand.getText())){
+                    System.out.println("Command not found: " + fieldCommand.getText());
+                }
+            }
+            fieldCommand.setText("");
+
+        }
+
+    }//GEN-LAST:event_fieldCommandKeyReleased
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaConsole;
+    private javax.swing.JTextField fieldCommand;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblWarning;
     // End of variables declaration//GEN-END:variables
