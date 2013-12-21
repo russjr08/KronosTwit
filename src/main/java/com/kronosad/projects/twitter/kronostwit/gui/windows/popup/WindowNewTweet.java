@@ -63,15 +63,25 @@ public class WindowNewTweet extends Window implements Runnable {
         
     }
     
-    public WindowNewTweet(String title, int sizeX, int sizeY, IStatus status, long reply, String tweet){
+    public WindowNewTweet(String title, int sizeX, int sizeY, IStatus status, long reply, final String tweet){
         super(title, sizeX, sizeY);
+        final WindowNewTweet instance = this;
         statuses = status;
         replyID = reply;
         isReply = true;
         initComponents();
         init();
-        
-        txtAreaTweet.setText(tweet);
+
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                txtAreaTweet.setText(tweet);
+                instance.requestFocus();
+
+            }
+        });
+        this.repaint();
     }
 
     /**
@@ -277,7 +287,6 @@ public class WindowNewTweet extends Window implements Runnable {
         txtAreaTweet.setLineWrap(true);
 
         progressBarCharsLeft.setMaximum(140);
-        this.setVisible(true);
         if(this.isReply){
             try {
                 ArrayList<String> users = TweetHelper.getUsersFromTweet(ConsoleMain.twitter.showStatus(replyID).getText());
@@ -305,5 +314,7 @@ public class WindowNewTweet extends Window implements Runnable {
 
 
         updateCharsLeft();
+        this.setVisible(true);
+
     }
 }

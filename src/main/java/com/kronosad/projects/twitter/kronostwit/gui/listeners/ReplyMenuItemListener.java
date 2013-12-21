@@ -1,12 +1,8 @@
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
-import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
-import twitter4j.StatusUpdate;
-import twitter4j.TwitterException;
 import twitter4j.User;
 
 import javax.swing.*;
@@ -25,12 +21,18 @@ public class ReplyMenuItemListener extends MouseAdapter {
     
     @Override
     public void mousePressed(MouseEvent event){
-        
-        
-        WindowNewTweet newTweet = new WindowNewTweet("New Tweet", 500, 500, statuses, statuses.getStatuses().get(statuses.getSelectedStatus()).getId()
-                , "@" + statuses.getStatuses().get(statuses.getSelectedStatus()).getUser().getScreenName() + " ");
-        
-        
+        final User selectedUser = statuses.getStatuses().get(statuses.getSelectedStatus()).getUser();
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                WindowNewTweet newTweet = new WindowNewTweet("Replying To @" + selectedUser.getScreenName(), 500, 500, statuses, statuses.getStatuses().get(statuses.getSelectedStatus()).getId()
+                        , "@" + selectedUser.getScreenName() + " ");
+            }
+        });
+
+
+
         refreshTL.refreshTimeline();
 
 

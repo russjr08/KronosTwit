@@ -5,6 +5,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
+import com.kronosad.projects.twitter.kronostwit.data.SerializeUtils;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.*;
@@ -35,7 +36,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     public DefaultListModel tweetsList = new DefaultListModel();
     public DefaultListModel mentionsList = new DefaultListModel();
     public static DefaultListModel searchList = new DefaultListModel();
-    public ArrayList<Status> statuses = new ArrayList<Status>();
+    public ArrayList<Status> statuses;
     public ArrayList<Status> mentions = new ArrayList<Status>();
     public static ArrayList<Status> searches = new ArrayList<Status>();
     private User user;
@@ -54,6 +55,11 @@ public class WindowViewTimeline extends Window implements IStatus {
     
     public static JMenuBar menuBar = new JMenuBar();
 
+    /**
+     * Allows you to grab an instance of this window. (Only one should be open per app instance)
+     */
+    public WindowViewTimeline instance;
+
     
     /**
      * Creates new form WindowViewTimeline
@@ -61,8 +67,28 @@ public class WindowViewTimeline extends Window implements IStatus {
     public WindowViewTimeline(String title, int sizeX, int sizeY) {
         
         super(title, sizeX, sizeY);
-        
-        
+
+        instance = this;
+
+        try {
+            if(SerializeUtils.getSerializedStatuses(this) != null){
+                System.out.println("Persisted statuses found!");
+                statuses = SerializeUtils.getSerializedStatuses(this);
+                System.out.println("De-serialized " + statuses.size() + " statuses!");
+            }else{
+                System.out.println("[Warning] Persisted statuses not found!");
+                statuses = new ArrayList<Status>();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            statuses = new ArrayList<Status>();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            statuses = new ArrayList<Status>();
+
+        }
+
         this.setLocationRelativeTo(null);
         MenuBarHelper.initMenu();
         this.setJMenuBar(menuBar);
@@ -332,8 +358,6 @@ public class WindowViewTimeline extends Window implements IStatus {
     public void init() {
         
         super.init();
-
-        
         
         
     }
@@ -364,7 +388,6 @@ public class WindowViewTimeline extends Window implements IStatus {
         
         SwingUtilities.updateComponentTreeUI(this);
         
-        System.out.println("Setting Color");    
     }
 
    
@@ -505,15 +528,19 @@ public class WindowViewTimeline extends Window implements IStatus {
 
     public DefaultListModel getTweetList() {
 
-        switch(tweetsTabbedPane.getSelectedIndex()){
-            case 0:
-                return tweetsList;
-            case 1:
-                return mentionsList;
-            case 2:
-                return searchList;
-            default:
-                throw new IllegalArgumentException("Invalid Tab Selected!");
+        if(tweetsTabbedPane != null){
+            switch(tweetsTabbedPane.getSelectedIndex()){
+                case 0:
+                    return tweetsList;
+                case 1:
+                    return mentionsList;
+                case 2:
+                    return searchList;
+                default:
+                    throw new IllegalArgumentException("Invalid Tab Selected!");
+            }
+        }else{
+            return tweetsList;
         }
     }
     

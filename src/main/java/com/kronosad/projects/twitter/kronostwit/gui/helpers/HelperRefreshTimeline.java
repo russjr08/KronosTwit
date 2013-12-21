@@ -3,6 +3,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
+import com.kronosad.projects.twitter.kronostwit.data.SerializeUtils;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.StreamStatusListener;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
@@ -65,7 +66,6 @@ public class HelperRefreshTimeline {
                         int filteredHomeTweets = 0;
                         for(Status timelineStatuses : ConsoleMain.twitter.getHomeTimeline(new Paging(1, 80))){
                             boolean filtered = false;
-                            
                             for(Filter filter : filters){
                                 if(filter.isUsername()){
                                     
@@ -185,6 +185,20 @@ public class HelperRefreshTimeline {
                         window.setTitle("Closing Application...");
                     }
                     stream.shutdown();
+
+                    try {
+                        if(statuses != null)
+                            SerializeUtils.serializeStatuses(statuses);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        System.out.println("Tweets were unable to persist!");
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                        System.out.println("Tweets were unable to persist!");
+                    }finally{
+                        System.out.println("Tweets have been persisted.");
+                    }
+
                 }
             });
             
