@@ -37,9 +37,12 @@ public class ThemeRegistry {
         
         System.out.println("Adding Theme: " + themeToAdd.getName());
         themes.add(themeToAdd);
-        
+        themes.add(ThemeUtils.fabricate(String.format("[Day] %s", themeToAdd.getName()), themeToAdd.getDayColor(), themeToAdd.getDayFontColor(), themeToAdd.getDayColor(), themeToAdd.getDayFontColor()));
+        themes.add(ThemeUtils.fabricate(String.format("[Night] %s", themeToAdd.getName()), themeToAdd.getNightColor(), themeToAdd.getNightFontColor(), themeToAdd.getNightColor(), themeToAdd.getNightFontColor()));
+
     }
-    
+
+    @Deprecated
     public void setActive(ITheme theme){
         activeTheme = theme;
     }

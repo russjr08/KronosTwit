@@ -358,8 +358,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     public void init() {
         
         super.init();
-        
-        
+
     }
     
     public void specialInit(){

@@ -8,11 +8,11 @@ import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.theme.ITheme;
 import com.kronosad.projects.twitter.kronostwit.theme.ThemeUtils;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -125,7 +125,7 @@ public class WindowThemePreference extends Window {
         Preferences.setActiveTheme(themeName);
         
         try {
-            if(!themeName.equalsIgnoreCase("Default")){
+            if(!themeName.equalsIgnoreCase("Default") || !themeName.startsWith("[Day]") || !themeName.startsWith("[Night]")){
                 ConsoleLoader.themeReg.add(ThemeUtils.fabricateThemeFromFile(themeName));
             }
         } catch (IOException ex) {
