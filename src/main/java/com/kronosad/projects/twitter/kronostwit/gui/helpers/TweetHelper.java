@@ -108,11 +108,11 @@ public class TweetHelper {
 
             String JSON_Text = jsonObject.getString("text");
             for(URLEntity entity : status.getURLEntities()){
-                JSON_Text = JSON_Text.replace(entity.getText(), entity.getExpandedURL());
+                JSON_Text = JSON_Text.replaceAll(entity.getText(), entity.getExpandedURL());
             }
 
             for(MediaEntity media : status.getMediaEntities()){
-                JSON_Text = JSON_Text.replace(media.getText(), media.getMediaURL());
+                JSON_Text = JSON_Text.replaceAll(media.getText(), media.getMediaURL());
             }
 
             jsonObject.remove("text");
