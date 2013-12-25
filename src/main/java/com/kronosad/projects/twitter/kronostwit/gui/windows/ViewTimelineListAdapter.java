@@ -5,18 +5,17 @@ import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.GenericClickListener;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowTweetDetails;
-import java.awt.Component;
+import twitter4j.Status;
+import twitter4j.TwitterException;
+import twitter4j.User;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import twitter4j.Status;
-import twitter4j.TwitterException;
-import twitter4j.User;
 
 /**
  *
@@ -40,7 +39,7 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 if(ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId()).isRetweet()){
                     status = ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId()).getRetweetedStatus();
                 }else{
-                    status = ConsoleMain.twitter.showStatus(timelineView.getStatuses().get(timelineView.getSelectedStatus()).getId());
+                    status = timelineView.getStatuses().get(timelineView.getSelectedStatus());
                 }
             } catch (TwitterException ex) {
                 Logger.getLogger(ViewTimelineListAdapter.class.getName()).log(Level.SEVERE, null, ex);

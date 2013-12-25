@@ -4,6 +4,7 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
+import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.internal.org.json.JSONObject;
@@ -98,30 +99,35 @@ public class TweetHelper {
     }
 
     public static Status removeTwitterLinks(Status status){
+        Status updatedStatus = null;
 
-        if(status.getText().contains("t.co")){
 
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(DataObjectFactory.getRawJSON(status));
 
-            JSONObject jsonObject;
-            try {
-                jsonObject = new JSONObject(DataObjectFactory.getRawJSON(status));
-
-                String JSON_Text = jsonObject.getString("text");
-                for(URLEntity entity : status.getURLEntities()){
-                    JSON_Text = JSON_Text.replace(entity.getText(), entity.getExpandedURL());
-                }
-
-                jsonObject.remove("text");
-                jsonObject.put("text", JSON_Text);
-                return DataObjectFactory.createStatus(jsonObject.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
+            String JSON_Text = jsonObject.getString("text");
+            for(URLEntity entity : status.getURLEntities()){
+                JSON_Text = JSON_Text.replace(entity.getText(), entity.getExpandedURL());
             }
+
+            for(MediaEntity media : status.getMediaEntities()){
+                JSON_Text = JSON_Text.replace(media.getText(), media.getMediaURL());
+            }
+
+            jsonObject.remove("text");
+            jsonObject.put("text", JSON_Text);
+            updatedStatus = DataObjectFactory.createStatus(jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
 
-        return status;
+
+
+
+        return updatedStatus;
 
     }
     
