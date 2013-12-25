@@ -106,17 +106,17 @@ public class TweetHelper {
         try {
             jsonObject = new JSONObject(DataObjectFactory.getRawJSON(status));
 
-            String JSON_Text = jsonObject.getString("text");
+            String jsontext = jsonObject.getString("text");
             for(URLEntity entity : status.getURLEntities()){
-                JSON_Text = JSON_Text.replaceAll(entity.getText(), entity.getExpandedURL());
+                jsontext = jsontext.replaceAll(entity.getText(), entity.getExpandedURL());
             }
 
             for(MediaEntity media : status.getMediaEntities()){
-                JSON_Text = JSON_Text.replaceAll(media.getText(), media.getMediaURL());
+                jsontext = jsontext.replaceAll(media.getText(), media.getMediaURL());
             }
 
             jsonObject.remove("text");
-            jsonObject.put("text", JSON_Text);
+            jsonObject.put("text", jsontext);
             updatedStatus = DataObjectFactory.createStatus(jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
