@@ -386,7 +386,7 @@ public class WindowViewTimeline extends Window implements IStatus {
         setupAdapters();
         
         SwingUtilities.updateComponentTreeUI(this);
-        
+
     }
 
    

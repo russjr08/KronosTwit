@@ -147,8 +147,16 @@ public class WindowConsole extends Window {
 
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             if(fieldCommand.getText() != null){
+                if(fieldCommand.getText().equals("dev")){
+                    CommandRegistry.devMode = !CommandRegistry.devMode;
+                    System.out.println("Toggled Developer Mode");
+                    fieldCommand.setText("");
+                    return;
+                }
                 if(!CommandRegistry.runCommand(fieldCommand.getText())){
-                    System.out.println("Command not found: " + fieldCommand.getText());
+                    if(!CommandRegistry.devMode){
+                        System.out.println("Command not found: " + fieldCommand.getText());
+                    }
                 }
             }
             fieldCommand.setText("");
