@@ -5,6 +5,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import twitter4j.Status;
+import twitter4j.URLEntity;
 import twitter4j.internal.org.json.JSONObject;
 import twitter4j.json.DataObjectFactory;
 
@@ -99,12 +100,19 @@ public class TweetHelper {
     public static Status removeTwitterLinks(Status status){
 
         if(status.getText().contains("t.co")){
+
+
             JSONObject jsonObject;
             try {
                 jsonObject = new JSONObject(DataObjectFactory.getRawJSON(status));
-                String unshortened = unshortenTweet(jsonObject.getString("text"));
+
+                String JSON_Text = jsonObject.getString("text");
+                for(URLEntity entity : status.getURLEntities()){
+                    JSON_Text = JSON_Text.replace(entity.getText(), entity.getExpandedURL());
+                }
+
                 jsonObject.remove("text");
-                jsonObject.put("text", unshortened);
+                jsonObject.put("text", JSON_Text);
                 return DataObjectFactory.createStatus(jsonObject.toString());
             } catch (Exception e) {
                 e.printStackTrace();
