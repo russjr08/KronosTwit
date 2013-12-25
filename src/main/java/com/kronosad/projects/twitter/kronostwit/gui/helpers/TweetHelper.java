@@ -17,7 +17,13 @@ import java.util.ArrayList;
  * @author Russell
  */
 public class TweetHelper {
-    
+
+    /**
+     * @deprecated Use {@link twitter4j.Status#getURLEntities()} for grabbing URLs
+     * @param tweet
+     * @return
+     */
+    @Deprecated
     public static ArrayList<String> getLinksFromTweet(String tweet){
         ArrayList<String> links = new ArrayList<String>();
         String[] composition = tweet.split(" ");
@@ -108,11 +114,11 @@ public class TweetHelper {
 
             String jsontext = jsonObject.getString("text");
             for(URLEntity entity : status.getURLEntities()){
-                jsontext = jsontext.replaceAll(entity.getText(), entity.getExpandedURL());
+                jsontext = jsontext.replace(entity.getText(), entity.getExpandedURL());
             }
 
             for(MediaEntity media : status.getMediaEntities()){
-                jsontext = jsontext.replaceAll(media.getText(), media.getMediaURL());
+                jsontext = jsontext.replace(media.getText(), media.getMediaURL());
             }
 
             jsonObject.remove("text");
