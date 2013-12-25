@@ -2,6 +2,7 @@ package com.kronosad.projects.twitter.kronostwit.commands;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.URLUnshortener;
+import com.kronosad.projects.twitter.kronostwit.interfaces.ICommand;
 
 import java.util.ArrayList;
 

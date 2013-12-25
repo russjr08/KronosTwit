@@ -1,16 +1,14 @@
 package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
-import com.kronosad.projects.twitter.kronostwit.theme.ThemeDefault;
-import java.awt.Component;
-import java.awt.Container;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.swing.*;
 
 public abstract class Window extends JFrame{
 
-    private String title;
     private int sizeX, sizeY;
 
     public Window(String title, int sizeX, int sizeY){
@@ -40,16 +38,8 @@ public abstract class Window extends JFrame{
             public void windowActivated(WindowEvent we) {}
             
             public void windowDeactivated(WindowEvent we) {}
-            
-            
-            
-            
-            
-        });
-        
-        
-        
 
+        });
 
     }
 
@@ -60,14 +50,6 @@ public abstract class Window extends JFrame{
     }
     
     protected void initFonts(Component comp) {
-//        for(Component component : this.getContentPane().getComponents()){
-//            if(component instanceof JLabel){
-//                component.setForeground(new ThemeDefault().getCurrentFontColor());
-//            }
-//            
-//        }
-//        
-//        this.getContentPane().setBackground(new ThemeDefault().getCurrentColor());
         
         if (comp instanceof JLabel) {
             
@@ -94,20 +76,18 @@ public abstract class Window extends JFrame{
         SwingUtilities.updateComponentTreeUI(this);
     }
 
-
-
     public int getSizeX() {
         return sizeX;
-    }
-
-    public void setSizeX(int sizeX) {
-        this.sizeX = sizeX;
-        this.setSize(this.sizeX, this.sizeY);
     }
 
     public int getSizeY() {
         return sizeY;
 
+    }
+
+    public void setSizeX(int sizeX) {
+        this.sizeX = sizeX;
+        this.setSize(this.sizeX, this.sizeY);
     }
 
     public void setSizeY(int sizeY) {

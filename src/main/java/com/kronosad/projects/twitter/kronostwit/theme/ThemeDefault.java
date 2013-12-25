@@ -1,6 +1,8 @@
 
 package com.kronosad.projects.twitter.kronostwit.theme;
 
+import com.kronosad.projects.twitter.kronostwit.interfaces.ITheme;
+
 import java.awt.Color;
 import java.io.File;
 import java.util.Calendar;
@@ -9,7 +11,7 @@ import java.util.Calendar;
  *
  * @author russjr08
  */
-public class ThemeDefault implements ITheme{
+public class ThemeDefault implements ITheme {
     
     public ThemeDefault(){
         Calendar calendar = Calendar.getInstance();

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.kronosad.projects.twitter.kronostwit.commands;
+package com.kronosad.projects.twitter.kronostwit.interfaces;
 
 import java.util.ArrayList;
 

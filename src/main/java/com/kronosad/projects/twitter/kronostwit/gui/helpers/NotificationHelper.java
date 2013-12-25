@@ -22,39 +22,40 @@ public class NotificationHelper {
         INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);      
         
         if(status.getText().contains("@" + ConsoleMain.twitter.getScreenName())){
+            // Anti-aliasing
             System.setProperty("swing.aatext", "true");
             
             if(!status.getText().startsWith("RT")){
                 
             
-            new NotificationBuilder().withStyle(style).withTitle("KronosTwit - New Mention!")
-                    .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
-                    .withListener(new NotificationEventAdapter() {
-                        public void clicked(NotificationEvent event){
-                             if(viewTimeline != null){
-                                 viewTimeline.toFront();
-                             }
-                        } 
-                    
-                    })
-                    .withPosition(Positions.NORTH_WEST)
-                    .withDisplayTime(15000)
-                    .showNotification();
-            }else{
-                new NotificationBuilder().withStyle(style).withTitle("KronosTwit - Retweet!")
-                    .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
-                    .withListener(new NotificationEventAdapter() {
-                        public void clicked(NotificationEvent event){
-                             if(viewTimeline != null){
-                                 viewTimeline.toFront();
-                             }
-                        } 
-                    
-                    })
-                    .withPosition(Positions.NORTH_WEST)
-                    .withDisplayTime(15000)
-                    .showNotification();
-            }
+                new NotificationBuilder().withStyle(style).withTitle("KronosTwit - New Mention!")
+                        .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
+                        .withListener(new NotificationEventAdapter() {
+                            public void clicked(NotificationEvent event){
+                                 if(viewTimeline != null){
+                                     viewTimeline.toFront();
+                                 }
+                            }
+
+                        })
+                        .withPosition(Positions.NORTH_WEST)
+                        .withDisplayTime(15000)
+                        .showNotification();
+                }else{
+                    new NotificationBuilder().withStyle(style).withTitle("KronosTwit - Retweet!")
+                        .withMessage("@" + status.getUser().getScreenName() + ": " + status.getText())
+                        .withListener(new NotificationEventAdapter() {
+                            public void clicked(NotificationEvent event){
+                                 if(viewTimeline != null){
+                                     viewTimeline.toFront();
+                                 }
+                            }
+
+                        })
+                        .withPosition(Positions.NORTH_WEST)
+                        .withDisplayTime(15000)
+                        .showNotification();
+                }
             
         }
         

@@ -1,6 +1,8 @@
 package com.kronosad.projects.twitter.kronostwit.theme;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
+import com.kronosad.projects.twitter.kronostwit.interfaces.ITheme;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,13 +17,13 @@ import java.util.Properties;
 public class ThemeUtils {
     
     /**
-     * Returns an {@link ITheme} from the given parameters.
+     * Returns an {@link com.kronosad.projects.twitter.kronostwit.interfaces.ITheme} from the given parameters.
      * @param name Name of the theme
      * @param dayColor Day color of theme
      * @param dayFontColor Day font color of theme
      * @param nightColor Night color of theme
      * @param nightFontColor Night font color of theme
-     * @return An instance of {@link ITheme}
+     * @return An instance of {@link com.kronosad.projects.twitter.kronostwit.interfaces.ITheme}
      */
     public static ITheme fabricate(final String name, final Color dayColor, final Color dayFontColor, final Color nightColor, final Color nightFontColor){
         

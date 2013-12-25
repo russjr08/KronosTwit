@@ -5,6 +5,8 @@
 package com.kronosad.projects.twitter.kronostwit.theme;
 
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.Preferences;
+import com.kronosad.projects.twitter.kronostwit.interfaces.ITheme;
+
 import java.util.ArrayList;
 
 /**

@@ -1,6 +1,8 @@
 
 package com.kronosad.projects.twitter.kronostwit.theme;
 
+import com.kronosad.projects.twitter.kronostwit.interfaces.ITheme;
+
 import java.awt.Color;
 import java.io.File;
 import java.util.Calendar;
@@ -10,7 +12,7 @@ import java.util.Calendar;
  * this class is the methods that are used to calculate which colors to use currently.
  * @author russjr08
  */
-public abstract class ExtendableTheme implements ITheme{
+public abstract class ExtendableTheme implements ITheme {
     
     public ExtendableTheme(){
         

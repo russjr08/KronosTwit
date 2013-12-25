@@ -6,7 +6,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
-import com.kronosad.projects.twitter.kronostwit.theme.ITheme;
+import com.kronosad.projects.twitter.kronostwit.interfaces.ITheme;
 import com.kronosad.projects.twitter.kronostwit.theme.ThemeUtils;
 
 import javax.swing.*;

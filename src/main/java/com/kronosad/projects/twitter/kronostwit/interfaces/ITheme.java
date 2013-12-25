@@ -1,5 +1,5 @@
 
-package com.kronosad.projects.twitter.kronostwit.theme;
+package com.kronosad.projects.twitter.kronostwit.interfaces;
 
 import java.awt.Color;
 
