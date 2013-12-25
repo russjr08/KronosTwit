@@ -2,13 +2,11 @@
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import static com.kronosad.projects.twitter.kronostwit.console.ConsoleMain.loading;
 import com.kronosad.projects.twitter.kronostwit.data.Resource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import org.apache.commons.io.FileUtils;
+
+import javax.swing.*;
+import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -16,8 +14,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import org.apache.commons.io.FileUtils;
+
+import static com.kronosad.projects.twitter.kronostwit.console.ConsoleMain.loading;
 
 
 
@@ -26,15 +24,19 @@ import org.apache.commons.io.FileUtils;
  * @author russjr08
  */
 public class ResourceDownloader {
-    
+
     private final static String API_URL = "http://api.kronosad.com/KronosTwit/resources/";
     public static ArrayList<Resource> resources = new ArrayList<Resource>();
     
     public static boolean downloadResource(String fileName){
         try {
             URL url = new URL(API_URL + fileName);
-            File file = new File(fileName);
-            
+            File file = getResource(fileName);
+
+            if(file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
+
             FileUtils.copyURLToFile(url, file);
             
             
@@ -57,7 +59,10 @@ public class ResourceDownloader {
         System.out.println("--- Local Resources... ---");
         for(Resource resource : resources){
             System.out.println("---");
-            File file = new File(resource.getResourceName());
+            File file = getResource(resource.getResourceName());
+            if(file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
             String localMd5 = null;
 
             if(file.exists()){
@@ -112,6 +117,15 @@ public class ResourceDownloader {
         loading.initialCode();
 
         return true;
+    }
+
+    /**
+     * Gets a resource.
+     * @param fileName Filename of resource
+     * @return A {@link java.io.File} object of the resource.
+     */
+    public static File getResource(String fileName){
+        return new File("resources" + File.separator + fileName);
     }
     
     

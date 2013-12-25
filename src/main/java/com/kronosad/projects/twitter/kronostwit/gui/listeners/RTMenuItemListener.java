@@ -1,19 +1,18 @@
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.ViewTimelineListAdapter;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import twitter4j.User;
 
 
 public class RTMenuItemListener extends MouseAdapter {
@@ -28,7 +27,6 @@ public class RTMenuItemListener extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent){
-//        System.out.println(MainGUI.dataList.getSelectedIndex());
         Status status = null;
             try {
                 status = ConsoleMain.twitter.showStatus(statuses.getStatuses().get(statuses.getSelectedStatus()).getId());

@@ -29,8 +29,6 @@ import java.util.logging.Logger;
 
 public class ConsoleMain {
 
-    @Deprecated
-    public static final String[] BETA_USERS = {"russjr08", "trisam889"};
     public static Twitter twitter;
     public static RequestToken requestToken;
     public static AccessToken accessToken;
@@ -42,13 +40,7 @@ public class ConsoleMain {
     public static WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
     public static ArrayList<String> arguments = new ArrayList<String>();
 
-    public static void load(String[] args/*, boolean problems*/) {
-//        if(problems){
-//            JOptionPane.showMessageDialog(null, "Error Grabbing Application Data, terminating!", "Error Downloading Data",
-//                    JOptionPane.ERROR_MESSAGE);
-//            System.exit(1);
-//        }
-
+    public static void load(String[] args) {
         File jar = new File(ConsoleMain.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         System.out.println("This jar's file name: " + jar.getName());
 
@@ -57,7 +49,11 @@ public class ConsoleMain {
             arguments.add(argument);
         }
         while (loading.isUpdating) {
-
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         if (!arguments.contains("-development")) {
@@ -78,7 +74,11 @@ public class ConsoleMain {
         }
 
         while (loading.isDownloadingData) {
-
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -116,6 +116,8 @@ public class ConsoleMain {
             if (ConsoleLoader.updater.serverVersion > ConsoleLoader.updater.version) {
 
                 System.out.println("WARNING: Starting update procedures!");
+                JOptionPane.showMessageDialog(null, "Your version of KronosTwit is out of date. KronosTwit will now update.",
+                        "Updating Initiated", JOptionPane.WARNING_MESSAGE);
                 Updater.update(ConsoleLoader.updater, false);
 
                 System.exit(1);
@@ -159,16 +161,7 @@ public class ConsoleMain {
         }
 
 
-        //String betaKey = CheckerBetaUser.getBetaKeyProperties();
         loading.checkUser();
-
-//            if(betaKey == null){
-//                betaKey = JOptionPane.showInputDialog("A previous Beta Key was not found. Please enter your Beta Key.");
-//
-//            }else{
-//                System.out.println("Previous Beta Key found! Using those!");
-//                
-//            }
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -183,12 +176,6 @@ public class ConsoleMain {
         }
 
         try {
-//                if(CheckerBetaUser.isBetaUser(betaKey, twitter.getScreenName())){
-//                    //mainMenu(); Use this if you want to use the console based version of the app.
-//                    //MainGUI gui = new MainGUI();
-//                    CheckerBetaUser.setBetaKeyProperties(betaKey);
-//                    
-//                }
 
             CheckerBetaUser.isBetaUser(twitter.getScreenName());
         } catch (TwitterException e) {
@@ -210,7 +197,6 @@ public class ConsoleMain {
                 }
 
             });
-//                loading.done();
 
 
         }
@@ -220,34 +206,6 @@ public class ConsoleMain {
 
     public static void registerCommands(){
         CommandRegistry.registerCommand(new CommandUnshortenURL());
-    }
-
-    public static void getNewUserToken() {
-        try {
-            requestToken = twitter.getOAuthRequestToken();
-            desktop.browse(URI.create(requestToken.getAuthenticationURL()));
-
-
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Enter the pin that was given to you after authentication: ");
-
-        pin = JOptionPane.showInputDialog("Please Input the PIN after you have authenticated with Twitter.");
-
-
-        try {
-            accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-            saveAccessToken(accessToken);
-
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     public static void getNewUserTokenGUI() {
@@ -283,7 +241,7 @@ public class ConsoleMain {
         prop.setProperty("oauth.accessTokenSecret", token.getTokenSecret());
         prop.setProperty("includeEntities", "true");
         prop.setProperty("jsonStoreEnabled", "true");
-        //prop.setProperty("debug", "true"); Do you want debug data?
+
         try {
             prop.store(new FileOutputStream("twitter4j.properties"), null);
         } catch (FileNotFoundException e) {

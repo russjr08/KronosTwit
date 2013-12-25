@@ -2,13 +2,13 @@
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewProfile;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import twitter4j.Status;
 import twitter4j.User;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -35,7 +35,7 @@ public class ViewProfileMenuListener extends MouseAdapter {
         new Thread(){
             @Override
             public void run(){
-                WindowViewProfile profile = new WindowViewProfile(user.getScreenName(), 500, 600, user, ConsoleMain.twitter);    
+                new WindowViewProfile(user.getScreenName(), 500, 600, user, ConsoleMain.twitter);
             }
         }.start();
 

@@ -2,29 +2,24 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.MainGUI;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshUserTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.ResourceDownloader;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.URLUnshortener;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
 import com.kronosad.projects.twitter.kronostwit.user.KronosUser;
 import com.kronosad.projects.twitter.kronostwit.user.UserRegistry;
-import java.awt.Image;
+import twitter4j.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import twitter4j.Relationship;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.User;
 
 
 
@@ -393,8 +388,8 @@ public class WindowViewProfile extends Window implements IStatus{
             
             
             
-            final File betaPicture = new File("beta_user.png");
-            final File verifiedPicture = new File("verified_account.png");
+            final File betaPicture = ResourceDownloader.getResource("beta_user.png");
+            final File verifiedPicture = ResourceDownloader.getResource("verified_account.png");
             
                
             new Thread(){
@@ -531,11 +526,7 @@ public class WindowViewProfile extends Window implements IStatus{
                 if(e.getStatusCode() == 429){
                     System.out.println("ERROR: Twitter limit reached. Shutting down auto update! You will need to" +
                             " restart this application to reuse refresh!");
-                    if(MainGUI.tm != null){
-                        MainGUI.tm.stop();
-                        HelperRefreshTimeline.canRefresh = false;
 
-                    }
                 }
             }
 

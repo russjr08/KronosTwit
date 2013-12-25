@@ -7,6 +7,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.data.SerializeUtils;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.ResourceDownloader;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.*;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.menubar.MenuBarHelper;
@@ -393,7 +394,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     
     public void loadGreetings() throws IOException, TwitterException{
         User user = ConsoleMain.twitter.showUser(ConsoleMain.twitter.getId());
-        File file = new File("greetings.txt");
+        File file = ResourceDownloader.getResource("greetings.txt");
        
         List<String> lines = FileUtils.readLines(file);
         

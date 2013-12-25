@@ -6,12 +6,13 @@ package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
+import org.apache.commons.io.FileUtils;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -31,17 +32,21 @@ public class Updater {
         System.out.println("Detected Operating System: " + os);
         
         while(ConsoleMain.loading.isDownloadingData || ConsoleMain.loading.isUpdating){
-            
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         try{
             if(os.toLowerCase().contains("linux") || os.toLowerCase().contains("os x")){
-                    File updateScript = new File("update.sh");
+                    File updateScript = ResourceDownloader.getResource("update.sh");
                     if(updateScript.exists()){
                         System.out.println("Running Linux/OS X update script!");
 
-                        ProcessBuilder exeflag = new ProcessBuilder("chmod", "+x", "update.sh");
+                        updateScript.setExecutable(true);
                         ProcessBuilder updater = new ProcessBuilder("./update.sh");
-                        exeflag.start();
+
                         updater.start();
                     }else{
                         System.out.println("Update script not found... downloading!");
@@ -52,7 +57,7 @@ public class Updater {
 
             }else if(os.toLowerCase().contains("windows")){
                 System.out.println("Running Windows update script!");
-                File updateScript = new File("update.bat");
+                File updateScript = ResourceDownloader.getResource("update.bat");
                 if(updateScript.exists()){
                     ProcessBuilder updater = new ProcessBuilder("update.bat");
                     

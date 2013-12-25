@@ -26,7 +26,6 @@ public class FavoriteMenuItemListener extends MouseAdapter {
     
     @Override
     public void mousePressed(MouseEvent mouseEvent){
-//        System.out.println(MainGUI.dataList.getSelectedIndex());
         Status status = null;
             try {
                 status = ConsoleMain.twitter.showStatus(statuses.getStatuses().get(statuses.getSelectedStatus()).getId());
