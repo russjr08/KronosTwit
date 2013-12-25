@@ -4,6 +4,10 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
+import twitter4j.Status;
+import twitter4j.internal.org.json.JSONObject;
+import twitter4j.json.DataObjectFactory;
+
 import java.util.ArrayList;
 
 /**
@@ -90,6 +94,27 @@ public class TweetHelper {
         }
         
         return tweet;
+    }
+
+    public static Status removeTwitterLinks(Status status){
+
+        if(status.getText().contains("t.co")){
+            JSONObject jsonObject;
+            try {
+                jsonObject = new JSONObject(DataObjectFactory.getRawJSON(status));
+                String unshortened = unshortenTweet(jsonObject.getString("text"));
+                jsonObject.remove("text");
+                jsonObject.put("text", unshortened);
+                return DataObjectFactory.createStatus(jsonObject.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        return status;
+
     }
     
     

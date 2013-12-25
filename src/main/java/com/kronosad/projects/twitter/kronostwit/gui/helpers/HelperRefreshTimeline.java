@@ -92,7 +92,17 @@ public class HelperRefreshTimeline {
                             
                             
                             if(!filtered){
-                                statuses.getStatuses().add(timelineStatuses);
+                                boolean found = false;
+                                String searchedTweet = TweetHelper.removeTwitterLinks(timelineStatuses).getText();
+                                for(Status status : statuses.getStatuses()){
+                                    if(status.getText().equalsIgnoreCase(searchedTweet)){
+                                        found = true;
+                                    }
+                                }
+                                if(!found){
+                                    statuses.getStatuses().add(TweetHelper.removeTwitterLinks(timelineStatuses));
+                                }
+
                             }
 
 
@@ -137,7 +147,18 @@ public class HelperRefreshTimeline {
                             }
                             
                             if(!filtered){
-                                timelineWindow.mentions.add(timelineStatuses);
+                                String searchedTweet = TweetHelper.removeTwitterLinks(timelineStatuses).getText();
+                                boolean found = false;
+
+                                for(Status status : timelineWindow.mentions){
+                                    if(status.getText().equalsIgnoreCase(searchedTweet)){
+                                        found = true;
+                                    }
+                                }
+
+                                if(!found){
+                                    timelineWindow.mentions.add(TweetHelper.removeTwitterLinks(timelineStatuses));
+                                }
                             }
                             
 

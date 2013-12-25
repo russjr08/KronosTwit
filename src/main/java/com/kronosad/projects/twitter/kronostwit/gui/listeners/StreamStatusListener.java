@@ -56,11 +56,11 @@ public class StreamStatusListener implements UserStreamListener{
             }
         }
         if(!filtered){
-            timelineView.statuses.add(0, status);
+            timelineView.statuses.add(0, TweetHelper.removeTwitterLinks(status));
             timelineView.tweetsList.add(0, TweetFormat.formatTweet(status));
         
             if(status.getText().contains(authedUser.getScreenName())){
-                timelineView.mentions.add(0, status);
+                timelineView.mentions.add(0, TweetHelper.removeTwitterLinks(status));
                 timelineView.mentionsList.add(0, TweetFormat.formatTweet(status));
             }
         }

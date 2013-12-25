@@ -11,6 +11,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingS
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
+import twitter4j.conf.ConfigurationBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -124,11 +125,13 @@ public class ConsoleMain {
 
             }
         }
+        ConfigurationBuilder cb = new ConfigurationBuilder();
 
+        cb.setJSONStoreEnabled(true);
+        cb.setIncludeEntitiesEnabled(true);
 
-        twitter = TwitterFactory.getSingleton();
+        twitter = new TwitterFactory(cb.build()).getInstance();
         File twitter4JFile = new File("twitter4j.properties");
-
 
         twitter.setOAuthConsumer(consumerKey, consumerSecret);
         if (!twitter4JFile.exists()) {
@@ -279,6 +282,7 @@ public class ConsoleMain {
         prop.setProperty("oauth.accessToken", token.getToken());
         prop.setProperty("oauth.accessTokenSecret", token.getTokenSecret());
         prop.setProperty("includeEntities", "true");
+        prop.setProperty("jsonStoreEnabled", "true");
         //prop.setProperty("debug", "true"); Do you want debug data?
         try {
             prop.store(new FileOutputStream("twitter4j.properties"), null);
