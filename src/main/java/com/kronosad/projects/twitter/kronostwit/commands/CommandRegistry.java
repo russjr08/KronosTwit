@@ -62,12 +62,21 @@ public class CommandRegistry {
                                     args.add(part);
                                 }
                             }
-                            method.invoke(method, args);
+                            Object object = method.invoke(method, args);
+                            System.out.println(object.toString());
                         }
-                        if(parts.length == 3)
-                            method.invoke(method, parts[2]);
-                        else
-                            method.invoke(method, null);
+                        if(parts.length == 3){
+                            Object object = method.invoke(method, parts[2]);
+                            if(object != null){
+                                System.out.println(object.toString());
+                            }
+                        }
+                        else{
+                            Object object = method.invoke(method);
+                            if(object != null){
+                                System.out.println(object.toString());
+                            }
+                        }
                     }
                 }
             } catch (ClassNotFoundException e) {
