@@ -45,7 +45,7 @@ public class Updater {
                         System.out.println("Running Linux/OS X update script!");
 
                         updateScript.setExecutable(true);
-                        ProcessBuilder updater = new ProcessBuilder("./update.sh");
+                        ProcessBuilder updater = new ProcessBuilder("./resources/update.sh");
 
                         updater.start();
                     }else{
@@ -59,7 +59,7 @@ public class Updater {
                 System.out.println("Running Windows update script!");
                 File updateScript = ResourceDownloader.getResource("update.bat");
                 if(updateScript.exists()){
-                    ProcessBuilder updater = new ProcessBuilder("update.bat");
+                    ProcessBuilder updater = new ProcessBuilder("resources/update.bat");
                     
                     updater.start();
                 }else{
