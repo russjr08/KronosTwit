@@ -6,18 +6,16 @@
 
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
-import java.awt.Image;
+import com.sun.istack.internal.NotNull;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 
 /**
  *
@@ -44,19 +42,17 @@ public class WindowImagePopup extends JFrame{
         this.pack();
         
         this.setTitle("Downloading Image...");
-        this.setSize(200, 200);
-        this.setVisible(true);
         downloadImage();
-        this.setSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize().width - 200, java.awt.Toolkit.getDefaultToolkit().getScreenSize().height - 200);
-        
+
         
     }
     
     private void downloadImage(){
         ImageIcon image = null;
+        Image rawImage = null;
         System.out.println("Downloading Image from... " + imageUrl.toString());
         try {
-            Image rawImage = ImageIO.read(imageUrl);
+            rawImage = ImageIO.read(imageUrl);
             image = new ImageIcon(rawImage);
             
         } catch (IOException ex) {
@@ -66,9 +62,12 @@ public class WindowImagePopup extends JFrame{
         
         this.setTitle("Image");
         imageLabel.setIcon(image);
-        this.setSize(image.getIconWidth(), image.getIconHeight());
-        
-        
+        this.setVisible(true);
+
+        this.setSize(rawImage.getWidth(this), rawImage.getHeight(null));
+
+
+
     }
     
     

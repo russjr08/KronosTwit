@@ -6,6 +6,7 @@ import com.kronosad.projects.twitter.kronostwit.interfaces.ICommand;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,6 +23,16 @@ public class CommandRegistry {
      */
     public static void registerCommand(ICommand command){
         commands.add(command);
+    }
+
+    /**
+     * Adds a {@link java.util.List} of commands to the command database.
+     * @param commandList A {@link java.util.List} of commands.
+     */
+    public static void registerCommands(List<ICommand> commandList){
+        for(ICommand command : commandList){
+            commands.add(command);
+        }
     }
 
     /**

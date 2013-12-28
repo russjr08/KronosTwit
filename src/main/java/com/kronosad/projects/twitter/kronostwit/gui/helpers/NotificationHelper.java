@@ -85,7 +85,7 @@ public class NotificationHelper {
         
     }
     
-    public static void notifyFavorite(Status status, final WindowViewTimeline viewTimeline, User favoriter, User favorited) throws TwitterException{
+    public static void notifyFavorite(Status status, final WindowViewTimeline viewTimeline, User favoriter) throws TwitterException{
         System.setProperty("swing.aatext", "true");
             INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
             
@@ -104,6 +104,26 @@ public class NotificationHelper {
                     .showNotification();
             
         
+    }
+
+    public static void notifyFollower(final WindowViewTimeline viewTimeline, User follower){
+        System.setProperty("swing.aatext", "true");
+        INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
+
+        new NotificationBuilder().withStyle(style).withTitle("KronosTwit - You have a new follower!")
+                .withMessage("@" + follower.getScreenName() + " Now follows you!")
+                .withListener(new NotificationEventAdapter() {
+                    public void clicked(NotificationEvent event) {
+                        if (viewTimeline != null) {
+                            viewTimeline.toFront();
+                        }
+                    }
+
+                })
+                .withPosition(Positions.NORTH_WEST)
+                .withDisplayTime(15000)
+                .showNotification();
+
     }
     
 }

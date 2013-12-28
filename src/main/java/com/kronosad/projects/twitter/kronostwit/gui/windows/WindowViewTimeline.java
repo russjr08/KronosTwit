@@ -13,6 +13,7 @@ import com.kronosad.projects.twitter.kronostwit.gui.listeners.*;
 import com.kronosad.projects.twitter.kronostwit.gui.listeners.menubar.MenuBarHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowNewTweet;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IStatus;
+import com.kronosad.projects.twitter.kronostwit.utils.OSUtils;
 import org.apache.commons.io.FileUtils;
 import twitter4j.*;
 
@@ -68,7 +69,7 @@ public class WindowViewTimeline extends Window implements IStatus {
     public WindowViewTimeline(String title, int sizeX, int sizeY) {
         
         super(title, sizeX, sizeY);
-
+        OSUtils.enableOSXFullscreen(this);
         instance = this;
 
         try {

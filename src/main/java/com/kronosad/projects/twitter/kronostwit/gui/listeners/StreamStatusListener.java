@@ -5,7 +5,11 @@
 package com.kronosad.projects.twitter.kronostwit.gui.listeners;
 
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import com.kronosad.projects.twitter.kronostwit.gui.helpers.*;
+import com.kronosad.projects.twitter.kronostwit.exceptions.NotYetImplementedException;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.HelperRefreshTimeline;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.NotificationHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.Preferences;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.preferences.filter.Filter;
@@ -57,11 +61,11 @@ public class StreamStatusListener implements UserStreamListener{
         }
         if(!filtered){
             timelineView.statuses.add(0, TweetHelper.removeTwitterLinks(status));
-            timelineView.tweetsList.add(0, TweetFormat.formatTweet(status));
+            timelineView.tweetsList.add(0, TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
         
             if(status.getText().contains(authedUser.getScreenName())){
                 timelineView.mentions.add(0, TweetHelper.removeTwitterLinks(status));
-                timelineView.mentionsList.add(0, TweetFormat.formatTweet(status));
+                timelineView.mentionsList.add(0, TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
             }
         }
         
@@ -80,17 +84,10 @@ public class StreamStatusListener implements UserStreamListener{
             if(statuses.getStatuses().get(i).getId() == sdn.getStatusId()){
                 statuses.getStatuses().remove(i);
                 statuses.getTweetList().removeElementAt(i);
-                //statuses.getTweetList().remove(i);
 
             }
         }
-     
-        
-        //statuses.getTweetList().clear();
-        /*for(Status status : statuses.getStatuses()){
-            statuses.getTweetList().addElement(String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
-        }*/
-        
+
     }
 
     public void onTrackLimitationNotice(int i) {
@@ -121,8 +118,7 @@ public class StreamStatusListener implements UserStreamListener{
         try {
             if(!favoriter.getScreenName().equalsIgnoreCase(ConsoleMain.twitter.getScreenName())){
                 
-                NotificationHelper.notifyFavorite(status, timelineView, favoriter, favorited);
-                
+                NotificationHelper.notifyFavorite(status, timelineView, favoriter);
             }
         } catch (TwitterException ex) {
             Logger.getLogger(StreamStatusListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -135,7 +131,15 @@ public class StreamStatusListener implements UserStreamListener{
 
     }
 
-    public void onFollow(User user, User user1) {
+    public void onFollow(User follower, User followed) {
+
+        try {
+            if(follower.getId() != ConsoleMain.twitter.getId()){
+                NotificationHelper.notifyFollower(timelineView, follower);
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -176,11 +180,20 @@ public class StreamStatusListener implements UserStreamListener{
     }
 
     public void onBlock(User user, User user1) {
-
+        for(int i = 0; i < statuses.getStatuses().size(); i++){
+            if(statuses.getStatuses().get(i).getUser().getScreenName().equalsIgnoreCase(user.getScreenName())){
+                statuses.getStatuses().remove(i);
+                statuses.getTweetList().removeElementAt(i);
+            }
+        }
     }
 
     public void onUnblock(User user, User user1) {
-
+        try {
+            throw new NotYetImplementedException();
+        } catch (NotYetImplementedException e) {
+            e.printStackTrace();
+        }
     }
     
     

@@ -5,6 +5,7 @@ import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
 import com.kronosad.projects.twitter.kronostwit.commands.CommandRegistry;
 import com.kronosad.projects.twitter.kronostwit.commands.CommandUnshortenURL;
+import com.kronosad.projects.twitter.kronostwit.commands.DefaultCommands;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.Updater;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingScreen;
@@ -66,7 +67,17 @@ public class ConsoleMain {
         }
 
         if (arguments.contains("-updated")) {
-            JOptionPane.showMessageDialog(null, String.format("Congrats! KronosTwit has been automatically updated to %s!", ConsoleLoader.updater.version), "Update complete!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, String.format("Congrats! KronosTwit has been automatically updated to %s!", ConsoleLoader.updater.versionNumber), "Update complete!", JOptionPane.INFORMATION_MESSAGE);
+
+            if(ConsoleLoader.updater.getVersion().needsResetLogin()){
+                File file = new File("twitter4j.properties");
+                if(file.exists()){
+                    file.delete();
+                }
+                JOptionPane.showMessageDialog(null, "Sorry for the inconvenience, but this update requires a re-login to Twitter!",
+                        "Relog required!", JOptionPane.WARNING_MESSAGE);
+            }
+
         }
 
         if (arguments.contains("-forceupdate")) {
@@ -111,18 +122,18 @@ public class ConsoleMain {
             JOptionPane.showMessageDialog(null, "Failed to check for updates!", "Update Check Failed", JOptionPane.WARNING_MESSAGE);
         } finally {
             System.out.println("Final Versions: ");
-            System.out.println("Client: " + ConsoleLoader.updater.version);
+            System.out.println("Client: " + ConsoleLoader.updater.versionNumber);
             System.out.println("Server: " + ConsoleLoader.updater.serverVersion);
-            if (ConsoleLoader.updater.serverVersion > ConsoleLoader.updater.version) {
+            if (ConsoleLoader.updater.serverVersion > ConsoleLoader.updater.versionNumber) {
 
                 System.out.println("WARNING: Starting update procedures!");
-                JOptionPane.showMessageDialog(null, "Your version of KronosTwit is out of date. KronosTwit will now update.",
+                JOptionPane.showMessageDialog(null, "Your versionNumber of KronosTwit is out of date. KronosTwit will now update.",
                         "Updating Initiated", JOptionPane.WARNING_MESSAGE);
                 Updater.update(ConsoleLoader.updater, false);
 
                 System.exit(1);
-            } else if (ConsoleLoader.updater.serverVersion < ConsoleLoader.updater.version) {
-                JOptionPane.showMessageDialog(null, "Your Version of KronosTwit has a higher version than the one detected on the server, \n"
+            } else if (ConsoleLoader.updater.serverVersion < ConsoleLoader.updater.versionNumber) {
+                JOptionPane.showMessageDialog(null, "Your Version of KronosTwit has a higher versionNumber than the one detected on the server, \n"
                         + "this probably means you are running a BETA copy. Please proceed with caution!", "Version Mismatch Detected!", JOptionPane.WARNING_MESSAGE);
 
             }
@@ -205,7 +216,9 @@ public class ConsoleMain {
     }
 
     public static void registerCommands(){
+        DefaultCommands.fabricateDefaultCommands();
         CommandRegistry.registerCommand(new CommandUnshortenURL());
+
     }
 
     public static void getNewUserTokenGUI() {
@@ -230,6 +243,8 @@ public class ConsoleMain {
             saveAccessToken(accessToken);
 
         } catch (TwitterException e) {
+            System.out.println("An error occured. Your PIN may be invalid, re-executing user setup.");
+            getNewUserTokenGUI();
             e.printStackTrace();
         }
 

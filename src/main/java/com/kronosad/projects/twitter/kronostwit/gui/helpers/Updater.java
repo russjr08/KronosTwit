@@ -22,8 +22,8 @@ public class Updater {
     
     public static void update(CheckerUpdate checker, boolean attemptTwo){
         try {
-            System.out.println("Downloading Updated Jar file: " + checker.buildURL);
-            FileUtils.copyURLToFile(checker.buildURL, new File("KronosTwit-Updated.jar"));
+            System.out.println("Downloading Updated Jar file: " + checker.getVersion().getDownloadURL());
+            FileUtils.copyURLToFile(checker.getVersion().getDownloadURL(), new File("KronosTwit-Updated.jar"));
         } catch (IOException ex) {
             Logger.getLogger(Updater.class.getName()).log(Level.SEVERE, null, ex);
         }

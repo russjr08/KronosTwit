@@ -11,10 +11,11 @@ import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowConsole;
 import com.kronosad.projects.twitter.kronostwit.theme.ThemeRegistry;
 import com.kronosad.projects.twitter.kronostwit.theme.ThemeUtils;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 /**
  * Does all tasks that need to be performed before any heavy code / javax / swing / awt code is triggered.
@@ -36,6 +37,8 @@ public class ConsoleLoader {
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "KronosTwit - Alpha");
         
         themeReg = new ThemeRegistry();
+
+        updater.check();
 
         console = new WindowConsole();
         

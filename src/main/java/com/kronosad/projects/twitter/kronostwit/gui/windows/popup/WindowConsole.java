@@ -8,6 +8,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
 import com.kronosad.projects.twitter.kronostwit.commands.CommandRegistry;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
+import com.kronosad.projects.twitter.kronostwit.enums.ReleaseType;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.logging.OverridePrintStream;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 
@@ -41,7 +42,7 @@ public class WindowConsole extends Window {
         
         super.init();
         
-        if(ConsoleLoader.updater.releaseType.toLowerCase().contains("Alpha".toLowerCase()) || ConsoleLoader.updater.releaseType.toLowerCase().contains("Beta".toLowerCase())){
+        if(ConsoleLoader.updater.getVersion().getReleaseType() == ReleaseType.ALPHA || ConsoleLoader.updater.getVersion().getReleaseType() == ReleaseType.BETA){
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addWindowListener(new WindowAdapter(){
                 
@@ -102,7 +103,7 @@ public class WindowConsole extends Window {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblWarning.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblWarning.setText("You are running a dev version of KronosTwit, the console has been forced open.");
+        lblWarning.setText("You are running a dev versionNumber of KronosTwit, the console has been forced open.");
 
         areaConsole.setColumns(20);
         areaConsole.setRows(5);

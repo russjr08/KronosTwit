@@ -105,6 +105,13 @@
             <version>2.1</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Not sure if I need this, but I'll keep it under safe-guard here. -->
+        <!--<dependency>-->
+            <!--<groupId>com.apple</groupId>-->
+            <!--<artifactId>AppleJavaExtensions</artifactId>-->
+            <!--<versionNumber>1.4</versionNumber>-->
+        <!--</dependency>-->
          
     </dependencies>
 
