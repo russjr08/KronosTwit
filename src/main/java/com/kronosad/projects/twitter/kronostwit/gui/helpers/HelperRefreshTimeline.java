@@ -41,11 +41,6 @@ public class HelperRefreshTimeline {
         }
         
         new UpdateRunner().execute();
-        
-
-        
-        
-        
 
     }
 
