@@ -6,7 +6,6 @@
 
 package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 
-import com.sun.istack.internal.NotNull;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
