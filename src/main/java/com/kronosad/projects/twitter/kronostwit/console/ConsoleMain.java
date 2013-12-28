@@ -2,7 +2,7 @@ package com.kronosad.projects.twitter.kronostwit.console;
 
 import com.kronosad.api.internet.ReadURL;
 import com.kronosad.projects.twitter.kronostwit.checkers.CheckerBetaUser;
-import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
+import com.kronosad.projects.twitter.kronostwit.checkers.UpdateInformation;
 import com.kronosad.projects.twitter.kronostwit.commands.CommandRegistry;
 import com.kronosad.projects.twitter.kronostwit.commands.CommandUnshortenURL;
 import com.kronosad.projects.twitter.kronostwit.commands.DefaultCommands;
@@ -28,20 +28,23 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This is an internal class. DO NOT ATTEMPT TO MESS WITH IT.
+ */
 public class ConsoleMain {
 
     public static Twitter twitter;
-    public static RequestToken requestToken;
-    public static AccessToken accessToken;
+    private static RequestToken requestToken;
+    private static AccessToken accessToken;
     public static Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-    public static Scanner scanner;
-    public static String pin;
-    public static Properties prop;
-    public static String consumerKey, consumerSecret;
+    private static Scanner scanner;
+    private static String pin;
+    private static Properties prop;
+    private static String consumerKey, consumerSecret;
     public static WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
     public static ArrayList<String> arguments = new ArrayList<String>();
 
-    public static void load(String[] args) {
+    protected static void load(String[] args) {
         File jar = new File(ConsoleMain.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         System.out.println("This jar's file name: " + jar.getName());
 
@@ -115,7 +118,7 @@ public class ConsoleMain {
 
         loading.checkUpdate();
 
-        ConsoleLoader.updater = new CheckerUpdate();
+        ConsoleLoader.updater = new UpdateInformation();
         try {
             ConsoleLoader.updater.check();
         } catch (Exception ex) {
@@ -132,7 +135,7 @@ public class ConsoleMain {
                 Updater.update(ConsoleLoader.updater, false);
 
                 System.exit(1);
-            } else if (ConsoleLoader.updater.serverVersion < ConsoleLoader.updater.versionNumber) {
+            } else if (ConsoleLoader.updater.serverVersion < ConsoleLoader.updater.versionNumber && !arguments.contains("-development")) {
                 JOptionPane.showMessageDialog(null, "Your Version of KronosTwit has a higher versionNumber than the one detected on the server, \n"
                         + "this probably means you are running a BETA copy. Please proceed with caution!", "Version Mismatch Detected!", JOptionPane.WARNING_MESSAGE);
 
@@ -199,8 +202,13 @@ public class ConsoleMain {
                 public void run() {
                     if (!arguments.contains("-console")) {
                         registerCommands();
-                        new WindowViewTimeline("View Timeline", 500, 600);
+                        try {
+                            new WindowViewTimeline("View Timeline", 500, 600);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
                         loading.loadingTweets();
+                        ConsoleLoader.crawlPluginsDir();
                     } else {
                         System.out.println("All GUI methods halted! You are now running in Console Only mode!");
                         mainMenu();
@@ -215,13 +223,13 @@ public class ConsoleMain {
 
     }
 
-    public static void registerCommands(){
+    private static void registerCommands(){
         DefaultCommands.fabricateDefaultCommands();
         CommandRegistry.registerCommand(new CommandUnshortenURL());
 
     }
 
-    public static void getNewUserTokenGUI() {
+    private static void getNewUserTokenGUI() {
         try {
             requestToken = twitter.getOAuthRequestToken();
             desktop.browse(URI.create(requestToken.getAuthenticationURL()));
@@ -251,7 +259,7 @@ public class ConsoleMain {
 
     }
 
-    public static void saveAccessToken(AccessToken token) {
+    private static void saveAccessToken(AccessToken token) {
         prop.setProperty("oauth.accessToken", token.getToken());
         prop.setProperty("oauth.accessTokenSecret", token.getTokenSecret());
         prop.setProperty("includeEntities", "true");
@@ -268,7 +276,7 @@ public class ConsoleMain {
 
     }
 
-    public static void printHomeTimeline() {
+    private static void printHomeTimeline() {
         try {
             for (Status status : twitter.getHomeTimeline(new Paging(1, 100))) {
                 System.out.println(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
@@ -279,7 +287,7 @@ public class ConsoleMain {
         mainMenu();
     }
 
-    public static void printMentions() {
+    private static void printMentions() {
         try {
             for (Status status : twitter.getMentionsTimeline()) {
                 System.out.println(String.format("[%s]%s: %s", status.getCreatedAt(), status.getUser().getScreenName(), status.getText()));
@@ -290,7 +298,7 @@ public class ConsoleMain {
         mainMenu();
     }
 
-    public static void printDirectMessages() {
+    private static void printDirectMessages() {
         try {
             for (DirectMessage message : twitter.getDirectMessages()) {
                 System.out.println(String.format("[%s]%s: %s", message.getCreatedAt(), message.getSenderScreenName(), message.getText()));
@@ -301,7 +309,7 @@ public class ConsoleMain {
         mainMenu();
     }
 
-    public static void tweet() {
+    private static void tweet() {
         String newTweet = null;
         System.out.print("What would you like to tweet: ");
         while (newTweet == null) {
@@ -326,7 +334,7 @@ public class ConsoleMain {
         mainMenu();
     }
 
-    public static void initSecrets() throws Exception {
+    private static void initSecrets() throws Exception {
         // This was added for obscurity. Obviously we cannot completely hide this without any kind of obfuscation
         // and encryption, but this works fine :)
         // If someone has our Consumer Key / Secret, they could pretend to be us...
@@ -339,7 +347,7 @@ public class ConsoleMain {
 
     }
 
-    public static void mainMenu() {
+    private static void mainMenu() {
         System.out.println("---------- KronosTwit Main Menu ---------");
         System.out.println("What would you like to do?");
         System.out.println("1: Tweet");

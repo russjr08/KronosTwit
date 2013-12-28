@@ -23,10 +23,10 @@ import java.util.logging.Logger;
  *
  * @author Russell
  */
-public class CheckerUpdate {
+public class UpdateInformation {
 
     private ReleaseType clientReleaseType = ReleaseType.ALPHA;
-    public double versionNumber = 2.6;
+    public double versionNumber = 2.7;
     public double serverVersion;
     public URL buildURL;
     private URL projectApiURL;
@@ -34,13 +34,24 @@ public class CheckerUpdate {
 
     private Version version;
 
-    public CheckerUpdate() {
+    private UpdateInformation instance;
+
+    public UpdateInformation() {
         try {
             this.projectApiURL = new URL("http://api.kronosad.com/common/projects.xml");
             this.versionsApiURL = new URL("http://api.kronosad.com/KronosTwit/versioning/versions.xml");
         } catch (MalformedURLException ex) {
-            Logger.getLogger(CheckerUpdate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateInformation.class.getName()).log(Level.SEVERE, null, ex);
         }
+        instance = this;
+    }
+
+    /**
+     * Gets an instance of the Update Information.
+     * @return An instance of {@link com.kronosad.projects.twitter.kronostwit.checkers.UpdateInformation}
+     */
+    public UpdateInformation getInstance(){
+        return instance;
     }
     
     public void check() throws ParserConfigurationException, IOException, SAXException{
@@ -104,6 +115,11 @@ public class CheckerUpdate {
         
     }
 
+    /**
+     * Gets the current {@link com.kronosad.projects.twitter.kronostwit.data.Version} object associated with the running
+     * version of KronosTwit
+     * @return An instance of {@link com.kronosad.projects.twitter.kronostwit.data.Version}
+     */
     public Version getVersion(){
         if(version != null){
             return version;

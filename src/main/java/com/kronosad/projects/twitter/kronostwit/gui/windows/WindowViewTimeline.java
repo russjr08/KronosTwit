@@ -66,9 +66,12 @@ public class WindowViewTimeline extends Window implements IStatus {
     /**
      * Creates new form WindowViewTimeline
      */
-    public WindowViewTimeline(String title, int sizeX, int sizeY) {
+    public WindowViewTimeline(String title, int sizeX, int sizeY) throws IllegalAccessException {
         
         super(title, sizeX, sizeY);
+        if(instance != null){
+            throw new IllegalAccessException("WindowViewTimeline has already been initalized!");
+        }
         OSUtils.enableOSXFullscreen(this);
         instance = this;
 

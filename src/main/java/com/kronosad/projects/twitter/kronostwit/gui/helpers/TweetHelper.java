@@ -20,8 +20,8 @@ public class TweetHelper {
 
     /**
      * @deprecated Use {@link twitter4j.Status#getURLEntities()} for grabbing URLs
-     * @param tweet
-     * @return
+     * @param tweet The tweet to parse for links
+     * @return An {@link java.util.ArrayList} of Links.
      */
     @Deprecated
     public static ArrayList<String> getLinksFromTweet(String tweet){

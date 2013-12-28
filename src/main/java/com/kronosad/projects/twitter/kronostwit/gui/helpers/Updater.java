@@ -4,7 +4,7 @@
  */
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
-import com.kronosad.projects.twitter.kronostwit.checkers.CheckerUpdate;
+import com.kronosad.projects.twitter.kronostwit.checkers.UpdateInformation;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import org.apache.commons.io.FileUtils;
 
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Updater {
     
-    public static void update(CheckerUpdate checker, boolean attemptTwo){
+    public static void update(UpdateInformation checker, boolean attemptTwo){
         try {
             System.out.println("Downloading Updated Jar file: " + checker.getVersion().getDownloadURL());
             FileUtils.copyURLToFile(checker.getVersion().getDownloadURL(), new File("KronosTwit-Updated.jar"));

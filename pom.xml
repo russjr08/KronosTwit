@@ -51,6 +51,15 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>jspf maven</id>
+            <name>JSPF Maven Repo</name>
+            <url>http://www.cameleoncms.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+
     </repositories>
     <dependencies>
         <dependency>
@@ -112,6 +121,13 @@
             <!--<artifactId>AppleJavaExtensions</artifactId>-->
             <!--<versionNumber>1.4</versionNumber>-->
         <!--</dependency>-->
+
+        <dependency>
+            <groupId>net.xeoh.plugin</groupId>
+            <artifactId>jspf-core</artifactId>
+            <version>1.0</version>
+        </dependency>
+
          
     </dependencies>
 
