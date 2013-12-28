@@ -14,6 +14,7 @@ import twitter4j.*;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -193,7 +194,14 @@ public class HelperRefreshTimeline {
             System.out.println("Initializing Twitter Stream...");
             final TwitterStream stream = new TwitterStreamFactory().getInstance();
             stream.addListener(new StreamStatusListener(statuses));
-            stream.setOAuthConsumer(ConsoleMain.consumerKey, ConsoleMain.consumerSecret);
+
+            Field consumerKeyField = ConsoleMain.class.getDeclaredField("consumerKey");
+            consumerKeyField.setAccessible(true);
+
+            Field consumerSekratField = ConsoleMain.class.getDeclaredField("consumerSecret");
+            consumerSekratField.setAccessible(true);
+
+            stream.setOAuthConsumer((String)consumerKeyField.get(consumerKeyField), (String)consumerSekratField.get(consumerSekratField));
             stream.user();
         
             Runtime.getRuntime().addShutdownHook(new Thread(){
