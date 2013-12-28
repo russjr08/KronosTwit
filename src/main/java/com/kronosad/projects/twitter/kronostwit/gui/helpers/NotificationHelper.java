@@ -125,5 +125,22 @@ public class NotificationHelper {
                 .showNotification();
 
     }
+
+    /**
+     * Generic notification method.
+     * @param title Title of notification
+     * @param message Message of notification
+     * @param clickEvent An event listener for the notification (on clicked)
+     * @param displayTime How long to display the notification (KronosTWit uses 15000 by default.)
+     */
+    public static void notifyGeneric(String title, String message, NotificationEventAdapter clickEvent, int displayTime){
+        System.setProperty("swing.aatext", "true");
+        INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
+
+        new NotificationBuilder().withStyle(style).withTitle(title).withMessage(message).withListener(clickEvent)
+                .withPosition(Positions.NORTH_WEST)
+                .withDisplayTime(displayTime)
+                .showNotification();
+    }
     
 }
