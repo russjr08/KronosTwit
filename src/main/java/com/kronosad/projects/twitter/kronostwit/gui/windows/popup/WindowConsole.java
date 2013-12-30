@@ -9,14 +9,17 @@ package com.kronosad.projects.twitter.kronostwit.gui.windows.popup;
 import com.kronosad.projects.twitter.kronostwit.commands.CommandRegistry;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
 import com.kronosad.projects.twitter.kronostwit.enums.ReleaseType;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.ResourceDownloader;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.logging.OverridePrintStream;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.Window;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.io.PrintStream;
 
 /**
@@ -34,7 +37,12 @@ public class WindowConsole extends Window {
        
         
         super("Console", 500, 500);
-            
+        try {
+            this.setIconImage(ImageIO.read(ResourceDownloader.getResource("twittericon.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         initComponents();
         System.setOut(new OverridePrintStream(System.out, this));
         System.setErr(new OverridePrintStream(System.err, this));

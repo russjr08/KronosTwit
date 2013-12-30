@@ -206,6 +206,8 @@ public class ConsoleMain {
                             new WindowViewTimeline("View Timeline", 500, 600);
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                         loading.loadingTweets();
                         ConsoleLoader.crawlPluginsDir();
@@ -222,6 +224,7 @@ public class ConsoleMain {
 
 
     }
+
 
     private static void registerCommands(){
         DefaultCommands.fabricateDefaultCommands();

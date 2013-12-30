@@ -57,6 +57,8 @@ public class WindowViewTimeline extends Window implements IStatus {
     
     public static JMenuBar menuBar = new JMenuBar();
 
+    public static HashMap<String, ImageIcon> menuImages = new HashMap<String, ImageIcon>();
+
     /**
      * Allows you to grab an instance of this window. (Only one should be open per app instance)
      */
@@ -66,13 +68,19 @@ public class WindowViewTimeline extends Window implements IStatus {
     /**
      * Creates new form WindowViewTimeline
      */
-    public WindowViewTimeline(String title, int sizeX, int sizeY) throws IllegalAccessException {
+    public WindowViewTimeline(String title, int sizeX, int sizeY) throws IllegalAccessException, IOException {
         
         super(title, sizeX, sizeY);
         if(instance != null){
             throw new IllegalAccessException("WindowViewTimeline has already been initalized!");
         }
-        OSUtils.enableOSXFullscreen(this);
+        ImageIcon image = new ImageIcon(new URL("http://api.kronosad.com/KronosTwit/resources/twittericon.png"));
+        List<Image> taskbarIcon = new ArrayList<Image>();
+        taskbarIcon.add(image.getImage());
+        this.setIconImages(taskbarIcon);
+        this.setIconImage(ImageIO.read(ResourceDownloader.getResource("twittericon.png")));
+
+        OSUtils.performMacOps(this);
         instance = this;
 
         try {
@@ -102,6 +110,7 @@ public class WindowViewTimeline extends Window implements IStatus {
             initComponents();
             System.out.println(tweetsView.getWidth());
             tweetsView.setCellRenderer(new MyCellRenderer(tweetsView.getWidth()));
+            initImages();
             init();
             specialInit();
             
@@ -110,8 +119,19 @@ public class WindowViewTimeline extends Window implements IStatus {
         } catch (IllegalStateException ex) {
             Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("http://api.kronosad.com/KronosTwit/resources/twittericon.png"));
         
         
+    }
+
+    private void initImages() throws IOException {
+        System.out.println("Initializing Images.");
+        menuImages.put("favorite_off", new ImageIcon(new URL("https://si0.twimg.com/images/dev/cms/intents/icons/favorite.png")));
+        menuImages.put("favorite_on", new ImageIcon(new URL("https://si0.twimg.com/images/dev/cms/intents/icons/favorite_on.png")));
+        menuImages.put("retweet_off", new ImageIcon(new URL("https://si0.twimg.com/images/dev/cms/intents/icons/retweet.png")));
+        menuImages.put("retweet_on", new ImageIcon(new URL("https://si0.twimg.com/images/dev/cms/intents/icons/retweet_on.png")));
+        menuImages.put("reply", new ImageIcon(new URL("https://si0.twimg.com/images/dev/cms/intents/icons/reply.png")));
     }
     
     
@@ -276,25 +296,6 @@ public class WindowViewTimeline extends Window implements IStatus {
             System.out.println("Mentions Tab Selected...");
         }else if(tweetsTabbedPane.getSelectedIndex() == 2){
             String query = JOptionPane.showInputDialog(null, "What would you like to search for?", "Enter your Query", JOptionPane.QUESTION_MESSAGE);
-            // Duplicate Code
-//            isMentionsSelected = false;
-//            searchList.removeAllElements();
-//            searches.clear();
-//            QueryResult queryResult = null;
-//            try {
-//                Query searchQuery = new Query(query);
-//                searchQuery.setCount(100);
-//                queryResult = ConsoleMain.twitter.search(searchQuery);
-//            } catch (TwitterException ex) {
-//                Logger.getLogger(WindowViewTimeline.class.getName()).log(Level.SEVERE, null, ex);
-//            }finally{
-//                for(Status status : queryResult.getTweets()){
-//                    searches.add(0,status);
-//                    searchList.add(0, String.format("[%s]%s:\n %s", status.getCreatedAt(), status.getUser().getName(), status.getText()));
-//                    
-//                }
-//                
-//            }
             search(query);
             
         }
@@ -468,6 +469,10 @@ public class WindowViewTimeline extends Window implements IStatus {
         replyMenuItem.addMouseListener(new ReplyMenuItemListener(this));
         newTweetMenuItem.addMouseListener(new NewTweetMenuItemListener(this));
         deleteMenuItem.addMouseListener(new DeleteMenuItemListener(this));
+
+        retweetMenuItem.setIcon(menuImages.get("retweet_off"));
+        favoriteMenuItem.setIcon(menuImages.get("favorite_off"));
+        replyMenuItem.setIcon(menuImages.get("reply"));
         
         popUp.add(viewProfileMenuItem);
         popUp.add(newTweetMenuItem);

@@ -55,8 +55,11 @@ public class ViewTimelineListAdapter extends MouseAdapter {
             
             if(status.isFavorited()){
                 timelineView.favoriteMenuItem.setText("Unfavorite");
+                timelineView.favoriteMenuItem.setIcon(WindowViewTimeline.menuImages.get("favorite_on"));
+
             }else{
                 timelineView.favoriteMenuItem.setText("Favorite");
+                timelineView.favoriteMenuItem.setIcon(WindowViewTimeline.menuImages.get("favorite_off"));
             }
             
             if(user.isProtected() && !status.isRetweet()){
@@ -66,16 +69,21 @@ public class ViewTimelineListAdapter extends MouseAdapter {
                 timelineView.retweetMenuItem.setEnabled(true);
                 timelineView.quoteRTMenuItem.setEnabled(true);
             }
-            
+
             if(status.isRetweetedByMe()){
                 timelineView.retweetMenuItem.setText("Undo RT");
+                timelineView.retweetMenuItem.setIcon(WindowViewTimeline.menuImages.get("retweet_on"));
             }else{
                 timelineView.retweetMenuItem.setText("RT");
+                timelineView.retweetMenuItem.setIcon(WindowViewTimeline.menuImages.get("retweet_off"));
+
             }
             
             if(user.isProtected() && !status.isRetweet()){
                 timelineView.retweetMenuItem.setText("RT - Private Account");
                 timelineView.quoteRTMenuItem.setText("Quote RT - Private Account");
+            }else{
+                timelineView.quoteRTMenuItem.setText("Quote RT");
             }
             
             timelineView.replyMenuItem.setText("Reply to %u".replaceAll("%u", user.getScreenName()));
