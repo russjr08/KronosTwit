@@ -5,7 +5,6 @@ import ch.swingfx.twinkle.event.NotificationEvent;
 import ch.swingfx.twinkle.event.NotificationEventAdapter;
 import ch.swingfx.twinkle.style.INotificationStyle;
 import ch.swingfx.twinkle.style.theme.DarkDefaultNotification;
-import ch.swingfx.twinkle.style.theme.LightDefaultNotification;
 import ch.swingfx.twinkle.window.Positions;
 import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
@@ -20,7 +19,7 @@ import twitter4j.User;
 public class NotificationHelper {
     
     public static void notifyMention(Status status, final WindowViewTimeline viewTimeline) throws TwitterException{
-        INotificationStyle style = new LightDefaultNotification().withAlpha(0.9f).withWidth(400);
+        INotificationStyle style = new DarkDefaultNotification().withAlpha(0.9f).withWidth(400);
         
         if(status.getText().contains("@" + ConsoleMain.twitter.getScreenName())){
             // Anti-aliasing
