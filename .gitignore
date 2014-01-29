@@ -11,7 +11,17 @@ target/classes
 pom.properties
 nb-configuration.xml
 nbactions.xml
+KronosTwit.iml
+KronosTWit.preferences
+filtered.serialized
+/persistence
+/resources
 /target/
 *.png
 *.sh
 *.bat
+/doc
+/themes
+
+# IDE Files
+KronosTwit.iml
