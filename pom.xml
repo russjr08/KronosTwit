@@ -51,6 +51,27 @@
                 </executions>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java/com/kronosad/projects/twitter/kronostwit/gui/javafx</directory>
+                <includes><include>**/**</include></includes>
+                <excludes><exclude>*.java</exclude></excludes>
+                <targetPath>com/kronosad/projects/twitter/kronostwit/gui/javafx</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/java/javafx_external/scene/control</directory>
+                <includes><include>**/**</include></includes>
+                <excludes><exclude>*.java</exclude></excludes>
+                <targetPath>javafx_external/scene/control</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/java/com/sun/javafx/scene/control/skin/resources</directory>
+                <includes><include>**/**</include></includes>
+                <excludes><exclude>*.java</exclude></excludes>
+                <targetPath>com/sun/javafx/scene/control/skin/resources</targetPath>
+            </resource>
+
+        </resources>
     </build>
 
 

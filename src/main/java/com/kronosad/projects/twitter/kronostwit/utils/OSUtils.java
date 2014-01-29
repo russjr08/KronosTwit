@@ -20,15 +20,16 @@ public class OSUtils {
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void performMacOps(Window window) {
-        System.out.println("Running OS X Ops");
         if(System.getProperty("os.name").contains("OS X")){
+            System.out.println("Running OS X Ops");
+
             try {
                 Class util = Class.forName("com.apple.eawt.FullScreenUtilities");
 
                 Class params[] = new Class[]{Window.class, Boolean.TYPE};
 
                 Method method = util.getMethod("setWindowCanFullScreen", params);
-                Image image = new ImageIcon(new URL("http://api.kronosad.com/KronosTwit/resources/bird_blue_48.png")).getImage();
+                Image image = new ImageIcon(new URL("http://api.kronosad.com/KronosTwit/resources/bird_blue_hi_res.png")).getImage();
                 Application.getApplication().setDockIconImage(image);
 
                 method.invoke(util, window, true);
@@ -38,9 +39,8 @@ public class OSUtils {
                 e.printStackTrace();
             }
 
-
+            System.out.println("End OS X OPs");
         }
-        System.out.println("End OS X OPs");
     }
 
 }

@@ -7,6 +7,7 @@ import com.kronosad.projects.twitter.kronostwit.commands.CommandRegistry;
 import com.kronosad.projects.twitter.kronostwit.commands.CommandUnshortenURL;
 import com.kronosad.projects.twitter.kronostwit.commands.DefaultCommands;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.Updater;
+import com.kronosad.projects.twitter.kronostwit.gui.javafx.WindowTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.WindowViewTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.windows.popup.WindowLoadingScreen;
 import twitter4j.*;
@@ -44,7 +45,7 @@ public class ConsoleMain {
     public static WindowLoadingScreen loading = new WindowLoadingScreen("Loading Application", 50, 50);
     public static ArrayList<String> arguments = new ArrayList<String>();
 
-    protected static void load(String[] args) {
+    protected static void load(final String[] args) {
         File jar = new File(ConsoleMain.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         System.out.println("This jar's file name: " + jar.getName());
 
@@ -196,21 +197,25 @@ public class ConsoleMain {
             e.printStackTrace();
             System.exit(1);
         } finally {
-
+            if(arguments.contains("javafxEnabled")){
+                new WindowTimeline();
+//                return;
+            }
             javax.swing.SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
+
                     if (!arguments.contains("-console")) {
                         registerCommands();
-                        try {
-                            new WindowViewTimeline("View Timeline", 500, 600);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        loading.loadingTweets();
-                        ConsoleLoader.crawlPluginsDir();
+//                        try {
+//                            new WindowViewTimeline("View Timeline", 500, 600);
+//                        } catch (IllegalAccessException e) {
+//                            e.printStackTrace();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        loading.loadingTweets();
+//                        ConsoleLoader.crawlPluginsDir();
                     } else {
                         System.out.println("All GUI methods halted! You are now running in Console Only mode!");
                         mainMenu();

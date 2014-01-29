@@ -109,8 +109,9 @@ public class TweetHelper {
 
 
         JSONObject jsonObject;
+        String json = DataObjectFactory.getRawJSON(status);
         try {
-            jsonObject = new JSONObject(DataObjectFactory.getRawJSON(status));
+            jsonObject = new JSONObject(json);
 
             String jsontext = jsonObject.getString("text");
             for(URLEntity entity : status.getURLEntities()){

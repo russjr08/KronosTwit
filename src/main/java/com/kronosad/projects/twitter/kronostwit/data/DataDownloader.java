@@ -1,14 +1,14 @@
 
 package com.kronosad.projects.twitter.kronostwit.data;
 
-import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.interfaces.IData;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -35,7 +35,6 @@ public class DataDownloader {
                 return true;
             }
         }
-        ConsoleMain.loading.isDownloadingData = false;
         return false;
     }
     

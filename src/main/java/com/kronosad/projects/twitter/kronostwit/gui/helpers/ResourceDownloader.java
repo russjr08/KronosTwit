@@ -1,7 +1,6 @@
 
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
-import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
 import com.kronosad.projects.twitter.kronostwit.data.Resource;
 import org.apache.commons.io.FileUtils;
 
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.kronosad.projects.twitter.kronostwit.console.ConsoleMain.loading;
 
 
 
@@ -52,7 +50,6 @@ public class ResourceDownloader {
     public static boolean downloadResources(){
         System.out.println("Attempting Downloading of Resources...");
 
-        ConsoleMain.loading.loadingResources();
 
         System.out.println("Downloading Resources...");
         
@@ -114,7 +111,6 @@ public class ResourceDownloader {
             
         }
         System.out.println("--- End Local Resources ---");
-        loading.initialCode();
 
         return true;
     }
