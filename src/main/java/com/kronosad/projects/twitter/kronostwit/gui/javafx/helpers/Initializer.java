@@ -26,11 +26,12 @@ public class Initializer extends Task{
         ResponseList<Status> statuses = WindowLoading.twitter.getHomeTimeline(new Paging(1, 80));
 
         for(Status s : statuses){
-            WindowTimeline.instance.addTweet(s);
+            WindowTimeline.instance.addTweet(s, true);
+            System.out.println(s);
         }
 
         for(Status s : WindowLoading.twitter.getMentionsTimeline(new Paging(1, 80))){
-            WindowTimeline.instance.addMention(s);
+            WindowTimeline.instance.addMention(s, true);
         }
 
 

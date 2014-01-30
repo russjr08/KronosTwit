@@ -1,17 +1,17 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TabPane;
+import javafx.stage.Screen;
 import twitter4j.Status;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,39 +21,69 @@ import java.util.TimerTask;
  * Time: 6:08 PM
  */
 @SuppressWarnings("all")
-public class WindowTimeline extends Application {
-    private Stage primaryStage;
+public class WindowTimeline implements Initializable {
 
     public static WindowTimeline instance;
 
-    public ObservableList<String> homeTweetList = FXCollections.observableArrayList();
-    public ObservableList<String> mentionTweetList = FXCollections.observableArrayList();
-    private ListView<String> tweetsView, mentionsView;
+    @FXML
+    private ListView<String> tweetsView;
+
+    @FXML
+    private ListView<String> mentionsView;
+
+    @FXML
+    public TabPane tabPane;
+
+    @FXML
+    public MenuBar menuBar;
 
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
     public WindowTimeline(){
-        instance = this;
+        if(instance == null){
+            instance = this;
+        }
+
     }
 
+
+
+    public void addTweet(Status status, boolean initialLoad){
+        System.out.println(status);
+        if(!initialLoad){
+            TwitterContainer.homeTweetList.add(0, TweetFormat.formatTweet(status));
+            this.homeTweets.add(0, status);
+
+        }else{
+            TwitterContainer.homeTweetList.add(TweetFormat.formatTweet(status));
+            this.homeTweets.add(status);
+
+        }
+    }
+
+    public void addMention(Status status, boolean initialLoad){
+        if(!initialLoad){
+            TwitterContainer.mentionTweetList.add(0, TweetFormat.formatTweet(status));
+            mentionsTweets.add(0, status);
+        }else{
+            TwitterContainer.mentionTweetList.add(TweetFormat.formatTweet(status));
+            mentionsTweets.add(status);
+        }
+
+    }
+
+
     @Override
-    public void start(Stage stage) throws Exception {
-        this.primaryStage = stage;
-        Parent root = FXMLLoader.load(getClass().getResource("WindowTimeline.fxml"));
-        primaryStage.setTitle("KronosTwit");
-        primaryStage.setScene(new Scene(root, 518, 650));
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        tabPane.setPrefHeight(Screen.getPrimary().getBounds().getHeight());
+        menuBar.setUseSystemMenuBar(true);
 
-
-        // Setup components
-        tweetsView = (ListView)root.lookup("#tweetsList");
-        mentionsView = (ListView)root.lookup("#mentionsList");
-
-        tweetsView.setItems(homeTweetList);
-        mentionsView.setItems(mentionTweetList);
+        tweetsView.setItems(TwitterContainer.homeTweetList);
+        mentionsView.setItems(TwitterContainer.mentionTweetList);
 
         Timer animTimer = new Timer();
-        primaryStage.setWidth(1);
-        primaryStage.setHeight(1);
+        AppStarter.getInstance().stage.setWidth(0);
+        AppStarter.getInstance().stage.setHeight(0);
         animTimer.scheduleAtFixedRate(new TimerTask() {
 
             int i=0;
@@ -62,14 +92,14 @@ public class WindowTimeline extends Application {
             public void run() {
                 if (i<100){
 
-                    primaryStage.setWidth(primaryStage.getWidth() + 5.18);
-                    primaryStage.setHeight(primaryStage.getHeight() + 6.5);
-                    primaryStage.centerOnScreen();
+                    AppStarter.getInstance().stage.setWidth(AppStarter.getInstance().stage.getWidth() + 3.18);
+                    AppStarter.getInstance().stage.setHeight(AppStarter.getInstance().stage.getHeight() + 6.5);
+                    AppStarter.getInstance().stage.centerOnScreen();
 
                 }
                 else {
                     this.cancel();
-                    primaryStage.centerOnScreen();
+                    AppStarter.getInstance().stage.centerOnScreen();
 
                 }
 
@@ -77,34 +107,9 @@ public class WindowTimeline extends Application {
             }
         }, 2000, 2);
 
-//        FadeTransition ft = new FadeTransition(Duration.millis(1000), root);
-//        ft.setFromValue(0.1);
-//        ft.setToValue(1.0);
-//        ft.play();
 
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-        instance = this;
-
-
+        AppStarter.getInstance().stage.setResizable(true);
+        AppStarter.getInstance().stage.show();
 
     }
-
-    public static void main(String[] args){
-        launch(args);
-    }
-
-    public void addTweet(Status status){
-        System.out.println(status);
-        this.homeTweetList.add(TweetFormat.formatTweet(status));
-        this.homeTweets.add(status);
-    }
-
-    public void addMention(Status status){
-        WindowTimeline.instance.mentionTweetList.add(TweetFormat.formatTweet(status));
-        WindowTimeline.instance.mentionsTweets.add(status);
-    }
-
-
 }

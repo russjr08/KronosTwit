@@ -1,5 +1,6 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx.listener.stream;
 
+import com.kronosad.projects.twitter.kronostwit.gui.javafx.TwitterContainer;
 import com.kronosad.projects.twitter.kronostwit.gui.javafx.WindowTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.javafx.helpers.notification.NotificationHelper;
 import javafx.application.Platform;
@@ -78,9 +79,9 @@ public class TwitterStreamListener implements UserStreamListener {
             @Override
             public void run() {
                 if(NotificationHelper.tryMention(status)){
-                    WindowTimeline.instance.addMention(status);
+                    WindowTimeline.instance.addMention(status, false);
                 }
-                WindowTimeline.instance.addTweet(status);
+                WindowTimeline.instance.addTweet(status, false);
             }
         });
 
@@ -97,7 +98,7 @@ public class TwitterStreamListener implements UserStreamListener {
                     if(sdn.getStatusId() == WindowTimeline.instance.homeTweets.get(i).getId()){
                         NotificationHelper.notifyDelete(WindowTimeline.instance.homeTweets.get(i));
                         WindowTimeline.instance.homeTweets.remove(i);
-                        WindowTimeline.instance.homeTweetList.remove(i);
+                        TwitterContainer.homeTweetList.remove(i);
                     }
                 }
             }

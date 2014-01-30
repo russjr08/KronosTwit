@@ -39,13 +39,12 @@
 
 <VBox prefHeight="650.0" prefWidth="518.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronosad.projects.twitter.kronostwit.gui.javafx.WindowTimeline">
   <children>
-    <MenuBar prefHeight="0.0" prefWidth="577.0" VBox.vgrow="NEVER">
+    <MenuBar fx:id="menuBar" prefHeight="0.0" prefWidth="577.0" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="Twitter">
           <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
+            <MenuItem mnemonicParsing="false" text="New Tweet" />
+            <MenuItem mnemonicParsing="false" text="Lookup Profile" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Close" />
             <MenuItem mnemonicParsing="false" text="Save" />
@@ -77,31 +76,19 @@
           </items>
         </Menu>
       </menus>
-    </MenuBar><TabPane prefHeight="631.0" prefWidth="486.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml">
+    </MenuBar><TabPane fx:id="tabPane" prefHeight="727.0" prefWidth="518.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml">
   <tabs>
     <Tab text="Home">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-<children><ScrollPane prefHeight="598.0" prefWidth="518.0" xmlns:fx="http://javafx.com/fxml">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="595.0" prefWidth="517.0">
-<children><ListView fx:id="tweetsList" prefHeight="595.0" prefWidth="483.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-</children></AnchorPane>
-  </content>
-</ScrollPane>
+<children><ListView fx:id="tweetsView" prefHeight="595.0" prefWidth="483.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 </children></AnchorPane>
       </content>
     </Tab>
     <Tab text="Mentions">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-<children><ScrollPane prefHeight="589.0" prefWidth="518.0" xmlns:fx="http://javafx.com/fxml">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="586.0" prefWidth="518.0">
-<children><ListView fx:id="mentionsList" prefHeight="587.0" prefWidth="518.0" />
-</children></AnchorPane>
-  </content>
-</ScrollPane>
+<children><ListView fx:id="mentionsView" prefHeight="587.0" prefWidth="518.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 </children></AnchorPane>
       </content>
     </Tab>
