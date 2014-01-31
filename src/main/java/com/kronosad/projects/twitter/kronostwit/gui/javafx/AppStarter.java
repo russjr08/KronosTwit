@@ -1,11 +1,14 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -52,10 +55,33 @@ public class AppStarter extends Application {
         } else {
             stage.getScene().setRoot(page);
         }
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+                if(TwitterContainer.stream != null){
+                    stage.close();
+                    System.exit(0);
+                }
+            }
+        });
 //        stage.sizeToScene();
         this.currentParent = page;
         return page;
 
+    }
+
+    public Parent openWindow(String fxml, double width, double height, String title){
+        Parent page = null;
+        try {
+            page = (Parent) FXMLLoader.load(AppStarter.class.getResource(fxml), null, new JavaFXBuilderFactory());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.setScene(new Scene(page, width, height));
+        return page;
     }
 
 }

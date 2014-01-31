@@ -1,5 +1,6 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx.helpers;
 
+import com.kronosad.projects.twitter.kronostwit.gui.javafx.TwitterContainer;
 import com.kronosad.projects.twitter.kronostwit.gui.javafx.WindowLoading;
 import com.kronosad.projects.twitter.kronostwit.gui.javafx.WindowTimeline;
 import com.kronosad.projects.twitter.kronostwit.gui.javafx.listener.stream.TwitterStreamListener;
@@ -40,6 +41,7 @@ public class Initializer extends Task{
         stream.addListener(new TwitterStreamListener());
         stream.setOAuthConsumer(conKey, conSecret);
         stream.user();
+        TwitterContainer.stream = stream;
 
         return null;
     }

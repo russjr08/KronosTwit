@@ -132,6 +132,7 @@ public class WindowLoading implements Initializable{
                 }
             });
         }
+        TwitterContainer.twitter = twitter;
 
 
 

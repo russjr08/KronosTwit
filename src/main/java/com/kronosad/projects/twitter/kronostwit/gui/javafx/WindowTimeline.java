@@ -1,14 +1,23 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx_external.scene.control.Dialogs;
 import twitter4j.Status;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -36,6 +45,9 @@ public class WindowTimeline implements Initializable {
 
     @FXML
     public MenuBar menuBar;
+
+    @FXML
+    public MenuItem btnLookupProfile;
 
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
@@ -111,5 +123,30 @@ public class WindowTimeline implements Initializable {
         AppStarter.getInstance().stage.setResizable(true);
         AppStarter.getInstance().stage.show();
 
+        btnLookupProfile.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String user = Dialogs.showInputDialog(AppStarter.getInstance().stage, "Whose profile would you like to view?");
+                if(user != null || !user.isEmpty()){
+                    Parent page = null;
+                    FXMLLoader loader = new FXMLLoader();
+                    try {
+                        loader.setLocation(AppStarter.class.getResource("ProfileViewer.fxml"));
+                        page = (Parent) loader.load(AppStarter.class.getResource("ProfileViewer.fxml").openStream());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.setTitle(String.format("@ %s 's Profile", user));
+                    stage.setScene(new Scene(page, 409, 622));
+                    ((ProfileViewer)loader.getController()).start(user);
+                    stage.show();
+
+                }
+            }
+        });
+
     }
+
 }
