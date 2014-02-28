@@ -210,18 +210,18 @@ public class HelperRefreshTimeline {
                     }
                     stream.shutdown();
 
-                    try {
-                        if(statuses != null)
-                            SerializeUtils.serializeStatuses(statuses);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        System.out.println("Tweets were unable to persist!");
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                        System.out.println("Tweets were unable to persist!");
-                    }finally{
-                        System.out.println("Tweets have been persisted.");
-                    }
+//                    try {
+//                        if(statuses != null)
+//                            SerializeUtils.serializeStatuses(statuses);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        System.out.println("Tweets were unable to persist!");
+//                    } catch (ClassNotFoundException e) {
+//                        e.printStackTrace();
+//                        System.out.println("Tweets were unable to persist!");
+//                    }finally{
+//                        System.out.println("Tweets have been persisted.");
+//                    }
 
                 }
             });

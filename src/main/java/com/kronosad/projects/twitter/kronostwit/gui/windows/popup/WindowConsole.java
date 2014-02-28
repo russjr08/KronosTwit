@@ -37,11 +37,14 @@ public class WindowConsole extends Window {
        
         
         super("Console", 500, 500);
-        try {
-            this.setIconImage(ImageIO.read(ResourceDownloader.getResource("twittericon.png")));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(ResourceDownloader.getResource("twittericon.png").exists()){
+            try {
+                this.setIconImage(ImageIO.read(ResourceDownloader.getResource("twittericon.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
 
         initComponents();
         System.setOut(new OverridePrintStream(System.out, this));

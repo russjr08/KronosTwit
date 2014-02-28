@@ -74,33 +74,38 @@ public class WindowViewTimeline extends Window implements IStatus {
         if(instance != null){
             throw new IllegalAccessException("WindowViewTimeline has already been initalized!");
         }
-        ImageIcon image = new ImageIcon(new URL("http://api.kronosad.com/KronosTwit/resources/twittericon.png"));
-        List<Image> taskbarIcon = new ArrayList<Image>();
-        taskbarIcon.add(image.getImage());
-        this.setIconImages(taskbarIcon);
-        this.setIconImage(ImageIO.read(ResourceDownloader.getResource("twittericon.png")));
+        // Do we even need this??
+//        ImageIcon image = new ImageIcon(new URL("http://api.kronosad.com/KronosTwit/resources/twittericon.png"));
+//        List<Image> taskbarIcon = new ArrayList<Image>();
+//        taskbarIcon.add(image.getImage());
+//        this.setIconImages(taskbarIcon);
+
+        if(ResourceDownloader.getResource("twittericon.png").exists()){
+            this.setIconImage(ImageIO.read(ResourceDownloader.getResource("twittericon.png")));
+        }
 
         OSUtils.performMacOps(this);
         instance = this;
 
-        try {
-            if(SerializeUtils.getSerializedStatuses(this) != null){
-                System.out.println("Persisted statuses found!");
-                statuses = SerializeUtils.getSerializedStatuses(this);
-                System.out.println("De-serialized " + statuses.size() + " statuses!");
-            }else{
-                System.out.println("[Warning] Persisted statuses not found!");
-                statuses = new ArrayList<Status>();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            statuses = new ArrayList<Status>();
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            statuses = new ArrayList<Status>();
-
-        }
+//        try {
+//            if(SerializeUtils.getSerializedStatuses(this) != null){
+//                System.out.println("Persisted statuses found!");
+//                statuses = SerializeUtils.getSerializedStatuses(this);
+//                System.out.println("De-serialized " + statuses.size() + " statuses!");
+//            }else{
+//                System.out.println("[Warning] Persisted statuses not found!");
+//                statuses = new ArrayList<Status>();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            statuses = new ArrayList<Status>();
+//
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//            statuses = new ArrayList<Status>();
+//
+//        }
+        statuses = new ArrayList<Status>();
 
         this.setLocationRelativeTo(null);
         MenuBarHelper.initMenu();
