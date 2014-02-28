@@ -1,6 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,10 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx_external.scene.control.Dialogs;
@@ -51,6 +51,10 @@ public class WindowTimeline implements Initializable {
 
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
+    public ContextMenu cm;
+    public MenuItem favorite, reply, rt;
+
+
     public WindowTimeline(){
         if(instance == null){
             instance = this;
@@ -59,9 +63,25 @@ public class WindowTimeline implements Initializable {
     }
 
 
+    public void initContextMenu(){
+        cm = new ContextMenu();
 
+        favorite = new MenuItem("Favorite Tweet");
+        reply = new MenuItem("Reply to %s");
+        rt = new MenuItem("RT Tweet");
+
+        cm.getItems().addAll(favorite, reply, rt);
+
+        tweetsView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                if(e.getButton() == MouseButton.SECONDARY){
+                    cm.show(tweetsView, e.getScreenX(), e.getScreenY());
+                }
+            }
+        });
+    }
     public void addTweet(Status status, boolean initialLoad){
-        System.out.println(status);
         if(!initialLoad){
             TwitterContainer.homeTweetList.add(0, TweetFormat.formatTweet(status));
             this.homeTweets.add(0, status);
@@ -94,30 +114,31 @@ public class WindowTimeline implements Initializable {
         mentionsView.setItems(TwitterContainer.mentionTweetList);
 
         Timer animTimer = new Timer();
-        AppStarter.getInstance().stage.setWidth(0);
-        AppStarter.getInstance().stage.setHeight(0);
-        animTimer.scheduleAtFixedRate(new TimerTask() {
-
-            int i=0;
-
-            @Override
-            public void run() {
-                if (i<100){
-
-                    AppStarter.getInstance().stage.setWidth(AppStarter.getInstance().stage.getWidth() + 3.18);
-                    AppStarter.getInstance().stage.setHeight(AppStarter.getInstance().stage.getHeight() + 6.5);
-                    AppStarter.getInstance().stage.centerOnScreen();
-
-                }
-                else {
-                    this.cancel();
-                    AppStarter.getInstance().stage.centerOnScreen();
-
-                }
-
-                i++;
-            }
-        }, 2000, 2);
+        AppStarter.getInstance().stage.setWidth(518);
+        AppStarter.getInstance().stage.setHeight(650);
+        AppStarter.getInstance().stage.centerOnScreen();
+//        animTimer.scheduleAtFixedRate(new TimerTask() {
+//
+//            int i=0;
+//
+//            @Override
+//            public void run() {
+//                if (i<100){
+//
+//                    AppStarter.getInstance().stage.setWidth(AppStarter.getInstance().stage.getWidth() + 3.18);
+//                    AppStarter.getInstance().stage.setHeight(AppStarter.getInstance().stage.getHeight() + 6.5);
+//                    AppStarter.getInstance().stage.centerOnScreen();
+//
+//                }
+//                else {
+//                    this.cancel();
+//                    AppStarter.getInstance().stage.centerOnScreen();
+//
+//                }
+//
+//                i++;
+//            }
+//        }, 2000, 2);
 
 
         AppStarter.getInstance().stage.setResizable(true);
@@ -146,6 +167,7 @@ public class WindowTimeline implements Initializable {
                 }
             }
         });
+        initContextMenu();
 
     }
 

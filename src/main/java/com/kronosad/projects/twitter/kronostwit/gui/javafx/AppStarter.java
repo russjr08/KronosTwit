@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -44,7 +45,7 @@ public class AppStarter extends Application {
 
         Parent page = null;
         try {
-            page = (Parent) FXMLLoader.load(AppStarter.class.getResource(fxml), null, new JavaFXBuilderFactory());
+            page = FXMLLoader.load(AppStarter.class.getResource(fxml), null, new JavaFXBuilderFactory());
         } catch (IOException e) {
             e.printStackTrace();
         }
