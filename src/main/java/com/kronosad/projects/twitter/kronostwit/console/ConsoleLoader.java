@@ -84,7 +84,9 @@ public class ConsoleLoader {
     public static void crawlPluginsDir(){
 
         File pluginFolder = new File("plugins");
-
+        if(!pluginFolder.exists()){
+            pluginFolder.mkdir();
+        }
 
         if(pluginFolder.listFiles() != null && pluginFolder.listFiles().length != 0){
             for(File file : pluginFolder.listFiles()){
