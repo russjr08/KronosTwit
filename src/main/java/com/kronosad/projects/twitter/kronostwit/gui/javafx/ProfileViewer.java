@@ -13,8 +13,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx_external.scene.control.Dialogs;
-import twitter4j.*;
+import org.controlsfx.dialog.Dialogs;
+import twitter4j.Relationship;
+import twitter4j.Status;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,7 +41,7 @@ public class ProfileViewer implements Initializable {
             this.user = TwitterContainer.twitter.showUser(userToShow);
         } catch (TwitterException e) {
             e.printStackTrace();
-            Dialogs.showErrorDialog(AppStarter.getInstance().stage, "There was an error looking up this user!");
+            Dialogs.create().title("Twitter Error").masthead("User not found").message("Twitter reports the user was not found!");
             ((Stage)profilePicture.getScene().getWindow()).close();
             return;
         }
@@ -47,7 +50,7 @@ public class ProfileViewer implements Initializable {
             this.relationship = TwitterContainer.twitter.showFriendship(TwitterContainer.twitter.getId(), user.getId());
         } catch (TwitterException e) {
             e.printStackTrace();
-            Dialogs.showErrorDialog(AppStarter.getInstance().stage, "There was an error looking up this user!");
+            Dialogs.create().masthead("Error!").message("There was an error looking up this user!");
             ((Stage)profilePicture.getScene().getWindow()).close();
             return;
         }
@@ -94,21 +97,26 @@ public class ProfileViewer implements Initializable {
 
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(chckFollow.isSelected()){
-                    try {
-                        TwitterContainer.twitter.createFriendship(user.getId());
-                    } catch (TwitterException e) {
-                        e.printStackTrace();
-                        Dialogs.showErrorDialog(AppStarter.getInstance().stage, "Error following user!");
-                    }
-                }else{
-                    try {
-                        TwitterContainer.twitter.destroyFriendship(user.getId());
-                    } catch (TwitterException e) {
-                        e.printStackTrace();
-                        Dialogs.showErrorDialog(AppStarter.getInstance().stage, "Error unfollowing user!");
 
-                    }
+            }
+        });
+
+        chckFollow.setOnAction((actionEvent) -> {
+            if(chckFollow.isSelected()){
+                try {
+                    TwitterContainer.twitter.createFriendship(user.getId());
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    Dialogs.create().masthead("Twitter Error").message("Error following user!");
+                }
+            }else{
+                try {
+                    TwitterContainer.twitter.destroyFriendship(user.getId());
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    Dialogs.create().masthead("Twitter Error").message("Error unfollowing user!");
+
+
                 }
             }
         });

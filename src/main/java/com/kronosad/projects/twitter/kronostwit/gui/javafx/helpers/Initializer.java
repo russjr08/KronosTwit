@@ -12,7 +12,9 @@ import twitter4j.*;
  * Date: 1/28/14
  * Time: 7:13 PM
  */
-public class Initializer extends Task{
+public class Initializer extends Task {
+
+    // Secret keys... shh!
     private String conKey, conSecret;
     private WindowLoading loading;
 
@@ -28,7 +30,6 @@ public class Initializer extends Task{
 
         for(Status s : statuses){
             WindowTimeline.instance.addTweet(s, true);
-            System.out.println(s);
         }
 
         for(Status s : WindowLoading.twitter.getMentionsTimeline(new Paging(1, 80))){

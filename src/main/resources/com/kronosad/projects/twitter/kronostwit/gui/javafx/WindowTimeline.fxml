@@ -43,7 +43,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="Twitter">
           <items>
-            <MenuItem mnemonicParsing="false" text="New Tweet" />
+            <MenuItem fx:id="btnNewTweet" mnemonicParsing="false" text="New Tweet" />
             <MenuItem fx:id="btnLookupProfile" mnemonicParsing="false" text="Lookup Profile" />
             <SeparatorMenuItem mnemonicParsing="false" />
           </items>

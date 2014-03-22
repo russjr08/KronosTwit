@@ -1,8 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +13,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx_external.scene.control.Dialogs;
+import org.controlsfx.dialog.Dialogs;
 import twitter4j.Status;
 
 import java.io.IOException;
@@ -22,7 +21,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * User: russjr08
@@ -48,6 +46,8 @@ public class WindowTimeline implements Initializable {
 
     @FXML
     public MenuItem btnLookupProfile;
+
+    @FXML public MenuItem btnNewTweet;
 
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
@@ -81,13 +81,14 @@ public class WindowTimeline implements Initializable {
             }
         });
     }
+
     public void addTweet(Status status, boolean initialLoad){
         if(!initialLoad){
-            TwitterContainer.homeTweetList.add(0, TweetFormat.formatTweet(status));
+            TwitterContainer.homeTweetList.add(0, TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
             this.homeTweets.add(0, status);
 
         }else{
-            TwitterContainer.homeTweetList.add(TweetFormat.formatTweet(status));
+            TwitterContainer.homeTweetList.add(TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
             this.homeTweets.add(status);
 
         }
@@ -95,10 +96,10 @@ public class WindowTimeline implements Initializable {
 
     public void addMention(Status status, boolean initialLoad){
         if(!initialLoad){
-            TwitterContainer.mentionTweetList.add(0, TweetFormat.formatTweet(status));
+            TwitterContainer.mentionTweetList.add(0, TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
             mentionsTweets.add(0, status);
         }else{
-            TwitterContainer.mentionTweetList.add(TweetFormat.formatTweet(status));
+            TwitterContainer.mentionTweetList.add(TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
             mentionsTweets.add(status);
         }
 
@@ -117,6 +118,8 @@ public class WindowTimeline implements Initializable {
         AppStarter.getInstance().stage.setWidth(518);
         AppStarter.getInstance().stage.setHeight(650);
         AppStarter.getInstance().stage.centerOnScreen();
+
+        // I think we're going to get rid of the animation. It's sketchy code...
 //        animTimer.scheduleAtFixedRate(new TimerTask() {
 //
 //            int i=0;
@@ -144,11 +147,11 @@ public class WindowTimeline implements Initializable {
         AppStarter.getInstance().stage.setResizable(true);
         AppStarter.getInstance().stage.show();
 
-        btnLookupProfile.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                String user = Dialogs.showInputDialog(AppStarter.getInstance().stage, "Whose profile would you like to view?");
-                if(user != null || !user.isEmpty()){
+        btnLookupProfile.setOnAction((actionEvent) -> {
+
+                String user = Dialogs.create().masthead("Waiting for Input...").message("Which user would you like to visit?").showTextInput();
+
+                if(user != null && !user.isEmpty()){
                     Parent page = null;
                     FXMLLoader loader = new FXMLLoader();
                     try {
@@ -165,8 +168,32 @@ public class WindowTimeline implements Initializable {
                     stage.show();
 
                 }
-            }
+
         });
+
+        btnNewTweet.setOnAction((actionEvent) ->{
+            Parent page = null;
+            FXMLLoader loader = new FXMLLoader();
+
+            try {
+                loader.setLocation(AppStarter.class.getResource("WindowNewTweet.fxml"));
+                page = (Parent) loader.load(AppStarter.class.getResource("WindowNewTweet.fxml").openStream());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Stage stage = new Stage();
+            stage.setTitle("Compose a new Tweet...");
+            stage.setScene(new Scene(page, 396, 174));
+            stage.setResizable(false);
+            stage.setFullScreen(false);
+            stage.show();
+
+        });
+
+
+
+
         initContextMenu();
 
     }

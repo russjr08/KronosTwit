@@ -6,8 +6,8 @@ package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
 import com.kronosad.projects.twitter.kronostwit.checkers.UpdateInformation;
 import javafx.stage.Stage;
-import javafx_external.scene.control.Dialogs;
 import org.apache.commons.io.FileUtils;
+import org.controlsfx.dialog.Dialogs;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,17 +62,18 @@ public class Updater {
 
 
             }else{
-                Dialogs.showWarningDialog(stage, "Your OS is not supported for auto updates. "
-                        + "Please move KronosTwit-Updated.jar manually!");
+                Dialogs.create().masthead("Update Error").message("Your OS is not supported for auto updates. \"\n" +
+                        "                        + \"Please move KronosTwit-Updated.jar manually!\"");
             }
         }catch(IOException ex){
 
             System.out.println("Failed to run update mechanism!");
             ex.printStackTrace();
             if(!attemptTwo){
-                Dialogs.showErrorDialog(stage, "Failed to run updater! Now closing...");
+                Dialogs.create().masthead("Update Error").message("Failed to run updater! Now closing...");
             }else{
-                Dialogs.showErrorDialog(stage, "Failed to run updater! Downloading Resources and trying again!");
+                Dialogs.create().masthead("Update Error").message("Failed to run updater! Downloading Resources and trying again!");
+
             }
             if(!attemptTwo){
                 ResourceDownloader.downloadResources();

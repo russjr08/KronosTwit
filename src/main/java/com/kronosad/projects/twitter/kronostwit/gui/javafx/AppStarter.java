@@ -2,15 +2,12 @@ package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.io.File;
 import java.io.IOException;
 
 
@@ -56,14 +53,18 @@ public class AppStarter extends Application {
         } else {
             stage.getScene().setRoot(page);
         }
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                Platform.exit();
-                if(TwitterContainer.stream != null){
-                    stage.close();
-                    System.exit(0);
-                }
+//        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            @Override
+//            public void handle(WindowEvent windowEvent) {
+//
+//            }
+//        }); POST JAVA 8 SOLUTION
+
+        stage.setOnCloseRequest((windowEvent) -> {
+            Platform.exit();
+            if(TwitterContainer.stream != null){
+                stage.close();
+                System.exit(0);
             }
         });
 //        stage.sizeToScene();

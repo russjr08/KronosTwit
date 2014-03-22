@@ -195,43 +195,41 @@ public class WindowLoading implements Initializable{
     }
 
     public void openBrowserToTwitter(final String url){
-        anchorPane.setPrefSize(767, 630);
-        loginWebView.setVisible(true);
-        stage.setWidth(767);
-        stage.setHeight(630);
-        stage.centerOnScreen();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                loginWebView.getEngine().load(url);
-                loginWebView.getEngine().getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State state, Worker.State state2) {
-                        if(state2 == Worker.State.SUCCEEDED){
-                            if(loginWebView.getEngine().getLocation().equals("https://api.twitter.com/oauth/authorize")){
-                                String html = xmlToString(loginWebView.getEngine().getDocument());
-                                org.jsoup.nodes.Document doc = Jsoup.parse(html);
-                                Elements elements = doc.select("code");
-                                for(Element element : elements){
-                                    System.out.println(element.toString());
-                                    System.out.println(element.text());
-                                    try {
-                                        saveAccessToken(twitter.getOAuthAccessToken(element.text()));
-                                        setStatus("Downloading Tweets...");
-                                        new WindowTimeline();
-                                        new Thread(new Initializer(WindowLoading.this.consumerKey, WindowLoading.this.consumerSecret, WindowLoading.this)).run();
-                                        AppStarter.getInstance().switchWindow("WindowTimeline.fxml", 518 ,650);
 
-                                    } catch (TwitterException e) {
-                                        e.printStackTrace();
-                                    }
+        Platform.runLater(() -> {
+            anchorPane.setPrefSize(767, 630);
+            loginWebView.setVisible(true);
+            stage.setWidth(767);
+            stage.setHeight(630);
+            stage.centerOnScreen();
+            loginWebView.getEngine().load(url);
+            loginWebView.getEngine().getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
+                @Override
+                public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State state, Worker.State state2) {
+                    if(state2 == Worker.State.SUCCEEDED){
+                        if(loginWebView.getEngine().getLocation().equals("https://api.twitter.com/oauth/authorize")){
+                            String html = xmlToString(loginWebView.getEngine().getDocument());
+                            org.jsoup.nodes.Document doc = Jsoup.parse(html);
+                            Elements elements = doc.select("code");
+                            for(Element element : elements){
+                                System.out.println(element.toString());
+                                System.out.println(element.text());
+                                try {
+                                    saveAccessToken(twitter.getOAuthAccessToken(element.text()));
+                                    setStatus("Downloading Tweets...");
+                                    new WindowTimeline();
+                                    new Thread(new Initializer(WindowLoading.this.consumerKey, WindowLoading.this.consumerSecret, WindowLoading.this)).run();
+                                    AppStarter.getInstance().switchWindow("WindowTimeline.fxml", 518 ,650);
+
+                                } catch (TwitterException e) {
+                                    e.printStackTrace();
                                 }
-
                             }
+
                         }
                     }
-                });
-            }
+                }
+            });
         });
 
     }
