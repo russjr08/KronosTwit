@@ -18,7 +18,9 @@ import twitter4j.TwitterException;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 
 /**
  * Author russjr08
@@ -31,6 +33,7 @@ public class WindowNewTweet implements Initializable {
     @FXML Label lblCharsLeft;
 
     File attachment;
+    Status reply;
 
 
     @Override
@@ -86,7 +89,20 @@ public class WindowNewTweet implements Initializable {
     }
 
     public void setReply(Status reply){
-        // Todo: Implement replies.
+        System.out.println("Setting reply!");
+        this.reply = reply;
+        ArrayList<String> users = new ArrayList<>();
+        for(String word : reply.getText().split(" ")){
+            if(word.startsWith("@")){
+                users.add(word);
+            }
+        }
+        if(!users.contains("@" + reply.getUser().getScreenName())){
+            users.add("@" + reply.getUser().getScreenName());
+        }
+        System.out.println("Users found: " + users.size());
+        String joined = String.join(" ", users);
+        presetText(joined);
     }
 
     public void submitTweet(){
@@ -95,6 +111,10 @@ public class WindowNewTweet implements Initializable {
 
         if(attachment != null){
             update.setMedia(attachment);
+        }
+
+        if(reply != null){
+            update.setInReplyToStatusId(reply.getId());
         }
 
         try {
@@ -108,5 +128,10 @@ public class WindowNewTweet implements Initializable {
         if(success){
             ((Stage)btnSubmit.getScene().getWindow()).close();
         }
+    }
+
+    public void presetText(String text){
+        this.tweetArea.setText(text);
+        this.tweetArea.requestFocus();
     }
 }

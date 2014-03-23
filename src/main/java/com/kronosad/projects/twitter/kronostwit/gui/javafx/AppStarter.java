@@ -53,14 +53,9 @@ public class AppStarter extends Application {
         } else {
             stage.getScene().setRoot(page);
         }
-//        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            @Override
-//            public void handle(WindowEvent windowEvent) {
-//
-//            }
-//        }); POST JAVA 8 SOLUTION
 
         stage.setOnCloseRequest((windowEvent) -> {
+            System.out.println("Someone's shutting me down! :(");
             Platform.exit();
             if(TwitterContainer.stream != null){
                 stage.close();

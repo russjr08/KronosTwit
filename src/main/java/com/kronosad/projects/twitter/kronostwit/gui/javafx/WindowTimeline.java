@@ -15,6 +15,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.Dialogs;
 import twitter4j.Status;
+import twitter4j.TwitterException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,7 +53,7 @@ public class WindowTimeline implements Initializable {
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
     public ContextMenu cm;
-    public MenuItem favorite, reply, rt;
+    public MenuItem favorite, reply, rt, cancel;
 
 
     public WindowTimeline(){
@@ -69,8 +70,115 @@ public class WindowTimeline implements Initializable {
         favorite = new MenuItem("Favorite Tweet");
         reply = new MenuItem("Reply to %s");
         rt = new MenuItem("RT Tweet");
+        cancel = new MenuItem("Cancel");
 
-        cm.getItems().addAll(favorite, reply, rt);
+        favorite.setOnAction((event) -> {
+            Status status = null;
+            try {
+                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(status);
+            if(!status.isFavorited()) {
+                try {
+                    TwitterContainer.twitter.createFavorite(status.getId());
+                } catch (TwitterException e) {
+                    Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not create favorite!").showWarning();
+                    e.printStackTrace();
+                }
+            }else{
+                try {
+                    TwitterContainer.twitter.destroyFavorite(status.getId());
+                } catch (TwitterException e) {
+                    Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not destroy favorite!").showWarning();
+
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        rt.setOnAction((actionEvent) -> {
+            Status status = null;
+            try {
+                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+            if(!status.getUser().isProtected()) {
+                rt.setDisable(false);
+                if (!status.isRetweetedByMe()) {
+                    try {
+                        TwitterContainer.twitter.retweetStatus(status.getId());
+                    } catch (TwitterException e) {
+                        Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not create favorite!").showWarning();
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        TwitterContainer.twitter.destroyStatus(status.getCurrentUserRetweetId());
+                    } catch (TwitterException e) {
+                        Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not destroy favorite!").showWarning();
+
+                        e.printStackTrace();
+                    }
+                }
+            }else{
+                rt.setDisable(true);
+            }
+        });
+
+        cm.setOnShowing((event) -> {
+            Status status = null;
+            try {
+                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            reply.setText("Reply to " + status.getUser().getScreenName());
+
+            if (!status.isFavorited()) {
+                favorite.setText("Favorite Tweet");
+            } else {
+                favorite.setText("Unfavorite Tweet");
+            }
+        });
+
+        reply.setOnAction((event) -> {
+
+            Status status = null;
+            try {
+                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(AppStarter.class.getResource("WindowNewTweet.fxml"));
+
+            Stage stage = new Stage();
+            stage.setTitle("Replying to: " + status.getUser().getScreenName());
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            stage.setScene(new Scene(root, 396, 174));
+            stage.show();
+
+            ((WindowNewTweet)loader.getController()).setReply(status);
+
+
+
+        });
+
+
+        cm.getItems().addAll(favorite, reply, rt, new SeparatorMenuItem(), cancel);
 
         tweetsView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -119,35 +227,11 @@ public class WindowTimeline implements Initializable {
 
         mentionsView.setCellFactory(stringListView -> new TweetListCellRender());
 
+
         Timer animTimer = new Timer();
         AppStarter.getInstance().stage.setWidth(518);
         AppStarter.getInstance().stage.setHeight(650);
         AppStarter.getInstance().stage.centerOnScreen();
-
-        // I think we're going to get rid of the animation. It's sketchy code...
-//        animTimer.scheduleAtFixedRate(new TimerTask() {
-//
-//            int i=0;
-//
-//            @Override
-//            public void run() {
-//                if (i<100){
-//
-//                    AppStarter.getInstance().stage.setWidth(AppStarter.getInstance().stage.getWidth() + 3.18);
-//                    AppStarter.getInstance().stage.setHeight(AppStarter.getInstance().stage.getHeight() + 6.5);
-//                    AppStarter.getInstance().stage.centerOnScreen();
-//
-//                }
-//                else {
-//                    this.cancel();
-//                    AppStarter.getInstance().stage.centerOnScreen();
-//
-//                }
-//
-//                i++;
-//            }
-//        }, 2000, 2);
-
 
         AppStarter.getInstance().stage.setResizable(true);
         AppStarter.getInstance().stage.show();
