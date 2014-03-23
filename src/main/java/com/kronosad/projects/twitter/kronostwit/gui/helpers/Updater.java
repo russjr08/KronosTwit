@@ -63,16 +63,16 @@ public class Updater {
 
             }else{
                 Dialogs.create().masthead("Update Error").message("Your OS is not supported for auto updates. \"\n" +
-                        "                        + \"Please move KronosTwit-Updated.jar manually!\"");
+                        "                        + \"Please move KronosTwit-Updated.jar manually!\"").showError();
             }
         }catch(IOException ex){
 
             System.out.println("Failed to run update mechanism!");
             ex.printStackTrace();
             if(!attemptTwo){
-                Dialogs.create().masthead("Update Error").message("Failed to run updater! Now closing...");
+                Dialogs.create().masthead("Update Error").message("Failed to run updater! Now closing...").showError();
             }else{
-                Dialogs.create().masthead("Update Error").message("Failed to run updater! Downloading Resources and trying again!");
+                Dialogs.create().masthead("Update Error").message("Failed to run updater! Downloading Resources and trying again!").showError();
 
             }
             if(!attemptTwo){

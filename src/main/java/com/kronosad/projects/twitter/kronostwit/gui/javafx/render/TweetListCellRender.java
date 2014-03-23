@@ -52,14 +52,9 @@ public class TweetListCellRender extends ListCell<Status> {
             this.setEffect(ds);
         }
 
-        this.setOnMouseEntered((e) -> {
-            setFont(Font.font("System Regular", FontWeight.BOLD, 13));
-        });
+        this.setOnMouseEntered((e) -> setFont(Font.font("System Regular", FontWeight.BOLD, 13)));
 
-        this.setOnMouseExited((e) -> {
-            setFont(Font.font("System Regular", FontWeight.NORMAL, 13));
-
-        });
+        this.setOnMouseExited((e) -> setFont(Font.font("System Regular", FontWeight.NORMAL, 13)));
 
     }
 

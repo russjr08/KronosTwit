@@ -1,17 +1,22 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.Dialogs;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,7 +30,7 @@ public class WindowNewTweet implements Initializable {
     @FXML TextArea tweetArea;
     @FXML Label lblCharsLeft;
 
-
+    File attachment;
 
 
     @Override
@@ -42,6 +47,42 @@ public class WindowNewTweet implements Initializable {
         Platform.runLater(btnSubmit::requestFocus);
 
         btnSubmit.setOnMouseClicked((e) -> submitTweet());
+
+        tweetArea.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                Dragboard db = event.getDragboard();
+                if (db.hasFiles()) {
+                    event.acceptTransferModes(TransferMode.COPY);
+                } else {
+                    event.consume();
+                }
+            }
+        });
+
+        tweetArea.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+                if (db.hasFiles()) {
+                    success = true;
+                    String filePath = null;
+                    if(db.getFiles().size() != 1){
+                        System.out.println("Invalid amount of files!");
+                        Dialogs.create().title("Drag-N-Drop").masthead("Attachment Error...").message("Please only drag ONE file!").showWarning();
+                        return;
+                    }
+                    for (File file : db.getFiles()) {
+                        filePath = file.getAbsolutePath();
+                        System.out.println("Attaching: " + filePath);
+                        attachment = file;
+                    }
+                }
+                event.setDropCompleted(success);
+                event.consume();
+            }
+        });
     }
 
     public void setReply(Status reply){
@@ -52,11 +93,15 @@ public class WindowNewTweet implements Initializable {
         boolean success = true;
         StatusUpdate update = new StatusUpdate(tweetArea.getText());
 
+        if(attachment != null){
+            update.setMedia(attachment);
+        }
+
         try {
             TwitterContainer.twitter.updateStatus(update);
         } catch (TwitterException e) {
             success = false;
-            Dialogs.create().masthead("Twitter Error...").message("There was an error submitting your tweet!");
+            Dialogs.create().masthead("Twitter Error...").message("There was an error submitting your tweet!").showError();
             e.printStackTrace();
         }
 

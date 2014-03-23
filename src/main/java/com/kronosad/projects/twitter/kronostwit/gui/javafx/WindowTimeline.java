@@ -13,7 +13,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import org.controlsfx.dialog.Dialogs;
 import twitter4j.Status;
 
@@ -114,21 +113,11 @@ public class WindowTimeline implements Initializable {
 
         tweetsView.setItems(TwitterContainer.homeTweetList);
 
-        tweetsView.setCellFactory(new Callback<ListView<Status>, ListCell<Status>>() {
-            @Override
-            public ListCell<Status> call(ListView<Status> stringListView) {
-                return new TweetListCellRender();
-            }
-        });
+        tweetsView.setCellFactory(stringListView -> new TweetListCellRender());
 
         mentionsView.setItems(TwitterContainer.mentionTweetList);
 
-        mentionsView.setCellFactory(new Callback<ListView<Status>, ListCell<Status>>() {
-            @Override
-            public ListCell<Status> call(ListView<Status> stringListView) {
-                return new TweetListCellRender();
-            }
-        });
+        mentionsView.setCellFactory(stringListView -> new TweetListCellRender());
 
         Timer animTimer = new Timer();
         AppStarter.getInstance().stage.setWidth(518);

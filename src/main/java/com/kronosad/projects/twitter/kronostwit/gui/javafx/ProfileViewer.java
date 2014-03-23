@@ -1,10 +1,8 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
-import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
+import com.kronosad.projects.twitter.kronostwit.gui.javafx.render.TweetListCellRender;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -27,7 +25,7 @@ public class ProfileViewer implements Initializable {
     @FXML public ImageView profilePicture;
     @FXML public Label lblUsername, lblWebsite, lblLocation, lblBio, lblFollowers, lblFollows, lblConceiveDate;
     @FXML public CheckBox chckFollow, chckFollowsYou, chckBlocked;
-    @FXML public ListView<String> tweetsList;
+    @FXML public ListView<Status> tweetsList;
 
     private User user;
 
@@ -41,7 +39,7 @@ public class ProfileViewer implements Initializable {
             this.user = TwitterContainer.twitter.showUser(userToShow);
         } catch (TwitterException e) {
             e.printStackTrace();
-            Dialogs.create().title("Twitter Error").masthead("User not found").message("Twitter reports the user was not found!");
+            Dialogs.create().title("Twitter Error").masthead("User not found").message("Twitter reports the user was not found!").showError();
             ((Stage)profilePicture.getScene().getWindow()).close();
             return;
         }
@@ -50,7 +48,7 @@ public class ProfileViewer implements Initializable {
             this.relationship = TwitterContainer.twitter.showFriendship(TwitterContainer.twitter.getId(), user.getId());
         } catch (TwitterException e) {
             e.printStackTrace();
-            Dialogs.create().masthead("Error!").message("There was an error looking up this user!");
+            Dialogs.create().masthead("Error!").message("There was an error looking up this user!").showError();
             ((Stage)profilePicture.getScene().getWindow()).close();
             return;
         }
@@ -82,10 +80,10 @@ public class ProfileViewer implements Initializable {
             e.printStackTrace();
         }
 
-        ObservableList<String> tweets = FXCollections.observableArrayList();
+        ObservableList<Status> tweets = FXCollections.observableArrayList();
         try {
             for(Status s : TwitterContainer.twitter.getUserTimeline(user.getId())){
-                tweets.add(TweetFormat.formatTweet(s));
+                tweets.add(s);
             }
         } catch (TwitterException e) {
             e.printStackTrace();
@@ -93,13 +91,7 @@ public class ProfileViewer implements Initializable {
 
         tweetsList.setItems(tweets);
 
-        chckFollow.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent actionEvent) {
-
-            }
-        });
+        tweetsList.setCellFactory(stringListView -> new TweetListCellRender());
 
         chckFollow.setOnAction((actionEvent) -> {
             if(chckFollow.isSelected()){
@@ -107,14 +99,14 @@ public class ProfileViewer implements Initializable {
                     TwitterContainer.twitter.createFriendship(user.getId());
                 } catch (TwitterException e) {
                     e.printStackTrace();
-                    Dialogs.create().masthead("Twitter Error").message("Error following user!");
+                    Dialogs.create().masthead("Twitter Error").message("Error following user!").showWarning();
                 }
             }else{
                 try {
                     TwitterContainer.twitter.destroyFriendship(user.getId());
                 } catch (TwitterException e) {
                     e.printStackTrace();
-                    Dialogs.create().masthead("Twitter Error").message("Error unfollowing user!");
+                    Dialogs.create().masthead("Twitter Error").message("Error unfollowing user!").showWarning();
 
 
                 }
