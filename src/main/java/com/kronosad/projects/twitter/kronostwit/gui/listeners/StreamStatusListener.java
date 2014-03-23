@@ -143,8 +143,6 @@ public class StreamStatusListener implements UserStreamListener{
 
     }
 
-    @Override
-    public void onUnfollow(User user, User user2) {}
 
     public void onDirectMessage(DirectMessage dm) {
 

@@ -35,9 +35,6 @@ public class TwitterStreamListener implements UserStreamListener {
     }
 
     @Override
-    public void onUnfollow(User user, User user2) {}
-
-    @Override
     public void onDirectMessage(DirectMessage directMessage) {}
 
     @Override
@@ -76,7 +73,6 @@ public class TwitterStreamListener implements UserStreamListener {
 
     @Override
     public void onStatus(final Status status) {
-
 
         Platform.runLater(new Runnable() {
             @Override

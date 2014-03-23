@@ -317,7 +317,7 @@ public class Notification {
             });
 
             // Move popup to the right during fade out
-            //POPUP.opacityProperty().addListener((observableValue, oldOpacity, opacity) -> popup.setX(popup.getX() + (1.0 - opacity.doubleValue()) * popup.getWidth()) );
+//            POPUP.opacityProperty().addListener((observableValue, oldOpacity, opacity) -> popup.setX(popup.getX() + (1.0 - opacity.doubleValue()) * popup.getWidth()) );
 
             if (stage.isShowing()) {
                 stage.toFront();

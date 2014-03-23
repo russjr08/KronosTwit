@@ -13,6 +13,7 @@ import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -97,6 +98,15 @@ public class WindowLoading implements Initializable{
         setStatus("Downloading Resource Data...");
 
         ResourceDownloader.downloadResources();
+
+        Platform.runLater(() -> {
+
+            try {
+                this.stage.getIcons().add(new Image(new FileInputStream(ResourceDownloader.getResource("twittericon.png"))));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
 
 
 

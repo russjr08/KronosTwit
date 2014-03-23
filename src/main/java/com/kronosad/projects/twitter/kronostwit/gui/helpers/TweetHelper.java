@@ -10,6 +10,7 @@ import twitter4j.URLEntity;
 import twitter4j.internal.org.json.JSONObject;
 import twitter4j.json.DataObjectFactory;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
@@ -110,6 +111,31 @@ public class TweetHelper {
 
         JSONObject jsonObject;
         String json = DataObjectFactory.getRawJSON(status);
+
+        if(json == null){
+            // In case DataObjectFactory fails, fall back on Java Reflection.
+            try {
+                Field text = status.getClass().getDeclaredField("text");
+                text.setAccessible(true);
+                String statusText = (String) text.get(status);
+
+                for(URLEntity entity : status.getURLEntities()){
+                    statusText = statusText.replace(entity.getText(), entity.getExpandedURL());
+                }
+
+                for(MediaEntity media : status.getMediaEntities()){
+                    statusText = statusText.replace(media.getText(), media.getMediaURL());
+                }
+
+                text.set(status, statusText);
+
+                return status;
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+
+        }
         try {
             jsonObject = new JSONObject(json);
 
@@ -128,11 +154,6 @@ public class TweetHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-
-
 
         return updatedStatus;
 

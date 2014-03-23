@@ -1,7 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
-import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.javafx.render.TweetListCellRender;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +13,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.controlsfx.dialog.Dialogs;
 import twitter4j.Status;
 
@@ -33,10 +34,10 @@ public class WindowTimeline implements Initializable {
     public static WindowTimeline instance;
 
     @FXML
-    private ListView<String> tweetsView;
+    private ListView<Status> tweetsView;
 
     @FXML
-    private ListView<String> mentionsView;
+    private ListView<Status> mentionsView;
 
     @FXML
     public TabPane tabPane;
@@ -84,11 +85,11 @@ public class WindowTimeline implements Initializable {
 
     public void addTweet(Status status, boolean initialLoad){
         if(!initialLoad){
-            TwitterContainer.homeTweetList.add(0, TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
+            TwitterContainer.homeTweetList.add(0, TweetHelper.removeTwitterLinks(status));
             this.homeTweets.add(0, status);
 
         }else{
-            TwitterContainer.homeTweetList.add(TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
+            TwitterContainer.homeTweetList.add(TweetHelper.removeTwitterLinks(status));
             this.homeTweets.add(status);
 
         }
@@ -96,10 +97,10 @@ public class WindowTimeline implements Initializable {
 
     public void addMention(Status status, boolean initialLoad){
         if(!initialLoad){
-            TwitterContainer.mentionTweetList.add(0, TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
+            TwitterContainer.mentionTweetList.add(0, TweetHelper.removeTwitterLinks(status));
             mentionsTweets.add(0, status);
         }else{
-            TwitterContainer.mentionTweetList.add(TweetFormat.formatTweet(TweetHelper.removeTwitterLinks(status)));
+            TwitterContainer.mentionTweetList.add(TweetHelper.removeTwitterLinks(status));
             mentionsTweets.add(status);
         }
 
@@ -112,7 +113,22 @@ public class WindowTimeline implements Initializable {
         menuBar.setUseSystemMenuBar(true);
 
         tweetsView.setItems(TwitterContainer.homeTweetList);
+
+        tweetsView.setCellFactory(new Callback<ListView<Status>, ListCell<Status>>() {
+            @Override
+            public ListCell<Status> call(ListView<Status> stringListView) {
+                return new TweetListCellRender();
+            }
+        });
+
         mentionsView.setItems(TwitterContainer.mentionTweetList);
+
+        mentionsView.setCellFactory(new Callback<ListView<Status>, ListCell<Status>>() {
+            @Override
+            public ListCell<Status> call(ListView<Status> stringListView) {
+                return new TweetListCellRender();
+            }
+        });
 
         Timer animTimer = new Timer();
         AppStarter.getInstance().stage.setWidth(518);
