@@ -70,9 +70,9 @@ public class Updater {
             System.out.println("Failed to run update mechanism!");
             ex.printStackTrace();
             if(!attemptTwo){
-                Dialogs.create().masthead("Update Error").message("Failed to run updater! Now closing...").showError();
+                Dialogs.create().masthead("Update Error").message("Failed to run updater! Now closing...").showException(ex);
             }else{
-                Dialogs.create().masthead("Update Error").message("Failed to run updater! Downloading Resources and trying again!").showError();
+                Dialogs.create().masthead("Update Error").message("Failed to run updater! Downloading Resources and trying again!").showException(ex);
 
             }
             if(!attemptTwo){

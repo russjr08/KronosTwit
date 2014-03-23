@@ -135,7 +135,7 @@ public class WindowLoading implements Initializable{
                 @Override
                 public void run() {
                     try {
-                        AppStarter.getInstance().switchWindow("WindowTimeline.fxml", 518 ,650);
+                        AppStarter.getInstance().switchWindow("WindowTimeline.fxml", 518 ,650, AppStarter.getInstance().getTitleOfTheLaunch());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -229,7 +229,7 @@ public class WindowLoading implements Initializable{
                                     setStatus("Downloading Tweets...");
                                     new WindowTimeline();
                                     new Thread(new Initializer(WindowLoading.this.consumerKey, WindowLoading.this.consumerSecret, WindowLoading.this)).run();
-                                    AppStarter.getInstance().switchWindow("WindowTimeline.fxml", 518 ,650);
+                                    AppStarter.getInstance().switchWindow("WindowTimeline.fxml", 518 ,650, AppStarter.getInstance().getTitleOfTheLaunch());
 
                                 } catch (TwitterException e) {
                                     e.printStackTrace();

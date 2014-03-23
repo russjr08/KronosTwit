@@ -13,6 +13,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -67,12 +69,17 @@ public class WindowTimeline implements Initializable {
     public void initContextMenu(){
         cm = new ContextMenu();
 
+        cm.setAutoHide(true);
+        cm.setAutoFix(true);
+
         favorite = new MenuItem("Favorite Tweet");
         reply = new MenuItem("Reply to %s");
         rt = new MenuItem("RT Tweet");
         cancel = new MenuItem("Cancel");
 
         favorite.setOnAction((event) -> {
+            Action response = Dialogs.create().masthead("Twitter Action...").message("Are you sure you want to favorite this tweet?").showConfirm();
+            if(response != Dialog.Actions.YES) return;
             Status status = null;
             try {
                 status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
@@ -85,14 +92,14 @@ public class WindowTimeline implements Initializable {
                 try {
                     TwitterContainer.twitter.createFavorite(status.getId());
                 } catch (TwitterException e) {
-                    Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not create favorite!").showWarning();
+                    Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not create favorite!").showException(e);
                     e.printStackTrace();
                 }
             }else{
                 try {
                     TwitterContainer.twitter.destroyFavorite(status.getId());
                 } catch (TwitterException e) {
-                    Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not destroy favorite!").showWarning();
+                    Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not destroy favorite!").showException(e);
 
                     e.printStackTrace();
                 }
@@ -100,6 +107,8 @@ public class WindowTimeline implements Initializable {
         });
 
         rt.setOnAction((actionEvent) -> {
+            Action response = Dialogs.create().masthead("Twitter Action...").message("Are you sure you want to Retweet this tweet?").showConfirm();
+            if(response != Dialog.Actions.YES) return;
             Status status = null;
             try {
                 status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
@@ -112,14 +121,14 @@ public class WindowTimeline implements Initializable {
                     try {
                         TwitterContainer.twitter.retweetStatus(status.getId());
                     } catch (TwitterException e) {
-                        Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not create favorite!").showWarning();
+                        Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not create favorite!").showException(e);
                         e.printStackTrace();
                     }
                 } else {
                     try {
                         TwitterContainer.twitter.destroyStatus(status.getCurrentUserRetweetId());
                     } catch (TwitterException e) {
-                        Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not destroy favorite!").showWarning();
+                        Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not destroy favorite!").showException(e);
 
                         e.printStackTrace();
                     }
@@ -179,11 +188,10 @@ public class WindowTimeline implements Initializable {
 
 
         cm.getItems().addAll(favorite, reply, rt, new SeparatorMenuItem(), cancel);
-
         tweetsView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-                if(e.getButton() == MouseButton.SECONDARY){
+                if (e.getButton() == MouseButton.SECONDARY) {
                     cm.show(tweetsView, e.getScreenX(), e.getScreenY());
                 }
             }

@@ -121,7 +121,7 @@ public class WindowNewTweet implements Initializable {
             TwitterContainer.twitter.updateStatus(update);
         } catch (TwitterException e) {
             success = false;
-            Dialogs.create().masthead("Twitter Error...").message("There was an error submitting your tweet!").showError();
+            Dialogs.create().masthead("Twitter Error...").message("There was an error submitting your tweet!").showException(e);
             e.printStackTrace();
         }
 

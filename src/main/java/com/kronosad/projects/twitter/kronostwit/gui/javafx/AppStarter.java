@@ -1,5 +1,6 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.ResourceDownloader;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -7,8 +8,14 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 
 
 public class AppStarter extends Application {
@@ -38,7 +45,7 @@ public class AppStarter extends Application {
         return instance;
     }
 
-    public Parent switchWindow(String fxml, double width, double height){
+    public Parent switchWindow(String fxml, double width, double height, String title){
 
         Parent page = null;
         try {
@@ -53,6 +60,7 @@ public class AppStarter extends Application {
         } else {
             stage.getScene().setRoot(page);
         }
+        stage.setTitle(title);
 
         stage.setOnCloseRequest((windowEvent) -> {
             System.out.println("Someone's shutting me down! :(");
@@ -79,6 +87,30 @@ public class AppStarter extends Application {
         stage.setTitle(title);
         stage.setScene(new Scene(page, width, height));
         return page;
+    }
+
+    public String getTitleOfTheLaunch(){
+        User user = null;
+        try {
+            user = TwitterContainer.twitter.showUser(TwitterContainer.twitter.getId());
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        File file = ResourceDownloader.getResource("greetings.txt");
+
+        List<String> lines = null;
+        try {
+            lines = FileUtils.readLines(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Random random = new Random();
+
+        int randomGreeting = random.nextInt(lines.size());
+
+        return (lines.get(randomGreeting).replaceAll("%u", user.getName()));
     }
 
 }

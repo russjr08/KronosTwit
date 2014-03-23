@@ -39,7 +39,7 @@ public class ProfileViewer implements Initializable {
             this.user = TwitterContainer.twitter.showUser(userToShow);
         } catch (TwitterException e) {
             e.printStackTrace();
-            Dialogs.create().title("Twitter Error").masthead("User not found").message("Twitter reports the user was not found!").showError();
+            Dialogs.create().title("Twitter Error...").masthead("User not found!").showException(e);
             ((Stage)profilePicture.getScene().getWindow()).close();
             return;
         }
@@ -48,7 +48,7 @@ public class ProfileViewer implements Initializable {
             this.relationship = TwitterContainer.twitter.showFriendship(TwitterContainer.twitter.getId(), user.getId());
         } catch (TwitterException e) {
             e.printStackTrace();
-            Dialogs.create().masthead("Error!").message("There was an error looking up this user!").showError();
+            Dialogs.create().title("Twitter Error...").masthead("Error!").showException(e);
             ((Stage)profilePicture.getScene().getWindow()).close();
             return;
         }
