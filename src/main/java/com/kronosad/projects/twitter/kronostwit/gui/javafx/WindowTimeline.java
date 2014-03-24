@@ -9,6 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
@@ -22,6 +24,7 @@ import twitter4j.TwitterException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.Timer;
 
@@ -54,8 +57,10 @@ public class WindowTimeline implements Initializable {
 
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
+    public HashMap<String, Image> menuImgCache = new HashMap<>();
+
     public ContextMenu cm;
-    public MenuItem favorite, reply, rt, cancel;
+    public MenuItem favorite, reply, rt, cancel, viewProfile, delete;
 
 
     public WindowTimeline(){
@@ -72,10 +77,47 @@ public class WindowTimeline implements Initializable {
         cm.setAutoHide(true);
         cm.setAutoFix(true);
 
+        viewProfile = new MenuItem("View %s's Profile");
+
         favorite = new MenuItem("Favorite Tweet");
         reply = new MenuItem("Reply to %s");
+        reply.setGraphic(new ImageView(new Image("https://si0.twimg.com/images/dev/cms/intents/icons/reply.png")));
         rt = new MenuItem("RT Tweet");
         cancel = new MenuItem("Cancel");
+
+        delete = new MenuItem("Delete Tweet");
+
+        // Populate ContextMenu Caches
+        menuImgCache.put("favorite_off", new Image("https://si0.twimg.com/images/dev/cms/intents/icons/favorite.png"));
+        menuImgCache.put("favorite_on", new Image("https://si0.twimg.com/images/dev/cms/intents/icons/favorite_on.png"));
+        menuImgCache.put("rt_off", new Image("https://si0.twimg.com/images/dev/cms/intents/icons/retweet.png"));
+        menuImgCache.put("rt_on", new Image("https://si0.twimg.com/images/dev/cms/intents/icons/retweet_on.png"));
+
+        viewProfile.setOnAction((event) -> {
+            Status status = null;
+            try {
+                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            Parent page = null;
+            FXMLLoader loader = new FXMLLoader();
+            try {
+                loader.setLocation(AppStarter.class.getResource("ProfileViewer.fxml"));
+                page = (Parent) loader.load(AppStarter.class.getResource("ProfileViewer.fxml").openStream());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Stage stage = new Stage();
+            stage.setTitle(String.format("@ %s 's Profile", status.getUser().getScreenName()));
+            stage.setScene(new Scene(page, 409, 622));
+            ((ProfileViewer)loader.getController()).start(status.getUser().getScreenName());
+            stage.show();
+
+
+        });
 
         favorite.setOnAction((event) -> {
             Action response = Dialogs.create().masthead("Twitter Action...").message("Are you sure you want to favorite this tweet?").showConfirm();
@@ -147,11 +189,34 @@ public class WindowTimeline implements Initializable {
             }
 
             reply.setText("Reply to " + status.getUser().getScreenName());
+            viewProfile.setText(String.format("View %s's profile", status.getUser().getScreenName()));
+
+            try {
+                if(status.getUser().getId() == TwitterContainer.twitter.getId()){
+                    delete.setDisable(false);
+                }else{
+                    delete.setDisable(true);
+                }
+
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
 
             if (!status.isFavorited()) {
+                favorite.setGraphic(new ImageView(menuImgCache.get("favorite_off")));
                 favorite.setText("Favorite Tweet");
             } else {
+                favorite.setGraphic(new ImageView(menuImgCache.get("favorite_on")));
+
                 favorite.setText("Unfavorite Tweet");
+            }
+
+            if(!status.isRetweetedByMe()){
+                rt.setGraphic(new ImageView(menuImgCache.get("rt_off")));
+                rt.setText("RT Tweet");
+            }else {
+                rt.setGraphic(new ImageView(menuImgCache.get("rt_on")));
+                rt.setText("Undo RT");
             }
         });
 
@@ -186,8 +251,23 @@ public class WindowTimeline implements Initializable {
 
         });
 
+        delete.setOnAction((event) -> {
+            Status status = null;
+            try {
+                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+            try {
+                TwitterContainer.twitter.destroyStatus(status.getId());
+            } catch (TwitterException e) {
+                Dialogs.create().title("Error!").masthead("Twitter Error...").showException(e);
+                e.printStackTrace();
+            }
+        });
 
-        cm.getItems().addAll(favorite, reply, rt, new SeparatorMenuItem(), cancel);
+
+        cm.getItems().addAll(viewProfile, new SeparatorMenuItem(), favorite, reply, rt, new SeparatorMenuItem(), cancel, new SeparatorMenuItem(), delete);
         tweetsView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {

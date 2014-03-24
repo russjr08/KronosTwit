@@ -41,7 +41,7 @@
 <VBox prefHeight="622.0" prefWidth="409.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronosad.projects.twitter.kronostwit.gui.javafx.ProfileViewer">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-<children><TabPane prefHeight="217.0" prefWidth="409.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="405.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns:fx="http://javafx.com/fxml">
+<children><TabPane prefHeight="191.0" prefWidth="409.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="405.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0" xmlns:fx="http://javafx.com/fxml">
   <tabs>
     <Tab text="User Details">
       <content>
@@ -65,7 +65,7 @@
   </content>
 </Tab>
   </tabs>
-</TabPane><ListView fx:id="tweetsList" layoutX="5.0" layoutY="217.0" prefHeight="401.0" prefWidth="399.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="217.0" />
+</TabPane><ListView fx:id="tweetsList" layoutX="5.0" layoutY="217.0" prefHeight="401.0" prefWidth="399.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="217.0" /><ProgressBar prefHeight="26.0" prefWidth="411.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 </children>
     </AnchorPane>
   </children>

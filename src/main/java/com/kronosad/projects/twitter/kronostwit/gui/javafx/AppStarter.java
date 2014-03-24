@@ -67,6 +67,7 @@ public class AppStarter extends Application {
             Platform.exit();
             if(TwitterContainer.stream != null){
                 stage.close();
+                TwitterContainer.stream.shutdown();
                 System.exit(0);
             }
         });
