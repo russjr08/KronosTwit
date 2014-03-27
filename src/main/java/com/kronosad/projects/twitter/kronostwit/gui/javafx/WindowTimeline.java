@@ -57,7 +57,7 @@ public class WindowTimeline implements Initializable {
 
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
-    public HashMap<String, Image> menuImgCache = new HashMap<>();
+    public static HashMap<String, Image> menuImgCache = new HashMap<>();
 
     public ContextMenu cm;
     public MenuItem favorite, reply, rt, cancel, viewProfile, delete;
@@ -96,7 +96,7 @@ public class WindowTimeline implements Initializable {
         viewProfile.setOnAction((event) -> {
             Status status = null;
             try {
-                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+                status = getSelectedStatus();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -124,7 +124,7 @@ public class WindowTimeline implements Initializable {
             if(response != Dialog.Actions.YES) return;
             Status status = null;
             try {
-                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+                status = getSelectedStatus();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -153,7 +153,7 @@ public class WindowTimeline implements Initializable {
             if(response != Dialog.Actions.YES) return;
             Status status = null;
             try {
-                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+                status = getSelectedStatus();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -183,7 +183,7 @@ public class WindowTimeline implements Initializable {
         cm.setOnShowing((event) -> {
             Status status = null;
             try {
-                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+                status = getSelectedStatus();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -224,28 +224,31 @@ public class WindowTimeline implements Initializable {
 
             Status status = null;
             try {
-                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+                status = getSelectedStatus();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
 
-
+            cm.hide();
+            Parent page = null;
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(AppStarter.class.getResource("WindowNewTweet.fxml"));
 
-            Stage stage = new Stage();
-            stage.setTitle("Replying to: " + status.getUser().getScreenName());
-            Parent root = null;
             try {
-                root = (Parent) loader.load();
+                loader.setLocation(AppStarter.class.getResource("WindowNewTweet.fxml"));
+                page = (Parent) loader.load(AppStarter.class.getResource("WindowNewTweet.fxml").openStream());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            stage.setScene(new Scene(root, 396, 174));
+            ((WindowNewTweet)loader.getController()).setReply(status);
+            Stage stage = new Stage();
+            stage.setTitle("Replying to: " + status.getUser().getScreenName());
+            stage.setScene(new Scene(page, 396, 174));
+            stage.setResizable(false);
+            stage.setFullScreen(false);
             stage.show();
 
-            ((WindowNewTweet)loader.getController()).setReply(status);
 
 
 
@@ -254,7 +257,7 @@ public class WindowTimeline implements Initializable {
         delete.setOnAction((event) -> {
             Status status = null;
             try {
-                status = TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+                status = getSelectedStatus();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -269,6 +272,14 @@ public class WindowTimeline implements Initializable {
 
         cm.getItems().addAll(viewProfile, new SeparatorMenuItem(), favorite, reply, rt, new SeparatorMenuItem(), cancel, new SeparatorMenuItem(), delete);
         tweetsView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                if (e.getButton() == MouseButton.SECONDARY) {
+                    cm.show(tweetsView, e.getScreenX(), e.getScreenY());
+                }
+            }
+        });
+        mentionsView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
                 if (e.getButton() == MouseButton.SECONDARY) {
@@ -365,6 +376,7 @@ public class WindowTimeline implements Initializable {
             stage.setResizable(false);
             stage.setFullScreen(false);
             stage.show();
+            System.out.println(tabPane.getSelectionModel().getSelectedIndex());
 
         });
 
@@ -373,6 +385,18 @@ public class WindowTimeline implements Initializable {
 
         initContextMenu();
 
+    }
+    
+    public Status getSelectedStatus() throws TwitterException {
+
+        switch (tabPane.getSelectionModel().getSelectedIndex()) {
+            case (0): // "Home" tab
+                return TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
+            case (1): // "Mentions" tab
+                return TwitterContainer.twitter.showStatus(TwitterContainer.mentionTweetList.get(mentionsView.getSelectionModel().getSelectedIndex()).getId());
+        }
+
+        throw new IllegalAccessError("Cannot get Status, invalid Tab selected!");
     }
 
 }

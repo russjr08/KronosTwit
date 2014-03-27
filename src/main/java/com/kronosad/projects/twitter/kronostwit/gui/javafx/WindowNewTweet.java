@@ -94,7 +94,13 @@ public class WindowNewTweet implements Initializable {
         ArrayList<String> users = new ArrayList<>();
         for(String word : reply.getText().split(" ")){
             if(word.startsWith("@")){
-                users.add(word);
+                try {
+                    if(!word.equals(TwitterContainer.twitter.getScreenName())){
+                        users.add(word);
+                    }
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                }
             }
         }
         if(!users.contains("@" + reply.getUser().getScreenName())){

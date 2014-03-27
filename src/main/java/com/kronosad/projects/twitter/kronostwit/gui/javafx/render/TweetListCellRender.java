@@ -3,7 +3,7 @@ package com.kronosad.projects.twitter.kronostwit.gui.javafx.render;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetFormat;
 import com.kronosad.projects.twitter.kronostwit.gui.javafx.TwitterContainer;
 import javafx.scene.control.ListCell;
-import javafx.scene.effect.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
