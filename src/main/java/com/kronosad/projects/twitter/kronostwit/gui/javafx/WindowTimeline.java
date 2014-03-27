@@ -18,8 +18,7 @@ import javafx.stage.Stage;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
-import twitter4j.Status;
-import twitter4j.TwitterException;
+import twitter4j.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,6 +42,9 @@ public class WindowTimeline implements Initializable {
 
     @FXML
     private ListView<Status> mentionsView;
+
+    @FXML
+    private ListView<Status> searchView;
 
     @FXML
     public TabPane tabPane;
@@ -287,6 +289,16 @@ public class WindowTimeline implements Initializable {
                 }
             }
         });
+        searchView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                if(TwitterContainer.searchTweetList.size() > 0){
+                    if (e.getButton() == MouseButton.SECONDARY) {
+                        cm.show(tweetsView, e.getScreenX(), e.getScreenY());
+                    }
+                }
+            }
+        });
     }
 
     public void addTweet(Status status, boolean initialLoad){
@@ -325,6 +337,8 @@ public class WindowTimeline implements Initializable {
         mentionsView.setItems(TwitterContainer.mentionTweetList);
 
         mentionsView.setCellFactory(stringListView -> new TweetListCellRender());
+
+        searchView.setCellFactory(stringListView -> new TweetListCellRender());
 
 
         Timer animTimer = new Timer();
@@ -380,10 +394,27 @@ public class WindowTimeline implements Initializable {
 
         });
 
-
+        tabPane.setOnMouseClicked((event) -> search());
 
 
         initContextMenu();
+
+    }
+
+    public void search(){
+        if(tabPane.getSelectionModel().getSelectedIndex() == 2){
+            TwitterContainer.searchTweetList.clear();
+            String query = Dialogs.create().title("Search").masthead("Perform a Search...").message("Enter a search query!").showTextInput();
+            try {
+                QueryResult res = TwitterContainer.twitter.search(new Query(query));
+                res.getTweets().forEach((tweet) -> TwitterContainer.searchTweetList.add(tweet));
+                searchView.setItems(TwitterContainer.searchTweetList);
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                Dialogs.create().title("Error!").masthead("There was an error with your search...").showException(e);
+            }
+
+        }
 
     }
     
@@ -394,6 +425,8 @@ public class WindowTimeline implements Initializable {
                 return TwitterContainer.twitter.showStatus(TwitterContainer.homeTweetList.get(tweetsView.getSelectionModel().getSelectedIndex()).getId());
             case (1): // "Mentions" tab
                 return TwitterContainer.twitter.showStatus(TwitterContainer.mentionTweetList.get(mentionsView.getSelectionModel().getSelectedIndex()).getId());
+            case (2): // "Search" tab
+                return TwitterContainer.twitter.showStatus(TwitterContainer.searchTweetList.get(searchView.getSelectionModel().getSelectedIndex()).getId());
         }
 
         throw new IllegalAccessError("Cannot get Status, invalid Tab selected!");

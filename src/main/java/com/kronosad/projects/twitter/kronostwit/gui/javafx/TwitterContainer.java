@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class TwitterContainer {
     public static ObservableList<Status> homeTweetList = FXCollections.observableArrayList();
     public static ObservableList<Status> mentionTweetList = FXCollections.observableArrayList();
+    public static ObservableList<Status> searchTweetList = FXCollections.observableArrayList();
     public static Twitter twitter;
     public static TwitterStream stream;
 
