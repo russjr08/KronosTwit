@@ -25,6 +25,7 @@ public class AppStarter extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("WindowLoading.fxml"));
         Parent root = (Parent)loader.load();
@@ -33,6 +34,7 @@ public class AppStarter extends Application {
         stage.setScene(new Scene(root, 419, 156));
         stage.setResizable(true);
         stage.show();
+
 
         this.instance = this;
     }
@@ -80,7 +82,7 @@ public class AppStarter extends Application {
     public Parent openWindow(String fxml, double width, double height, String title){
         Parent page = null;
         try {
-            page = (Parent) FXMLLoader.load(AppStarter.class.getResource(fxml), null, new JavaFXBuilderFactory());
+            page = FXMLLoader.load(AppStarter.class.getResource(fxml));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,6 +90,21 @@ public class AppStarter extends Application {
         stage.setTitle(title);
         stage.setScene(new Scene(page, width, height));
         return page;
+    }
+
+    public static void openConsole(){
+        Parent page = null;
+        try {
+            page = FXMLLoader.load(AppStarter.class.getResource("WindowConsole.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Developer Console");
+        stage.setScene(new Scene(page, 618, 458));
+        stage.setX(0);
+        stage.setY(0);
+        stage.show();
     }
 
     public String getTitleOfTheLaunch(){

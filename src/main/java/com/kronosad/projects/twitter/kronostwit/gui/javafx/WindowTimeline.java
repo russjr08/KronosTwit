@@ -131,7 +131,6 @@ public class WindowTimeline implements Initializable {
                 e.printStackTrace();
             }
 
-            System.out.println(status);
             if(!status.isFavorited()) {
                 try {
                     TwitterContainer.twitter.createFavorite(status.getId());
