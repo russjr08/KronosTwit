@@ -19,11 +19,14 @@ public class WindowConsole implements Initializable {
     @FXML TextArea textArea;
     @FXML TextField commandArea;
 
+    private static WindowConsole instance;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.setOut(new OverridePrintStream(System.out, this));
         System.setErr(new OverridePrintStream(System.out, this));
+        instance = this;
     }
 
     public void appendObjectToConsole(Object x) {
@@ -39,4 +42,6 @@ public class WindowConsole implements Initializable {
 
 
     }
+
+    public static WindowConsole getInstance(){ return instance; }
 }

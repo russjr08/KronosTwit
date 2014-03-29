@@ -25,7 +25,7 @@ public class AppStarter extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        Platform.runLater(AppStarter::openConsole);
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("WindowLoading.fxml"));
         Parent root = (Parent)loader.load();
@@ -34,7 +34,6 @@ public class AppStarter extends Application {
         stage.setScene(new Scene(root, 419, 156));
         stage.setResizable(true);
         stage.show();
-
 
         this.instance = this;
     }

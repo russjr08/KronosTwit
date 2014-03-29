@@ -1,6 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui.javafx;
 
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
+import com.kronosad.projects.twitter.kronostwit.gui.javafx.components.LinkMenuItem;
 import com.kronosad.projects.twitter.kronostwit.gui.javafx.render.TweetListCellRender;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -182,11 +183,57 @@ public class WindowTimeline implements Initializable {
         });
 
         cm.setOnShowing((event) -> {
+//            new Thread(() -> {}){}.start();
             Status status = null;
             try {
                 status = getSelectedStatus();
             } catch (TwitterException e) {
                 e.printStackTrace();
+            }
+
+            for(int i = 0; i < cm.getItems().size(); i++){
+                MenuItem item = cm.getItems().get(i);
+                if(item instanceof LinkMenuItem){
+                    LinkMenuItem li = (LinkMenuItem) item;
+                    cm.getItems().removeAll(item);
+
+                }
+            }
+
+            ArrayList<String> links = new ArrayList<String>();
+            for(URLEntity entity : status.getURLEntities()){
+                if(links.contains(entity.getExpandedURL())) return;
+                cm.getItems().add(new LinkMenuItem(entity.getExpandedURL(), LinkMenuItem.LinkType.NORMAL));
+                links.add(entity.getExpandedURL());
+            }
+            for(MediaEntity mediaEntity : status.getMediaEntities()){
+                if(links.contains(mediaEntity.getMediaURL())) return;
+                cm.getItems().add(new LinkMenuItem(mediaEntity.getMediaURL(), LinkMenuItem.LinkType.PICTURE));
+                links.add(mediaEntity.getMediaURL());
+            }
+
+            for(String word : status.getText().split(" ")){
+                if(word.startsWith("/r/")){
+                    if(links.contains(word)) return;
+                    links.add(word);
+                    cm.getItems().add(new LinkMenuItem(word, LinkMenuItem.LinkType.REDDIT));
+                }else if(word.startsWith("r/")){
+                    word = "/" + word;
+                    if(links.contains(word)) return;
+                    links.add(word);
+                    cm.getItems().add(new LinkMenuItem(word, LinkMenuItem.LinkType.REDDIT));
+                }
+            }
+
+
+            for(int i = 0; i < cm.getItems().size(); i++){
+                MenuItem item = cm.getItems().get(i);
+                if(item instanceof LinkMenuItem){
+                    LinkMenuItem li = (LinkMenuItem) item;
+                    if(!links.contains(li.getLink())){
+                        cm.getItems().removeAll(item);
+                    }
+                }
             }
 
             reply.setText("Reply to " + status.getUser().getScreenName());
@@ -406,7 +453,7 @@ public class WindowTimeline implements Initializable {
             String query = Dialogs.create().title("Search").masthead("Perform a Search...").message("Enter a search query!").showTextInput();
             try {
                 QueryResult res = TwitterContainer.twitter.search(new Query(query));
-                res.getTweets().forEach((tweet) -> TwitterContainer.searchTweetList.add(tweet));
+                res.getTweets().forEach((tweet) -> TwitterContainer.searchTweetList.add(TweetHelper.removeTwitterLinks(tweet)));
                 searchView.setItems(TwitterContainer.searchTweetList);
             } catch (TwitterException e) {
                 e.printStackTrace();

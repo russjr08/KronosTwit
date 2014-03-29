@@ -200,7 +200,6 @@ public class WindowLoading implements Initializable{
 
                     }
                 });
-                Platform.runLater(AppStarter::openConsole);
 
 
             }
