@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronosad.projects.twitter.kronostwit.gui.javafx.issues.IssuesListViewer">
+<children><TableView fx:id="issuesTable" layoutX="-14.0" layoutY="-55.0" prefHeight="367.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+  <columns>
+    <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
+    <TableColumn fx:id="titleCol" prefWidth="204.0" text="Title" /><TableColumn fx:id="timeCol" prefWidth="309.0" text="Updated At" />
+  </columns>
+</TableView><MenuBar fx:id="menu" layoutX="67.5" layoutY="-0.5" prefHeight="30.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+  <menus>
+    <Menu mnemonicParsing="false" text="Issues">
+      <items>
+        <MenuItem mnemonicParsing="false" text="New Issue" />
+      </items>
+    </Menu>
+  </menus>
+</MenuBar>
+</children></AnchorPane>

@@ -13,7 +13,7 @@ public class Issue {
     private String title;
     private String description;
     private String[] labels;
-    private String milestone;
+//    private String milestone;
     //    private ArrayList<User> assignee;
 //    private ArrayList<User> author;
     private String state;
@@ -44,9 +44,9 @@ public class Issue {
         return labels;
     }
 
-    public String getMilestone() {
-        return milestone;
-    }
+//    public String getMilestone() {
+//        return milestone;
+//    }
 
 //    public ArrayList<User> getAssignee() {
 //        return assignee;

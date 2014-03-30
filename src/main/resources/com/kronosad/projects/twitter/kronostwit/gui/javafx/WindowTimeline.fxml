@@ -49,7 +49,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Feedback">
           <items>
-            <MenuItem mnemonicParsing="false" text="Submit Issue (NYI)" />
+            <MenuItem fx:id="btnIssues" mnemonicParsing="false" text="Issues List" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

@@ -88,6 +88,7 @@ public class AppStarter extends Application {
         Stage stage = new Stage();
         stage.setTitle(title);
         stage.setScene(new Scene(page, width, height));
+        stage.show();
         return page;
     }
 

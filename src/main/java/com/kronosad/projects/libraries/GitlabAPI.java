@@ -1,6 +1,7 @@
 package com.kronosad.projects.libraries;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kronosad.projects.libraries.json.Issue;
 import com.kronosad.projects.libraries.json.IssueList;
 
@@ -25,7 +26,7 @@ public class GitlabAPI {
     public static IssueList getProjectIssues(int id) throws IOException {
 
         URL url;
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 
         HttpURLConnection connection;
@@ -57,7 +58,6 @@ public class GitlabAPI {
 
 
         IssueList issues = gson.fromJson("{ issues: " + response.toString() + " }", IssueList.class);
-
         connection.disconnect();
 
 

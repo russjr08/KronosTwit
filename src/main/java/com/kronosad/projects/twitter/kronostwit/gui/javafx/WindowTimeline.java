@@ -64,6 +64,8 @@ public class WindowTimeline implements Initializable {
 
     @FXML public MenuItem btnChangelogs;
 
+    @FXML public MenuItem btnIssues;
+
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
     public static HashMap<String, Image> menuImgCache = new HashMap<>();
@@ -456,6 +458,8 @@ public class WindowTimeline implements Initializable {
                 }
             }
         });
+
+        btnIssues.setOnAction((e) -> AppStarter.getInstance().openWindow("issues/IssueListViewer.fxml", 600, 400, "Issues"));
 
         initContextMenu();
 
