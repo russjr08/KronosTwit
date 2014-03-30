@@ -44,6 +44,8 @@ public class Initializer extends Task {
         stream.user();
         TwitterContainer.stream = stream;
 
+        WindowTimeline.instance.done(loading);
+
         return null;
     }
 }

@@ -45,7 +45,6 @@
           <items>
             <MenuItem fx:id="btnNewTweet" mnemonicParsing="false" text="New Tweet" />
             <MenuItem fx:id="btnLookupProfile" mnemonicParsing="false" text="Lookup Profile" />
-            <SeparatorMenuItem mnemonicParsing="false" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Feedback">
@@ -55,7 +54,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="Changelog for %version%" />
+            <MenuItem fx:id="btnChangelogs" mnemonicParsing="false" text="Changelogs" />
           </items>
         </Menu>
       </menus>

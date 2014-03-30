@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -21,7 +23,9 @@ import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 import twitter4j.*;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +61,8 @@ public class WindowTimeline implements Initializable {
     public MenuItem btnLookupProfile;
 
     @FXML public MenuItem btnNewTweet;
+
+    @FXML public MenuItem btnChangelogs;
 
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
@@ -436,15 +442,32 @@ public class WindowTimeline implements Initializable {
             stage.setResizable(false);
             stage.setFullScreen(false);
             stage.show();
-            System.out.println(tabPane.getSelectionModel().getSelectedIndex());
 
         });
 
         tabPane.setOnMouseClicked((event) -> search());
 
+        btnChangelogs.setOnAction((e) -> {
+            if(Desktop.isDesktopSupported()){
+                try {
+                    Desktop.getDesktop().browse(new URL("http://git.tristen.io/russjr08/kronostwit/wikis/changelogs").toURI());
+                } catch (IOException | URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
 
         initContextMenu();
 
+    }
+
+    public void done(WindowLoading loading){
+        loading.setStatus("Precaching Images...");
+        for(Status status : TwitterContainer.homeTweetList){
+            if(!menuImgCache.containsKey(status.getUser().getScreenName())){
+                menuImgCache.put(status.getUser().getScreenName(), new Image(status.getUser().getProfileImageURL()));
+            }
+        }
     }
 
     public void search(){
