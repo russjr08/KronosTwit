@@ -68,7 +68,7 @@ public class PastebinAPI {
         params.add(new BasicNameValuePair("api_dev_key", APIKey));
         params.add(new BasicNameValuePair("api_option", "paste"));
         params.add(new BasicNameValuePair("api_paste_code", paste));
-        params.add(new BasicNameValuePair("api_paste_name", "KronosTwit Crash"));
+        params.add(new BasicNameValuePair("api_paste_name", "KronosTwit Log"));
         params.add(new BasicNameValuePair("api_paste_format", option));
 
         post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));

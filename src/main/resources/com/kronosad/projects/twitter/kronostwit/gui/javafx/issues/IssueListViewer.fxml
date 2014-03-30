@@ -14,7 +14,7 @@
   <menus>
     <Menu mnemonicParsing="false" text="Issues">
       <items>
-        <MenuItem mnemonicParsing="false" text="New Issue" />
+        <MenuItem fx:id="createIssue" mnemonicParsing="false" text="New Issue" />
       </items>
     </Menu>
   </menus>

@@ -43,5 +43,9 @@ public class WindowConsole implements Initializable {
 
     }
 
+    public String getText(){
+        return textArea.getText();
+    }
+
     public static WindowConsole getInstance(){ return instance; }
 }

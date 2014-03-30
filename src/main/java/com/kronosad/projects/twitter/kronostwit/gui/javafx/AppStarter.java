@@ -91,6 +91,20 @@ public class AppStarter extends Application {
         stage.show();
         return page;
     }
+    public Parent openWindow(String fxml, double width, double height, String title, boolean resize){
+        Parent page = null;
+        try {
+            page = FXMLLoader.load(AppStarter.class.getResource(fxml));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.setScene(new Scene(page, width, height));
+        stage.show();
+        stage.setResizable(resize);
+        return page;
+    }
 
     public static void openConsole(){
         Parent page = null;
