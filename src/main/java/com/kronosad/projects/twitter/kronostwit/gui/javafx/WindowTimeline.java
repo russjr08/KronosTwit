@@ -105,27 +105,32 @@ public class WindowTimeline implements Initializable {
         menuImgCache.put("rt_on", new Image("https://si0.twimg.com/images/dev/cms/intents/icons/retweet_on.png"));
 
         viewProfile.setOnAction((event) -> {
-            Status status = null;
-            try {
-                status = getSelectedStatus();
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
 
-            Parent page = null;
-            FXMLLoader loader = new FXMLLoader();
-            try {
-                loader.setLocation(AppStarter.class.getResource("ProfileViewer.fxml"));
-                page = (Parent) loader.load(AppStarter.class.getResource("ProfileViewer.fxml").openStream());
+            new Thread(() -> {
+                Status status = null;
+                try {
+                    status = getSelectedStatus();
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Stage stage = new Stage();
-            stage.setTitle(String.format("@ %s 's Profile", status.getUser().getScreenName()));
-            stage.setScene(new Scene(page, 409, 622));
-            ((ProfileViewer)loader.getController()).start(status.getUser().getScreenName());
-            stage.show();
+                Parent page = null;
+                FXMLLoader loader = new FXMLLoader();
+                try {
+                    loader.setLocation(AppStarter.class.getResource("ProfileViewer.fxml"));
+                    page = (Parent) loader.load(AppStarter.class.getResource("ProfileViewer.fxml").openStream());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+                stage.setTitle(String.format("@%s 's Profile", status.getUser().getScreenName()));
+                stage.setScene(new Scene(page, 409, 622));
+                ((ProfileViewer)loader.getController()).start(status.getUser().getScreenName());
+                stage.show();
+
+
+            }){}.start();
 
 
         });
