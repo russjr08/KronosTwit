@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="238.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronosad.projects.twitter.kronostwit.gui.javafx.issues.IssueCreator">
+<children><Label layoutX="14.0" layoutY="14.0" prefHeight="16.0" prefWidth="77.0" text="Subject:" /><Label layoutX="14.0" layoutY="57.0" text="Details:" /><Label layoutX="13.0" layoutY="193.0" text="Labels/Tags (Comma Separated!):" /><TextField fx:id="txtSubject" layoutX="70.0" layoutY="9.0" prefHeight="26.0" prefWidth="315.0" /><TextArea fx:id="txtDetails" layoutX="70.0" layoutY="65.0" prefHeight="104.0" prefWidth="315.0" wrapText="true" /><TextField fx:id="txtLabels" layoutX="228.0" layoutY="188.0" prefHeight="26.0" prefWidth="195.0" /><Button fx:id="btnSubmit" layoutX="412.0" layoutY="60.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="172.0" text="Submit" />
+</children></AnchorPane>
