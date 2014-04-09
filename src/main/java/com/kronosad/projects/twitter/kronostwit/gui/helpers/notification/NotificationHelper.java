@@ -21,7 +21,7 @@ public class NotificationHelper {
             public void run() {
                 try {
                     if(status.getText().contains(WindowLoading.twitter.getScreenName())){
-                        Notification notification = new Notification("KronosTwit Mention", "So and so mentioned you!", Notification.INFO_ICON);
+                        Notification notification = new Notification("KronosTwit Mention", String.format("@%s mentioned you!", status.getUser().getScreenName()), Notification.INFO_ICON);
                         Notification.Notifier.INSTANCE.notify(notification);
                         mention.set(true);
                     }

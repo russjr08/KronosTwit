@@ -5,7 +5,6 @@ import com.apple.eawt.Application;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Method;
 import java.net.URL;
 
 /**
@@ -15,11 +14,9 @@ import java.net.URL;
  */
 public class OSUtils {
 
-    /**
-     * @param window
-     */
+
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static void performMacOps(Window window) {
+    public static void performMacOps() {
         if(System.getProperty("os.name").contains("OS X")){
             System.out.println("Running OS X Ops");
 
@@ -28,11 +25,9 @@ public class OSUtils {
 
                 Class params[] = new Class[]{Window.class, Boolean.TYPE};
 
-                Method method = util.getMethod("setWindowCanFullScreen", params);
                 Image image = new ImageIcon(new URL("http://api.kronosad.com/KronosTwit/resources/bird_blue_hi_res.png")).getImage();
                 Application.getApplication().setDockIconImage(image);
 
-                method.invoke(util, window, true);
             } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();
             } catch (Exception e) {

@@ -14,14 +14,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
-                <configuration>
-                    <!-- this maven plugin does not functions with java 8 yet, passing java 7 is just fine. -->
-                    <!--<source>1.8</source>-->
-                    <!--<target>1.8</target>-->
-                    <compilerArguments>
-                        <bootclasspath>${sun.boot.class.path}${path.separator}${java.home}/lib/jfxrt.jar</bootclasspath>
-                    </compilerArguments>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.zenjava</groupId>
@@ -74,22 +66,10 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/java/com/kronosad/projects/twitter/kronostwit/gui/javafx</directory>
+                <directory>src/main/resources/com/kronosad/projects/twitter/kronostwit/gui</directory>
                 <includes><include>**/**</include></includes>
                 <excludes><exclude>*.java</exclude></excludes>
-                <targetPath>com/kronosad/projects/twitter/kronostwit/gui/javafx</targetPath>
-            </resource>
-            <resource>
-                <directory>src/main/java/javafx_external/scene/control</directory>
-                <includes><include>**/**</include></includes>
-                <excludes><exclude>*.java</exclude></excludes>
-                <targetPath>javafx_external/scene/control</targetPath>
-            </resource>
-            <resource>
-                <directory>src/main/java/com/sun/javafx/scene/control/skin/resources</directory>
-                <includes><include>**/**</include></includes>
-                <excludes><exclude>*.java</exclude></excludes>
-                <targetPath>com/sun/javafx/scene/control/skin/resources</targetPath>
+                <targetPath>com/kronosad/projects/twitter/kronostwit/gui</targetPath>
             </resource>
 
         </resources>
@@ -178,7 +158,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Not sure if I need this, but I'll keep it under safe-guard here. -->
         <dependency>
             <groupId>com.apple</groupId>
             <artifactId>AppleJavaExtensions</artifactId>
@@ -199,6 +178,11 @@
 
          
     </dependencies>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
 
 

@@ -1,6 +1,7 @@
 package com.kronosad.projects.twitter.kronostwit.gui;
 
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.ResourceDownloader;
+import com.kronosad.projects.twitter.kronostwit.utils.OSUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +37,8 @@ public class AppStarter extends Application {
         stage.show();
 
         this.instance = this;
+
+        OSUtils.performMacOps();
     }
 
     public static void main(String... args){
