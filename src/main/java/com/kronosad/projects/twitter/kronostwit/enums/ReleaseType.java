@@ -7,6 +7,6 @@ package com.kronosad.projects.twitter.kronostwit.enums;
  */
 public enum ReleaseType {
 
-    ALPHA, BETA, RELEASE_CANDIDATE, FULL
+    ALPHA, BETA, RELEASE_CANDIDATE, RELEASE
 
 }

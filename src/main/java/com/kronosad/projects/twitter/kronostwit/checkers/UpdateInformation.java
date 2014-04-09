@@ -25,8 +25,8 @@ import java.util.logging.Logger;
  */
 public class UpdateInformation {
 
-    private ReleaseType clientReleaseType = ReleaseType.ALPHA;
-    public double versionNumber = 2.7;
+    private ReleaseType clientReleaseType = ReleaseType.RELEASE_CANDIDATE;
+    public double versionNumber = 3.0;
     public double serverVersion;
     public URL buildURL;
     private URL projectApiURL;

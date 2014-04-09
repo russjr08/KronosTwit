@@ -10,6 +10,10 @@ import java.net.URL;
  * Date: 12/27/13
  * Time: 4:44 PM
  */
+
+/**
+ * This class represents the Version from the new versioning system.
+ */
 public class Version {
 
     private Double version;
