@@ -219,7 +219,8 @@ public class WindowLoading implements Initializable{
                 @Override
                 public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State state, Worker.State state2) {
                     if(state2 == Worker.State.SUCCEEDED){
-                        if(loginWebView.getEngine().getLocation().equals("https://api.twitter.com/oauth/authorize")){
+                        // TODO: Better Two Factor Auth Handling...
+//                        if(loginWebView.getEngine().getLocation().equals("https://api.twitter.com/oauth/authorize")){
                             String html = xmlToString(loginWebView.getEngine().getDocument());
                             org.jsoup.nodes.Document doc = Jsoup.parse(html);
                             Elements elements = doc.select("code");
@@ -238,7 +239,7 @@ public class WindowLoading implements Initializable{
                                 }
                             }
 
-                        }
+//                        }
                     }
                 }
             });
