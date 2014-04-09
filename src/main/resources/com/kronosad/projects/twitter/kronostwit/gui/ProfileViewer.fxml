@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2012, 2014, Oracle and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="622.0" prefWidth="409.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronosad.projects.twitter.kronostwit.gui.ProfileViewer">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+<children><TabPane prefHeight="191.0" prefWidth="409.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="405.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0" xmlns:fx="http://javafx.com/fxml">
+  <tabs>
+    <Tab text="User Details">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<children><ImageView fx:id="profilePicture" fitHeight="73.0" fitWidth="73.0" layoutX="10.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true" /><Label layoutX="97.0" layoutY="19.0" text="Username:" /><Label fx:id="lblUsername" layoutX="165.0048828125" layoutY="19.0" text="username" /><Label layoutX="97.0048828125" layoutY="47.0" text="Website:" /><Label fx:id="lblWebsite" layoutX="165.009765625" layoutY="47.0" text="website" /><Label layoutX="97.0048828125" layoutY="77.0" text="Location:" /><Label fx:id="lblLocation" layoutX="165.009765625" layoutY="77.0" text="location" /><Label layoutX="97.0048828125" layoutY="109.5" text="Bio:" /><Label fx:id="lblBio" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="165.0" layoutY="110.0" prefHeight="75.0" prefWidth="200.0" text="biography" textAlignment="CENTER" wrapText="true" /><ImageView fx:id="lblStar" fitHeight="31.0" fitWidth="32.0" layoutX="14.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
+</children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Relationship">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<children><CheckBox fx:id="chckFollow" layoutX="14.0" layoutY="23.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="294.0" text="Do you follow user?" /><CheckBox fx:id="chckFollowsYou" disable="true" layoutX="14.0" layoutY="77.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="271.0" text="Does user follow you?" /><CheckBox fx:id="chckBlocked" disable="true" layoutX="14.0" layoutY="131.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="281.0" text="Is user blocked? (NYI)" />
+</children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Twitter Details">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<children><Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="80.0" text="Followers:" /><Label layoutX="14.0048828125" layoutY="51.5" text="Follows:" /><Label layoutX="14.0048828125" layoutY="103.5" text="Member Since:" /><Label fx:id="lblFollowers" layoutX="93.009765625" layoutY="14.0" text="int" /><Label fx:id="lblFollows" layoutX="96.0" layoutY="52.0" text="int" /><Label fx:id="lblConceiveDate" layoutX="110.0" layoutY="131.0" prefHeight="17.0" prefWidth="215.0" text="date" />
+</children></AnchorPane>
+  </content>
+</Tab>
+  </tabs>
+</TabPane><ListView fx:id="tweetsList" layoutX="5.0" layoutY="217.0" prefHeight="401.0" prefWidth="399.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="217.0" /><ProgressBar prefHeight="26.0" prefWidth="411.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+</children>
+    </AnchorPane>
+  </children>
+  <stylesheets>
+    <URL value="@ProfileViewer.css" />
+  </stylesheets>
+</VBox>

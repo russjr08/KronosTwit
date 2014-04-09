@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="174.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronosad.projects.twitter.kronostwit.gui.WindowNewTweet">
+    <children><Button fx:id="btnSubmit" layoutX="309.0" layoutY="134.0" mnemonicParsing="false" text="Tweet!" /><Label layoutX="25.0" layoutY="139.0" prefHeight="16.0" prefWidth="107.0" text="Characters Left: " /><Label fx:id="lblCharsLeft" layoutX="145.353271484375" layoutY="139.0" text="140" /><TextArea fx:id="tweetArea" prefHeight="128.0" prefWidth="396.0" promptText="Type your thoughts here!" wrapText="true" />
+    </children>
+    <stylesheets>
+        <URL value="@WindowNewTweet.css" />
+    </stylesheets>
+</AnchorPane>
