@@ -6,27 +6,22 @@
 
 package com.kronosad.projects.twitter.kronostwit.gui.helpers;
 
-import com.kronosad.projects.twitter.kronostwit.console.ConsoleMain;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.net.www.protocol.http.HttpURLConnection;
 
 /**
  *
  * @author Russell
  */
 public class URLUnshortener {
+
+    // TODO: Reimplment unshortener toggle (returns the 'unshort' parameter immediatley)
     
     public static String unshorten(String unshort){
-        if(!ConsoleMain.arguments.contains("-nounshorten")){
             if(unshort != null || !unshort.isEmpty()){
                 URL unshortener = null;
 
@@ -57,10 +52,7 @@ public class URLUnshortener {
             }else{
                 return "";
             }
-        }
-        
-        return unshort;
-        
+
         
         
         

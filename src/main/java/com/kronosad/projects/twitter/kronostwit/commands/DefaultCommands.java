@@ -6,7 +6,7 @@ package com.kronosad.projects.twitter.kronostwit.commands;
  * Time: 3:13 PM
  */
 
-import com.kronosad.projects.twitter.kronostwit.console.ConsoleLoader;
+import com.kronosad.projects.twitter.kronostwit.checkers.UpdateInformation;
 import com.kronosad.projects.twitter.kronostwit.interfaces.ICommand;
 
 import java.util.ArrayList;
@@ -29,7 +29,9 @@ public class DefaultCommands {
 
             @Override
             public boolean execute(ArrayList<String> args) {
-                System.out.println(String.format("You are running KronosTwit v%s (%s)", ConsoleLoader.updater.versionNumber, ConsoleLoader.updater.getVersion().getReleaseType()));
+                System.out.println(String.format("You are running KronosTwit v%s (%s)",
+                        UpdateInformation.getInstance().getVersion().getVersionNumber(),
+                        UpdateInformation.getInstance().getVersion().getReleaseType()));
 
                 return true;
             }

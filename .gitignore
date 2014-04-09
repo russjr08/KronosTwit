@@ -1,5 +1,4 @@
 *.DS_Store
-/out
 /Beta.properties
 /twitter4j.properties
 /greetings.txt
@@ -13,6 +12,8 @@ pom.properties
 nb-configuration.xml
 nbactions.xml
 KronosTwit.iml
+
+# KronosTwit's Files...
 KronosTWit.preferences
 filtered.serialized
 /persistence
@@ -22,6 +23,10 @@ filtered.serialized
 *.bat
 /doc
 /themes
+
+# Compiled Files...
+/classes
+/out
 
 # IDE Files
 KronosTwit.iml

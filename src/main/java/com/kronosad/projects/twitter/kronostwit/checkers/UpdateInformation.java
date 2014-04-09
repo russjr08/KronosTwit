@@ -34,7 +34,7 @@ public class UpdateInformation {
 
     private Version version;
 
-    private UpdateInformation instance;
+    private static UpdateInformation instance;
 
     public UpdateInformation() {
         try {
@@ -50,7 +50,7 @@ public class UpdateInformation {
      * Gets an instance of the Update Information.
      * @return An instance of {@link com.kronosad.projects.twitter.kronostwit.checkers.UpdateInformation}
      */
-    public UpdateInformation getInstance(){
+    public static UpdateInformation getInstance(){
         return instance;
     }
     
