@@ -36,7 +36,7 @@ public class IssuesListViewer implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         menu.setUseSystemMenuBar(true);
         try {
-            this.issues = GitlabAPI.getProjectIssues(2).getIssues();
+            this.issues = GitlabAPI.getProjectIssues(5).getIssues();
             ArrayList<Issue> toRemove = new ArrayList<>();
 
             for(Issue issue : this.issues){

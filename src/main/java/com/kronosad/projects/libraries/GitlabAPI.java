@@ -15,7 +15,7 @@ import java.net.URL;
  * Time: 7:41 PM
  */
 public class GitlabAPI {
-
+    private static final String API_KEY = "rxiWzbQ18XeKCxh2axYq";
     /**
      * Get issues from a project
      *
@@ -41,7 +41,7 @@ public class GitlabAPI {
         connection.setDoInput(true);
         connection.setDoOutput(true);
 
-        connection.addRequestProperty("PRIVATE-TOKEN", "FUtg6FGqQf9co9rvn8Vw");
+        connection.addRequestProperty("PRIVATE-TOKEN", API_KEY);
 
         InputStream is = connection.getInputStream();
 
@@ -93,7 +93,7 @@ public class GitlabAPI {
             }
         }
 
-        connection.setRequestProperty("PRIVATE-TOKEN", "FUtg6FGqQf9co9rvn8Vw");
+        connection.setRequestProperty("PRIVATE-TOKEN", API_KEY);
 //        connection.setRequestProperty("id", String.valueOf(issueID));
 //        connection.setRequestProperty("title", title);
 //        connection.setRequestProperty("description", description);
@@ -169,7 +169,7 @@ public class GitlabAPI {
             }
         }
 
-        connection.setRequestProperty("PRIVATE-TOKEN", "FUtg6FGqQf9co9rvn8Vw");
+        connection.setRequestProperty("PRIVATE-TOKEN", API_KEY);
 //        connection.setRequestProperty("id", String.valueOf(issueID));
 //        connection.setRequestProperty("title", title);
 //        connection.setRequestProperty("description", description);

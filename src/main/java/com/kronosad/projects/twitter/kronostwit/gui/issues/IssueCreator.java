@@ -56,7 +56,7 @@ public class IssueCreator implements Initializable {
                 }
                 String issueText = txtDetails.getText() + "\n" + url;
                 try {
-                    int issueID = GitlabAPI.createIssue(2, txtSubject.getText(), issueText, txtLabels.getText() + ", " + TwitterContainer.twitter.getScreenName());
+                    int issueID = GitlabAPI.createIssue(5, txtSubject.getText(), issueText, txtLabels.getText() + ", " + TwitterContainer.twitter.getScreenName());
                     if(Desktop.isDesktopSupported()){
                         Desktop.getDesktop().browse(new URL(String.format("http://git.tristen.io/russjr08/kronostwit/issues/%s", issueID)).toURI());
                     }
