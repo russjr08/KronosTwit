@@ -5,8 +5,6 @@ import javafx.application.Platform;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 /**
  * User: russjr08
  * Date: 1/28/14
@@ -15,7 +13,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class NotificationHelper {
 
     public static boolean tryMention(final Status status){
-        final AtomicBoolean mention = new AtomicBoolean();
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -23,7 +20,6 @@ public class NotificationHelper {
                     if(status.getText().contains(WindowLoading.twitter.getScreenName())){
                         Notification notification = new Notification("KronosTwit Mention", String.format("@%s mentioned you!", status.getUser().getScreenName()), Notification.INFO_ICON);
                         Notification.Notifier.INSTANCE.notify(notification);
-                        mention.set(true);
                     }
                 } catch (TwitterException e) {
                     e.printStackTrace();
@@ -32,7 +28,12 @@ public class NotificationHelper {
             }
         });
 
-        return mention.get();
+        try {
+            return status.getText().contains(WindowLoading.twitter.getScreenName());
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static void notifyDelete(final Status status){
