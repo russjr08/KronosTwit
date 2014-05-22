@@ -155,14 +155,14 @@ public class ProfileViewer implements Initializable, ITweetReceptor {
         cm = new ContextMenu();
 
         cm.setAutoHide(true);
-//        cm.setAutoFix(true);
+        cm.setAutoFix(true);
 
         viewProfile = new ProfileMenuItem(this);
 
         favorite = new FavoriteMenuItem(this);
         reply = new ReplyMenuItem(this);
         reply.setGraphic(new ImageView(new Image("https://si0.twimg.com/images/dev/cms/intents/icons/reply.png")));
-        rt = new RTMenuItem(this);
+        rt = new com.kronosad.projects.twitter.kronostwit.gui.components.RTMenuItem(this);
         cancel = new MenuItem("Cancel");
 
         delete = new MenuItem("Delete Tweet");

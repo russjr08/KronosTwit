@@ -88,7 +88,7 @@ public class WindowTimeline implements Initializable, ITweetReceptor {
         cm = new ContextMenu();
 
         cm.setAutoHide(true);
-//        cm.setAutoFix(true);
+        cm.setAutoFix(true);
 
         viewProfile = new ProfileMenuItem(this);
 
