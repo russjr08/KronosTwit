@@ -92,6 +92,9 @@ public class WindowNewTweet implements Initializable {
         System.out.println("Setting reply!");
         this.reply = reply;
         ArrayList<String> users = new ArrayList<>();
+        if(!users.contains("@" + reply.getUser().getScreenName())){
+            users.add("@" + reply.getUser().getScreenName());
+        }
         for(String word : reply.getText().split(" ")){
             if(word.startsWith("@")){
                 try {
@@ -103,9 +106,7 @@ public class WindowNewTweet implements Initializable {
                 }
             }
         }
-        if(!users.contains("@" + reply.getUser().getScreenName())){
-            users.add("@" + reply.getUser().getScreenName());
-        }
+
         System.out.println("Users found: " + users.size());
         String joined = String.join(" ", users);
         presetText(joined);
