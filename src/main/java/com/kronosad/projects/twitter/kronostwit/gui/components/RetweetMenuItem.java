@@ -11,9 +11,9 @@ import twitter4j.TwitterException;
 /**
  * Created by Russell on 5/22/2014.
  */
-public class RTMenuItem extends CustomMenuItem {
+public class RetweetMenuItem extends CustomMenuItem {
 
-    public RTMenuItem(ITweetReceptor tweetReceptor) {
+    public RetweetMenuItem(ITweetReceptor tweetReceptor) {
         super(tweetReceptor);
         this.setOnAction((event) -> {
             Action response = Dialogs.create().masthead("Twitter Action...").message("Are you sure you want to Retweet this tweet?").showConfirm();

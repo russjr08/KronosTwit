@@ -95,7 +95,7 @@ public class WindowTimeline implements Initializable, ITweetReceptor {
         favorite = new FavoriteMenuItem(this);
         reply = new ReplyMenuItem(this);
         reply.setGraphic(new ImageView(new Image("https://si0.twimg.com/images/dev/cms/intents/icons/reply.png")));
-        rt = new RTMenuItem(this);
+        rt = new RetweetMenuItem(this);
         cancel = new MenuItem("Cancel");
 
         delete = new MenuItem("Delete Tweet");

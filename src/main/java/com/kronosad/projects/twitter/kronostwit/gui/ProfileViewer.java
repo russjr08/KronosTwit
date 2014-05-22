@@ -162,7 +162,7 @@ public class ProfileViewer implements Initializable, ITweetReceptor {
         favorite = new FavoriteMenuItem(this);
         reply = new ReplyMenuItem(this);
         reply.setGraphic(new ImageView(new Image("https://si0.twimg.com/images/dev/cms/intents/icons/reply.png")));
-        rt = new com.kronosad.projects.twitter.kronostwit.gui.components.RTMenuItem(this);
+        rt = new RetweetMenuItem(this);
         cancel = new MenuItem("Cancel");
 
         delete = new MenuItem("Delete Tweet");
