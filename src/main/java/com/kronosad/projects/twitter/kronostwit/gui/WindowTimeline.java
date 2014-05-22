@@ -1,8 +1,9 @@
 package com.kronosad.projects.twitter.kronostwit.gui;
 
-import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.components.LinkMenuItem;
+import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.render.TweetListCellRender;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -107,29 +108,29 @@ public class WindowTimeline implements Initializable {
         viewProfile.setOnAction((event) -> {
 
             new Thread(() -> {
-                Status status = null;
-                try {
-                    status = getSelectedStatus();
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
+                Platform.runLater(()->{
+                    Status status = null;
+                    try {
+                        status = getSelectedStatus();
+                    } catch (TwitterException e) {
+                        e.printStackTrace();
+                    }
 
-                Parent page = null;
-                FXMLLoader loader = new FXMLLoader();
-                try {
-                    loader.setLocation(AppStarter.class.getResource("ProfileViewer.fxml"));
-                    page = (Parent) loader.load(AppStarter.class.getResource("ProfileViewer.fxml").openStream());
+                    Parent page = null;
+                    FXMLLoader loader = new FXMLLoader();
+                    try {
+                        loader.setLocation(AppStarter.class.getResource("ProfileViewer.fxml"));
+                        page = (Parent) loader.load(AppStarter.class.getResource("ProfileViewer.fxml").openStream());
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Stage stage = new Stage();
-                stage.setTitle(String.format("@%s 's Profile", status.getUser().getScreenName()));
-                stage.setScene(new Scene(page, 409, 622));
-                ((ProfileViewer)loader.getController()).start(status.getUser().getScreenName());
-                stage.show();
-
-
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.setTitle(String.format("@%s 's Profile", status.getUser().getScreenName()));
+                    stage.setScene(new Scene(page, 409, 622));
+                    ((ProfileViewer)loader.getController()).start(status.getUser().getScreenName());
+                    stage.show();
+                });
             }){}.start();
 
 
