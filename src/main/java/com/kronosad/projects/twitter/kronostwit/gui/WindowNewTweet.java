@@ -89,7 +89,6 @@ public class WindowNewTweet implements Initializable {
     }
 
     public void setReply(Status reply){
-        System.out.println("Setting reply!");
         this.reply = reply;
         ArrayList<String> users = new ArrayList<>();
         if(!users.contains("@" + reply.getUser().getScreenName())){

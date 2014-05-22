@@ -1,9 +1,9 @@
 package com.kronosad.projects.twitter.kronostwit.gui;
 
-import com.kronosad.projects.twitter.kronostwit.gui.components.LinkMenuItem;
+import com.kronosad.projects.twitter.kronostwit.gui.components.*;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.TweetHelper;
 import com.kronosad.projects.twitter.kronostwit.gui.render.TweetListCellRender;
-import javafx.application.Platform;
+import com.kronosad.projects.twitter.kronostwit.interfaces.ITweetReceptor;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +19,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 import twitter4j.*;
 
@@ -39,7 +37,7 @@ import java.util.Timer;
  * Time: 6:08 PM
  */
 @SuppressWarnings("all")
-public class WindowTimeline implements Initializable {
+public class WindowTimeline implements Initializable, ITweetReceptor {
 
     public static WindowTimeline instance;
 
@@ -67,12 +65,15 @@ public class WindowTimeline implements Initializable {
 
     @FXML public MenuItem btnIssues;
 
+    @FXML public MenuItem btnInvalidateCaches;
+
     public ArrayList<Status> homeTweets = new ArrayList<Status>(), mentionsTweets = new ArrayList<Status>();
 
-    public static HashMap<String, Image> menuImgCache = new HashMap<>();
+    public static HashMap<String, Image> menuImgCache = new HashMap<String, Image>();
 
     public ContextMenu cm;
-    public MenuItem favorite, reply, rt, cancel, viewProfile, delete;
+    public com.kronosad.projects.twitter.kronostwit.gui.components.CustomMenuItem favorite, reply, rt, viewProfile;
+    public MenuItem cancel, delete;
 
 
     public WindowTimeline(){
@@ -87,14 +88,14 @@ public class WindowTimeline implements Initializable {
         cm = new ContextMenu();
 
         cm.setAutoHide(true);
-        cm.setAutoFix(true);
+//        cm.setAutoFix(true);
 
-        viewProfile = new MenuItem("View %s's Profile");
+        viewProfile = new ProfileMenuItem(this);
 
-        favorite = new MenuItem("Favorite Tweet");
-        reply = new MenuItem("Reply to %s");
+        favorite = new FavoriteMenuItem(this);
+        reply = new ReplyMenuItem(this);
         reply.setGraphic(new ImageView(new Image("https://si0.twimg.com/images/dev/cms/intents/icons/reply.png")));
-        rt = new MenuItem("RT Tweet");
+        rt = new RTMenuItem(this);
         cancel = new MenuItem("Cancel");
 
         delete = new MenuItem("Delete Tweet");
@@ -105,96 +106,9 @@ public class WindowTimeline implements Initializable {
         menuImgCache.put("rt_off", new Image("https://si0.twimg.com/images/dev/cms/intents/icons/retweet.png"));
         menuImgCache.put("rt_on", new Image("https://si0.twimg.com/images/dev/cms/intents/icons/retweet_on.png"));
 
-        viewProfile.setOnAction((event) -> {
-
-            new Thread(() -> {
-                Platform.runLater(()->{
-                    Status status = null;
-                    try {
-                        status = getSelectedStatus();
-                    } catch (TwitterException e) {
-                        e.printStackTrace();
-                    }
-
-                    Parent page = null;
-                    FXMLLoader loader = new FXMLLoader();
-                    try {
-                        loader.setLocation(AppStarter.class.getResource("ProfileViewer.fxml"));
-                        page = (Parent) loader.load(AppStarter.class.getResource("ProfileViewer.fxml").openStream());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Stage stage = new Stage();
-                    stage.setTitle(String.format("@%s 's Profile", status.getUser().getScreenName()));
-                    stage.setScene(new Scene(page, 409, 622));
-                    ((ProfileViewer)loader.getController()).start(status.getUser().getScreenName());
-                    stage.show();
-                });
-            }){}.start();
 
 
-        });
 
-        favorite.setOnAction((event) -> {
-            Action response = Dialogs.create().masthead("Twitter Action...").message("Are you sure you want to favorite this tweet?").showConfirm();
-            if(response != Dialog.Actions.YES) return;
-            Status status = null;
-            try {
-                status = getSelectedStatus();
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
-
-            if(!status.isFavorited()) {
-                try {
-                    TwitterContainer.twitter.createFavorite(status.getId());
-                } catch (TwitterException e) {
-                    Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not create favorite!").showException(e);
-                    e.printStackTrace();
-                }
-            }else{
-                try {
-                    TwitterContainer.twitter.destroyFavorite(status.getId());
-                } catch (TwitterException e) {
-                    Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not destroy favorite!").showException(e);
-
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        rt.setOnAction((actionEvent) -> {
-            Action response = Dialogs.create().masthead("Twitter Action...").message("Are you sure you want to Retweet this tweet?").showConfirm();
-            if(response != Dialog.Actions.YES) return;
-            Status status = null;
-            try {
-                status = getSelectedStatus();
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
-            if(!status.getUser().isProtected()) {
-                rt.setDisable(false);
-                if (!status.isRetweetedByMe()) {
-                    try {
-                        TwitterContainer.twitter.retweetStatus(status.getId());
-                    } catch (TwitterException e) {
-                        Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not create favorite!").showException(e);
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        TwitterContainer.twitter.destroyStatus(status.getCurrentUserRetweetId());
-                    } catch (TwitterException e) {
-                        Dialogs.create().masthead("Twitter Error...").title("Error!").message("Could not destroy favorite!").showException(e);
-
-                        e.printStackTrace();
-                    }
-                }
-            }else{
-                rt.setDisable(true);
-            }
-        });
 
         cm.setOnShowing((event) -> {
 //            new Thread(() -> {}){}.start();
@@ -280,40 +194,6 @@ public class WindowTimeline implements Initializable {
                 rt.setGraphic(new ImageView(menuImgCache.get("rt_on")));
                 rt.setText("Undo RT");
             }
-        });
-
-        reply.setOnAction((event) -> {
-
-            Status status = null;
-            try {
-                status = getSelectedStatus();
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
-
-            cm.hide();
-            Parent page = null;
-            FXMLLoader loader = new FXMLLoader();
-
-            try {
-                loader.setLocation(AppStarter.class.getResource("WindowNewTweet.fxml"));
-                page = (Parent) loader.load(AppStarter.class.getResource("WindowNewTweet.fxml").openStream());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            ((WindowNewTweet)loader.getController()).setReply(status);
-            Stage stage = new Stage();
-            stage.setTitle("Replying to: " + status.getUser().getScreenName());
-            stage.setScene(new Scene(page, 396, 174));
-            stage.setResizable(false);
-            stage.setFullScreen(false);
-            stage.show();
-
-
-
-
         });
 
         delete.setOnAction((event) -> {
@@ -466,7 +346,7 @@ public class WindowTimeline implements Initializable {
         });
 
         btnIssues.setOnAction((e) -> AppStarter.getInstance().openWindow("issues/IssueListViewer.fxml", 600, 400, "Issues"));
-
+        btnInvalidateCaches.setOnAction((e) -> TwitterContainer.imgCache.clear());
         initContextMenu();
 
     }

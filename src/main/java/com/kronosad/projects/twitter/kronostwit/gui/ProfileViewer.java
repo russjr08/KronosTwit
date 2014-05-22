@@ -1,36 +1,41 @@
 package com.kronosad.projects.twitter.kronostwit.gui;
 
+import com.kronosad.projects.twitter.kronostwit.gui.components.*;
 import com.kronosad.projects.twitter.kronostwit.gui.helpers.ResourceDownloader;
 import com.kronosad.projects.twitter.kronostwit.gui.render.TweetListCellRender;
+import com.kronosad.projects.twitter.kronostwit.interfaces.ITweetReceptor;
 import com.kronosad.projects.twitter.kronostwit.user.UserRegistry;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.Dialogs;
-import twitter4j.Relationship;
-import twitter4j.Status;
-import twitter4j.TwitterException;
-import twitter4j.User;
+import twitter4j.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ProfileViewer implements Initializable {
+public class ProfileViewer implements Initializable, ITweetReceptor {
 
     @FXML public ImageView profilePicture;
     @FXML public Label lblUsername, lblWebsite, lblLocation, lblBio, lblFollowers, lblFollows, lblConceiveDate;
     @FXML public CheckBox chckFollow, chckFollowsYou, chckBlocked;
     @FXML public ListView<Status> tweetsList;
     @FXML public ImageView lblStar;
+
+    public ContextMenu cm;
+    public com.kronosad.projects.twitter.kronostwit.gui.components.CustomMenuItem favorite, reply, rt, viewProfile;
+    public MenuItem cancel, delete;
 
     private User user;
 
@@ -120,6 +125,7 @@ public class ProfileViewer implements Initializable {
             });
 
             applyStar();
+            initContextMenu();
         });
 
 
@@ -145,7 +151,142 @@ public class ProfileViewer implements Initializable {
         }
     }
 
+    public void initContextMenu(){
+        cm = new ContextMenu();
+
+        cm.setAutoHide(true);
+//        cm.setAutoFix(true);
+
+        viewProfile = new ProfileMenuItem(this);
+
+        favorite = new FavoriteMenuItem(this);
+        reply = new ReplyMenuItem(this);
+        reply.setGraphic(new ImageView(new Image("https://si0.twimg.com/images/dev/cms/intents/icons/reply.png")));
+        rt = new RTMenuItem(this);
+        cancel = new MenuItem("Cancel");
+
+        delete = new MenuItem("Delete Tweet");
+
+        cm.setOnShowing((event) -> {
+//            new Thread(() -> {}){}.start();
+            Status status = null;
+            try {
+                status = getSelectedStatus();
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            for(int i = 0; i < cm.getItems().size(); i++){
+                MenuItem item = cm.getItems().get(i);
+                if(item instanceof LinkMenuItem){
+                    LinkMenuItem li = (LinkMenuItem) item;
+                    cm.getItems().removeAll(item);
+
+                }
+            }
+
+            ArrayList<String> links = new ArrayList<String>();
+            for(URLEntity entity : status.getURLEntities()){
+                if(links.contains(entity.getExpandedURL())) return;
+                cm.getItems().add(new LinkMenuItem(entity.getExpandedURL(), LinkMenuItem.LinkType.NORMAL));
+                links.add(entity.getExpandedURL());
+            }
+            for(MediaEntity mediaEntity : status.getMediaEntities()){
+                if(links.contains(mediaEntity.getMediaURL())) return;
+                cm.getItems().add(new LinkMenuItem(mediaEntity.getMediaURL(), LinkMenuItem.LinkType.PICTURE));
+                links.add(mediaEntity.getMediaURL());
+            }
+
+            for(String word : status.getText().split(" ")){
+                if(word.startsWith("/r/")){
+                    if(links.contains(word)) return;
+                    links.add(word);
+                    cm.getItems().add(new LinkMenuItem(word, LinkMenuItem.LinkType.REDDIT));
+                }else if(word.startsWith("r/")){
+                    word = "/" + word;
+                    if(links.contains(word)) return;
+                    links.add(word);
+                    cm.getItems().add(new LinkMenuItem(word, LinkMenuItem.LinkType.REDDIT));
+                }
+            }
+
+
+            for(int i = 0; i < cm.getItems().size(); i++){
+                MenuItem item = cm.getItems().get(i);
+                if(item instanceof LinkMenuItem){
+                    LinkMenuItem li = (LinkMenuItem) item;
+                    if(!links.contains(li.getLink())){
+                        cm.getItems().removeAll(item);
+                    }
+                }
+            }
+
+            reply.setText("Reply to " + status.getUser().getScreenName());
+            viewProfile.setText(String.format("View %s's profile", status.getUser().getScreenName()));
+
+            try {
+                if(status.getUser().getId() == TwitterContainer.twitter.getId()){
+                    delete.setDisable(false);
+                }else{
+                    delete.setDisable(true);
+                }
+
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            if (!status.isFavorited()) {
+                favorite.setGraphic(new ImageView(WindowTimeline.menuImgCache.get("favorite_off")));
+                favorite.setText("Favorite Tweet");
+            } else {
+                favorite.setGraphic(new ImageView(WindowTimeline.menuImgCache.get("favorite_on")));
+
+                favorite.setText("Unfavorite Tweet");
+            }
+
+            if(!status.isRetweetedByMe()){
+                rt.setGraphic(new ImageView(WindowTimeline.menuImgCache.get("rt_off")));
+                rt.setText("RT Tweet");
+            }else {
+                rt.setGraphic(new ImageView(WindowTimeline.menuImgCache.get("rt_on")));
+                rt.setText("Undo RT");
+            }
+        });
+
+        delete.setOnAction((event) -> {
+            Status status = null;
+            try {
+                status = getSelectedStatus();
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+            try {
+                TwitterContainer.twitter.destroyStatus(status.getId());
+            } catch (TwitterException e) {
+                Dialogs.create().title("Error!").masthead("Twitter Error...").showException(e);
+                e.printStackTrace();
+            }
+        });
+
+        cm.getItems().addAll(viewProfile, new SeparatorMenuItem(), favorite, reply, rt, new SeparatorMenuItem(), cancel, new SeparatorMenuItem(), delete);
+
+        tweetsList.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getButton() == MouseButton.SECONDARY){
+                    cm.show(tweetsList, event.getScreenX(), event.getScreenY());
+                }
+            }
+        });
+    }
+    
     // Blank method, shouldn't really be called by itself.
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {}
+
+    @Override
+    public Status getSelectedStatus() throws TwitterException {
+        Status status = TwitterContainer.twitter.showStatus(tweetsList.getItems().get(tweetsList.getSelectionModel().getSelectedIndex()).getId());
+        return status;
+    }
 }

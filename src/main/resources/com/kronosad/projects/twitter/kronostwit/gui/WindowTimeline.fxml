@@ -57,6 +57,11 @@
             <MenuItem fx:id="btnChangelogs" mnemonicParsing="false" text="Changelogs" />
           </items>
         </Menu>
+            <Menu mnemonicParsing="false" text="Developer">
+              <items>
+                <MenuItem fx:id="btnInvalidateCaches" mnemonicParsing="false" text="Invalidate Caches" />
+              </items>
+            </Menu>
       </menus>
     </MenuBar><TabPane fx:id="tabPane" prefHeight="727.0" prefWidth="518.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml">
   <tabs>

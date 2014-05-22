@@ -311,6 +311,7 @@ public class Notification {
                         public void run() {
                             POPUP.hide();
                             popups.remove(POPUP);
+                            stage.close();
                         }
                     });
                 }
