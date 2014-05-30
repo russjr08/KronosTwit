@@ -135,6 +135,8 @@ public class WindowLoading implements Initializable{
                 @Override
                 public void run() {
                     try {
+                        stage.toFront();
+                        stage.requestFocus();
                         AppStarter.getInstance().switchWindow("WindowTimeline.fxml", 518 ,650, AppStarter.getInstance().getTitleOfTheLaunch());
                     } catch (Exception e) {
                         e.printStackTrace();

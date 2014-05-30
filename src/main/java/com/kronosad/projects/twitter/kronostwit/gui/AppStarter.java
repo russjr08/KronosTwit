@@ -35,7 +35,8 @@ public class AppStarter extends Application {
         stage.setScene(new Scene(root, 419, 156));
         stage.setResizable(true);
         stage.show();
-
+        stage.toFront();
+        stage.requestFocus();
         this.instance = this;
 
         OSUtils.performMacOps();
@@ -65,6 +66,9 @@ public class AppStarter extends Application {
             stage.getScene().setRoot(page);
         }
         stage.setTitle(title);
+        stage.toFront();
+        stage.requestFocus();
+        stage.show();
 
         stage.setOnCloseRequest((windowEvent) -> {
             System.out.println("Someone's shutting me down! :(");
